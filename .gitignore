@@ -465,3 +465,5 @@ bin/Debug/net5.0
 
 **/appsettings.Development.json
 **/OngProject.xml
+/OngProject/Entities/Activities.cs
+/OngProject/Entities/Entity.cs
