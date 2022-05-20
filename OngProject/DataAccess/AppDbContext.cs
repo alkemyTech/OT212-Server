@@ -14,5 +14,7 @@ namespace OngProject.DataAccess
         {
 
         }
+
+        public DbSet<Organization> Organizations { get; set; }
     }
 }
