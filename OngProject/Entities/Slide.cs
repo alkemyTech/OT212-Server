@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace OngProject.Entities
 {
     [Table("Slides")]
-    public class Slide
+    public class Slide : Entity
     {
         [Required(ErrorMessage = "You must enter an image!"), StringLength(255)]
         public string ImageUrl { get; set; }
