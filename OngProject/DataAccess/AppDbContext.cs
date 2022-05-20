@@ -13,5 +13,6 @@ namespace OngProject.DataAccess
         public DbSet<News> NewsSet { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Organization> Organizations { get; set; }
+        public DbSet<Member> Members { get; set; }
     }
 }
