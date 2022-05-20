@@ -14,5 +14,6 @@ namespace OngProject.DataAccess
         {
 
         }
+        public DbSet<User> Users { get; set; }
     }
 }
