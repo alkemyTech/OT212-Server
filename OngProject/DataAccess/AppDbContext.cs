@@ -10,7 +10,8 @@ namespace OngProject.DataAccess
         {
 
         }
-
-        DbSet<Activity> Activities { get; set; }
+        
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
     }
 }
