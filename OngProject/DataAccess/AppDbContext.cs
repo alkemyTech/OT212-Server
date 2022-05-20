@@ -14,5 +14,7 @@ namespace OngProject.DataAccess
         {
 
         }
+
+        public News NewsSet { get; set; }
     }
 }
