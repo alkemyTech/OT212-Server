@@ -18,6 +18,8 @@ namespace OngProject.DataAccess
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Organization> Organizations { get; set; }
 
+        public DbSet<Slide> Slides { get; set; }
+
 
     }
 }
