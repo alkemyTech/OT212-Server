@@ -6,11 +6,11 @@ namespace OngProject.Controllers
 {
     public class NewsController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly NewsBusiness _newsBusiness;
 
-        public NewsController(UnitOfWork unitOfWork)
+        public NewsController(NewsBusiness newsBusiness)
         {
-            _unitOfWork = unitOfWork;
+            _newsBusiness = newsBusiness;
         }
 
         [HttpGet]
