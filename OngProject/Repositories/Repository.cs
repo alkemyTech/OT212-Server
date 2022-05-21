@@ -41,5 +41,11 @@ namespace OngProject.Repositories
         {
             _context.Set<T>().Remove(entity);
         }
+
+        public void SoftDelete(T entity)
+        {
+            entity.IsDeleted = true;
+            _context.Set<T>().Update(entity);
+        }
     }
 }
