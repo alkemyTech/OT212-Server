@@ -39,7 +39,7 @@ namespace OngProject.Core.Business
 
         public void Delete(Organization entity)
         {
-            _unitOfWork.OrganizationRepository.SoftDelete(entity);
+            _unitOfWork.OrganizationRepository.Delete(entity);
             _unitOfWork.Save();
         }
     }
