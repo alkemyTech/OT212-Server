@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Business;
 using OngProject.Repositories;
 using System;
 
@@ -6,11 +7,11 @@ namespace OngProject.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly ICategoriesBusiness _categoriesBusiness;
 
-        public CategoriesController(UnitOfWork unitOfWork)
+        public CategoriesController(ICategoriesBusiness categoriesBusiness)
         {
-            _unitOfWork = unitOfWork;
+            _categoriesBusiness = categoriesBusiness;
         }
 
         [HttpGet]
