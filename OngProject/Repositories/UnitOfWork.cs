@@ -30,6 +30,18 @@ namespace OngProject.Repositories
             _context.SaveChanges();
         }
 
+
+        private IRepository<Role> _roleRepository;
+        public IRepository<Role> RoleRepository
+        {
+            get {
+                if (_roleRepository == null)
+                    _roleRepository = new Repository<Role>(_context);
+                return _roleRepository; 
+            }
+        }
+
+
         private IRepository<Organization> _organizationRepository;
         public IRepository<Organization> OrganizationRepository
         {
@@ -40,5 +52,6 @@ namespace OngProject.Repositories
                 return _organizationRepository; 
             }
         }
+
     }
 }
