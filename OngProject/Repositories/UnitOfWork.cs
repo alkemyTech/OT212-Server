@@ -16,5 +16,16 @@ namespace OngProject.Repositories
         {
             _context.SaveChanges();
         }
+
+        private IRepository<Organization> _organizationRepository;
+        public IRepository<Organization> OrganizationRepository
+        {
+            get {
+                if (_organizationRepository == null)
+                    _organizationRepository = new Repository<Organization>(_context);
+
+                return _organizationRepository; 
+            }
+        }
     }
 }
