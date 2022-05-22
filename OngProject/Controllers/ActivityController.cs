@@ -9,19 +9,19 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SlideController : ControllerBase
+    public class ActivityController : ControllerBase
     {
-        private readonly SlideBusiness _slideBusiness;
+        private readonly ActivityBusiness _activityBusiness;
 
-        public SlideController(SlideBusiness slideBusiness)
+        public ActivityController(ActivityBusiness activityBusiness)
         {
-            _slideBusiness = slideBusiness;
+            _activityBusiness = activityBusiness;
         }
 
         #region Get
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Slide>>> GetAllSlides()
+        public async Task<ActionResult<IEnumerable<Activity>>> GetAllActivities()
         {
             throw new NotImplementedException();
         }
@@ -31,11 +31,11 @@ namespace OngProject.Controllers
 
         #region Post
         /* To Do:
-         * Change Slide for SlideDto or SlideCreate (the name doesn't yet exist)
+         * Change Activity for ActivityDto or ActivityCreate (the name doesn't yet exist)
          * Create the implementation
          */
         [HttpPost]
-        public async Task<ActionResult<Slide>> CreateSlide([FromForm] Slide slide)
+        public async Task<ActionResult<Activity>> CreateActivity([FromForm] Activity activity)
         {
             throw new NotImplementedException();
         }
@@ -43,11 +43,11 @@ namespace OngProject.Controllers
 
         #region Update
         /* To Do:
-         * Change Slide for SlideUpdateDto or SlideUpdate (the name doesn't yet exist)
+         * Change Activity for ActivityUpdateDto or ActivityUpdate (the name doesn't yet exist)
          * Create the implementation
          */
         [HttpPut]
-        public async Task<ActionResult<Slide>> UpdateSlide(int id, [FromForm] Slide slide)
+        public async Task<ActionResult<Activity>> UpdateActivity(int id, [FromForm] Activity activity)
         {
             throw new NotImplementedException();
         }
@@ -55,11 +55,11 @@ namespace OngProject.Controllers
 
         #region Delete
         /* To Do:
-         * Change Slide for SlideDeleteDto or SlideDelete (the name doesn't yet exist)
+         * Change Activity for ActivityDeleteDto or ActivityDelete (the name doesn't yet exist)
          * Create the implementation
          */
         [HttpDelete]
-        public async Task<ActionResult<Slide>> DeleteSlide(int id, [FromForm] Slide slide)
+        public async Task<ActionResult<Activity>> DeleteActivity(int id, [FromForm] Activity activity)
         {
             throw new NotImplementedException();
         }
