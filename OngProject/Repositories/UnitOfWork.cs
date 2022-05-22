@@ -8,9 +8,9 @@ namespace OngProject.Repositories
     {
         private readonly AppDbContext _context;
 
-        private readonly Repository<News> _newsRepository;
+        private Repository<News> _newsRepository;
 
-        private readonly Repository<Categories> _categoriesRepository;
+        private Repository<Categories> _categoriesRepository;
 
         public UnitOfWork(AppDbContext context)
         {
@@ -27,6 +27,8 @@ namespace OngProject.Repositories
                     _newsRepository = new Repository<News>(_context);
                 }
                 return _newsRepository;
+            }
+        }
 
         public Repository<Categories> CategoriesRepository
         {
