@@ -7,11 +7,16 @@ namespace OngProject.Repositories
     public class UnitOfWork
     {
         private readonly AppDbContext _context;
+
         private readonly Repository<News> _newsRepository;
+
+        private readonly Repository<Categories> _categoriesRepository;
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
         }
+
 
         public Repository<News> NewsRepository
         {
@@ -22,6 +27,17 @@ namespace OngProject.Repositories
                     _newsRepository = new Repository<News>(_context);
                 }
                 return _newsRepository;
+
+        public Repository<Categories> CategoriesRepository
+        {
+            get
+            {
+                if (_categoriesRepository == null)
+                {
+                    _categoriesRepository = new Repository<Categories>(_context);
+                }
+                return _categoriesRepository;
+
             }
         }
 
@@ -29,5 +45,29 @@ namespace OngProject.Repositories
         {
             _context.SaveChanges();
         }
+
+
+        private IRepository<Role> _roleRepository;
+        public IRepository<Role> RoleRepository
+        {
+            get {
+                if (_roleRepository == null)
+                    _roleRepository = new Repository<Role>(_context);
+                return _roleRepository; 
+            }
+        }
+
+
+        private IRepository<Organization> _organizationRepository;
+        public IRepository<Organization> OrganizationRepository
+        {
+            get {
+                if (_organizationRepository == null)
+                    _organizationRepository = new Repository<Organization>(_context);
+
+                return _organizationRepository; 
+            }
+        }
+
     }
 }
