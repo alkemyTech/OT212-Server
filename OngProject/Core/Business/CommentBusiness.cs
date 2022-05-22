@@ -1,34 +1,46 @@
 ﻿using OngProject.Core.Interfaces;
 using OngProject.Entities;
+using OngProject.Repositories;
 using System.Collections.Generic;
 
 namespace OngProject.Core.Business
 {
     public class CommentBusiness : ICommentBusiness
     {
+        private readonly UnitOfWork _unitOfWork;
+
+        public CommentBusiness(UnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         public void DeleteComment(int id)
         {
-            throw new System.NotImplementedException();
+            Comment comment = _unitOfWork.CommentRepository.GetById(id);
+            _unitOfWork.CommentRepository.Delete(comment);
+            _unitOfWork.Save();
         }
 
         public IEnumerable<Comment> GetAllComments()
         {
-            throw new System.NotImplementedException();
+            return _unitOfWork.CommentRepository.GetAll();
         }
 
         public Comment GetComment(int id)
         {
-            throw new System.NotImplementedException();
+            return _unitOfWork.CommentRepository.GetById(id);
         }
 
         public void InsertComment(Comment comment)
         {
-            throw new System.NotImplementedException();
+            _unitOfWork.CommentRepository.Insert(comment);
+            _unitOfWork.Save();
         }
 
-        public void UpdateComment(int id, Comment comment)
+        public void UpdateComment(Comment comment)
         {
-            throw new System.NotImplementedException();
+            _unitOfWork.CommentRepository.Update(comment);
+            _unitOfWork.Save();
         }
     }
 }

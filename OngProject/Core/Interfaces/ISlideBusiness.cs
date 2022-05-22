@@ -11,7 +11,7 @@ namespace OngProject.Core.Interfaces
 
         public void InsertSlide(Slide slide);
 
-        public void UpdateSlide(int id, Slide slide);
+        public void UpdateSlide(Slide slide);
 
         public void DeleteSlide(int id);
     }

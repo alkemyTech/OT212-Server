@@ -11,7 +11,7 @@ namespace OngProject.Core.Interfaces
 
         public void InsertComment(Comment comment);
 
-        public void UpdateComment(int id, Comment comment);
+        public void UpdateComment(Comment comment);
 
         public void DeleteComment(int id);
     }

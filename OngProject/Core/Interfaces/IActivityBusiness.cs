@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using OngProject.Entities;
+using System.Collections.Generic;
 
 namespace OngProject.Core.Interfaces
 {
@@ -11,7 +11,7 @@ namespace OngProject.Core.Interfaces
 
         public void InsertActivity(Activity activity);
 
-        public void UpdateActivity(int id, Activity activity);
+        public void UpdateActivity(Activity activity);
 
         public void DeleteActivity(int id);
     }
