@@ -12,6 +12,8 @@ namespace OngProject.Repositories
 
         private readonly Repository<Categories> _categoriesRepository;
 
+        private Repository<Testimonials> _testimonialsRepository;
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -27,6 +29,8 @@ namespace OngProject.Repositories
                     _newsRepository = new Repository<News>(_context);
                 }
                 return _newsRepository;
+            }
+        }
 
         public Repository<Categories> CategoriesRepository
         {
@@ -70,6 +74,16 @@ namespace OngProject.Repositories
         }
 
 
+        public IRepository<Testimonials> TestimonialsRepository
+        {
+            get{
+                if(_testimonialsRepository == null) 
+                    _testimonialsRepository = new Repository<Testimonials>(_context);
+                return _testimonialsRepository;
+            }
+        }
+
+
 
         private IRepository<User> _userRepository;
         public IRepository<User> UserRepository
@@ -92,6 +106,7 @@ namespace OngProject.Repositories
 
             }
         }
+
 
     }
 }
