@@ -6,9 +6,9 @@ namespace OngProject.Controllers
 {
     public class NewsController : Controller
     {
-        private readonly NewsBusiness _newsBusiness;
+        private readonly INewsBusiness _newsBusiness;
 
-        public NewsController(NewsBusiness newsBusiness)
+        public NewsController(INewsBusiness newsBusiness)
         {
             _newsBusiness = newsBusiness;
         }
