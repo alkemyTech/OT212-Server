@@ -1,10 +1,11 @@
-﻿using OngProject.Entities;
+﻿using OngProject.Core.Interfaces;
+using OngProject.Entities;
 using OngProject.Repositories;
 using System.Collections.Generic;
 
 namespace OngProject.Core.Business
 {
-    public class RoleBusiness
+    public class RoleBusiness : IRoleBusiness
     {
         private UnitOfWork _unitOfWork;
         public RoleBusiness(UnitOfWork unitOfWork)
