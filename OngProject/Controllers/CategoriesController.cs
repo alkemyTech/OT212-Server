@@ -7,11 +7,11 @@ namespace OngProject.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly ICategoriesBusiness _categoriesBusiness;
+        private readonly ICategoryBusiness _categoryBusiness;
 
-        public CategoriesController(ICategoriesBusiness categoriesBusiness)
+        public CategoriesController(ICategoryBusiness categoryBusiness)
         {
-            _categoriesBusiness = categoriesBusiness;
+            _categoryBusiness = categoryBusiness;
         }
 
         [HttpGet]
