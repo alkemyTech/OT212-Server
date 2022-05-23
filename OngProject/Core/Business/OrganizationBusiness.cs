@@ -1,4 +1,5 @@
-﻿using OngProject.Entities;
+﻿using OngProject.Core.Interfaces;
+using OngProject.Entities;
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
-    public class OrganizationBusiness
+    public class OrganizationBusiness : IOrganizationBusiness
     {
         private UnitOfWork _unitOfWork;
         public OrganizationBusiness(UnitOfWork unitOfWork)
