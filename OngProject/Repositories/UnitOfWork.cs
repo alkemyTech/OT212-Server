@@ -14,6 +14,8 @@ namespace OngProject.Repositories
 
         private Repository<Testimonials> _testimonialsRepository;
 
+        private Repository<Activity> _activityRepository;
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -107,6 +109,15 @@ namespace OngProject.Repositories
             }
         }
 
+        public IRepository<Activity> ActivityRepository
+        {
+            get
+            {
+                if (_activityRepository == null)
+                    _activityRepository = new Repository<Activity>(_context);
+                return _activityRepository;
+            }
+        }
 
     }
 }
