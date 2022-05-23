@@ -69,6 +69,18 @@ namespace OngProject.Repositories
             }
         }
 
+
+
+        private IRepository<User> _userRepository;
+        public IRepository<User> UserRepository
+        {
+            get
+            {
+                if (_userRepository == null)
+                    _userRepository = new Repository<User>(_context);
+
+                return _userRepository;
+
         private IRepository<Member> _memberRepository;
         public IRepository<Member> MemberRepository
         {
@@ -77,6 +89,7 @@ namespace OngProject.Repositories
                     _memberRepository = new Repository<Member>(_context);
 
                 return _memberRepository; 
+
             }
         }
 
