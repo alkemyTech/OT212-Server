@@ -9,7 +9,7 @@ namespace OngProject.Entities
         [ForeignKey("Member"), Column("user_id"), Required]
         public int MemberId { get; set; }
 
-        // TO DO: wait for them to create the Member class
+        public Member Member { get; set; }
 
 
         [Required, StringLength(255), Column(TypeName = "varchar")]

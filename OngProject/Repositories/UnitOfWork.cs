@@ -83,30 +83,5 @@ namespace OngProject.Repositories
                 return _commentRepository;
             }
         }
-
-        private IRepository<Slide> _slideRepository;
-        public IRepository<Slide> SlideRepository
-        {
-            get
-            {
-                if(_slideRepository == null)
-                    _slideRepository = new Repository<Slide>(_context);
-
-                return _slideRepository;
-            }
-        }
-
-        private IRepository<Activity> _activityRepository;
-        public IRepository<Activity> ActivityRepository
-        {
-            get
-            {
-                if (_activityRepository == null)
-                    _activityRepository = new Repository<Activity>(_context);
-
-                return _activityRepository;
-            }
-        }
-
     }
 }
