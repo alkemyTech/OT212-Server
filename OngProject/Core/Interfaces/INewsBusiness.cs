@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 namespace OngProject.Core.Business
 {
-    public interface ICategoriesBusiness
+    public interface INewsBusiness
     {
-        public List<Categories> GetAll();
-        public Categories GetById();
+        public List<News> GetAll();
+        public News GetById();
         public void Insert();
         public void Update();
         public void Delete();

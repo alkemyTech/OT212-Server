@@ -5,20 +5,20 @@ using System.Collections.Generic;
 
 namespace OngProject.Core.Business
 {
-    public class CategoriesBusiness: ICategoriesBusiness
+    public class NewsBusiness : INewsBusiness
     {
         private readonly UnitOfWork _unitOfWork;
 
-        public CategoriesBusiness(UnitOfWork unitOfWork)
+        public NewsBusiness(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        public List<Categories> GetAll()
+        public List<News> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Categories GetById()
+        public News GetById()
         {
             throw new NotImplementedException();
         }
