@@ -70,7 +70,7 @@ namespace OngProject.Repositories
         }
 
         private IRepository<Member> _memberRepository;
-        public IRepository<Member> memberRepository
+        public IRepository<Member> MemberRepository
         {
             get {
                 if (_memberRepository == null)
