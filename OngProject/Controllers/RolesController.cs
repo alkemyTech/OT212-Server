@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
+using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,8 @@ namespace OngProject.Controllers
     [ApiController]
     public class RolesController : ControllerBase
     {
-        private RoleBusiness _roleBusiness;
-        public RolesController(RoleBusiness roleBusiness)
+        private IRoleBusiness _roleBusiness;
+        public RolesController(IRoleBusiness roleBusiness)
         {
             _roleBusiness = roleBusiness;
         }

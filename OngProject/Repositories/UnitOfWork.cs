@@ -73,6 +73,7 @@ namespace OngProject.Repositories
             }
         }
 
+
         public IRepository<Testimonials> TestimonialsRepository
         {
             get{
@@ -81,5 +82,31 @@ namespace OngProject.Repositories
                 return _testimonialsRepository;
             }
         }
+
+
+
+        private IRepository<User> _userRepository;
+        public IRepository<User> UserRepository
+        {
+            get
+            {
+                if (_userRepository == null)
+                    _userRepository = new Repository<User>(_context);
+
+                return _userRepository;
+
+        private IRepository<Member> _memberRepository;
+        public IRepository<Member> MemberRepository
+        {
+            get {
+                if (_memberRepository == null)
+                    _memberRepository = new Repository<Member>(_context);
+
+                return _memberRepository; 
+
+            }
+        }
+
+
     }
 }
