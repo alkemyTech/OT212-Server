@@ -69,5 +69,16 @@ namespace OngProject.Repositories
             }
         }
 
+        private IRepository<Member> _memberRepository;
+        public IRepository<Member> memberRepository
+        {
+            get {
+                if (_memberRepository == null)
+                    _memberRepository = new Repository<Member>(_context);
+
+                return _memberRepository; 
+            }
+        }
+
     }
 }
