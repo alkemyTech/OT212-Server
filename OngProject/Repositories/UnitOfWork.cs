@@ -107,6 +107,15 @@ namespace OngProject.Repositories
             }
         }
 
-
+        private IRepository<Comment> _commentRepository;
+        public IRepository<Comment> CommentRepository
+        {
+            get
+            {
+                if(_commentRepository == null)
+                    _commentRepository = new Repository<Comment>(_context);
+                return _commentRepository;
+            }
+        }
     }
 }
