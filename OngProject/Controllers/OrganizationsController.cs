@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
+using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace OngProject.Controllers
     [ApiController]
     public class OrganizationsController : ControllerBase
     {
-        private OrganizationBusiness _organizationBusiness;
-        public OrganizationsController(OrganizationBusiness organizationBusiness)
+        private IOrganizationBusiness _organizationBusiness;
+        public OrganizationsController(IOrganizationBusiness organizationBusiness)
         {
             _organizationBusiness = organizationBusiness;
         }
