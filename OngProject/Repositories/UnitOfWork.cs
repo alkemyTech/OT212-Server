@@ -39,9 +39,9 @@ namespace OngProject.Repositories
             }
         }
 
-        public void Save()
+        public async void SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
 

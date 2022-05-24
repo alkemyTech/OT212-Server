@@ -8,10 +8,10 @@ namespace OngProject.Repositories.Interfaces
 {
     public interface IRepository<T> where T : Entity
     {
-        T GetById(int id);
-        List<T> GetAll();
+        Task<T> GetByIdAsync(int id);
+        Task<List<T>> GetAllAsync();
 
-        void Insert(T entity);
+        void InsertAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
         void SoftDelete(T entity);
