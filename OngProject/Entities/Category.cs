@@ -2,7 +2,7 @@
 
 namespace OngProject.Entities
 {
-    public class Categories: Entity
+    public class Category: Entity
     {
         [Required, MaxLength(255)]
         public string Name { get; set; }

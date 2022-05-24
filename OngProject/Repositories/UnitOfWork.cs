@@ -109,6 +109,7 @@ namespace OngProject.Repositories
             }
         }
 
+
         public IRepository<Activity> ActivityRepository
         {
             get
@@ -116,6 +117,18 @@ namespace OngProject.Repositories
                 if (_activityRepository == null)
                     _activityRepository = new Repository<Activity>(_context);
                 return _activityRepository;
+            }
+        }
+
+
+        private IRepository<Comment> _commentRepository;
+        public IRepository<Comment> CommentRepository
+        {
+            get
+            {
+                if(_commentRepository == null)
+                    _commentRepository = new Repository<Comment>(_context);
+                return _commentRepository;
             }
         }
 
