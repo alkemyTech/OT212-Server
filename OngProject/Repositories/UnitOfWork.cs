@@ -8,41 +8,13 @@ namespace OngProject.Repositories
     {
         private readonly AppDbContext _context;
 
-
-        private Repository<News> _newsRepository;
-
-
-        private readonly IRepository<News> _newsRepository;
-
-
-        private readonly IRepository<Category> _categoryRepository;
-
-
-        private Repository<News> _newsRepository;
-
-
-        private Repository<Category> _categoriesRepository;
-
-        private Repository<Testimonials> _testimonialsRepository;
-
-        private Repository<Activity> _activityRepository;
-
-
-
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
         }
 
-
+        private IRepository<News> _newsRepository;
         public IRepository<News> NewsRepository
-
-
-        public Repository<Category> CategoryRepository
-
-
-        public Repository<News> NewsRepository
-
         {
             get
             {
@@ -54,33 +26,22 @@ namespace OngProject.Repositories
             }
         }
 
-        public Repository<Category> CategoriesRepository
-
-
-
+        private IRepository<Category> _categoryRepository;
+        public IRepository<Category> CategoriesRepository
         {
             get
             {
                 if (_categoryRepository == null)
                 {
-
-
                     _categoryRepository = new Repository<Category>(_context);
                 }
                 return _categoryRepository;
-
-
-                    _categoriesRepository = new Repository<Category>(_context);
-                }
-                return _categoriesRepository;
-
-
             }
         }
 
-        public void Save()
+        public async void SaveAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
 
@@ -106,16 +67,15 @@ namespace OngProject.Repositories
             }
         }
 
-
-        public IRepository<Testimonials> TestimonialsRepository
+        private IRepository<Testimonial> _testimonialRepository;
+        public IRepository<Testimonial> TestimonialRepository
         {
             get{
-                if(_testimonialsRepository == null) 
-                    _testimonialsRepository = new Repository<Testimonials>(_context);
-                return _testimonialsRepository;
+                if(_testimonialRepository == null) 
+                    _testimonialRepository = new Repository<Testimonial>(_context);
+                return _testimonialRepository;
             }
         }
-
 
 
         private IRepository<User> _userRepository;
@@ -142,18 +102,6 @@ namespace OngProject.Repositories
             }
         }
 
-
-        public IRepository<Activity> ActivityRepository
-        {
-            get
-            {
-                if (_activityRepository == null)
-                    _activityRepository = new Repository<Activity>(_context);
-                return _activityRepository;
-            }
-        }
-
-
         private IRepository<Comment> _commentRepository;
         public IRepository<Comment> CommentRepository
         {
@@ -179,7 +127,6 @@ namespace OngProject.Repositories
 
 
         private IRepository<Slide> _slideRepository;
-
         public IRepository<Slide> SlideRepository
         {
             get

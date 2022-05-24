@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using OngProject.Core.Business;
+using OngProject.Core.Interfaces;
 
 namespace OngProject.Controllers
 {
@@ -11,9 +12,9 @@ namespace OngProject.Controllers
     [ApiController]
     public class SlideController : ControllerBase
     {
-        private readonly SlideBusiness _slideBusiness;
+        private readonly ISlideBusiness _slideBusiness;
 
-        public SlideController(SlideBusiness slideBusiness)
+        public SlideController(ISlideBusiness slideBusiness)
         {
             _slideBusiness = slideBusiness;
         }
@@ -21,11 +22,16 @@ namespace OngProject.Controllers
         #region Get
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Slide>>> GetAllSlides()
+        public async Task<ActionResult<IEnumerable<Slide>>> GetAll()
         {
             throw new NotImplementedException();
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById()
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 

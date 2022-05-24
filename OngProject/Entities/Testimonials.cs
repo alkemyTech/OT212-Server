@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Entities
 {
-    public class Testimonials : Entity
+    public class Testimonial : Entity
     {
         [Required]
         [StringLength(255)]

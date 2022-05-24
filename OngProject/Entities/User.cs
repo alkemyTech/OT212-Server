@@ -25,6 +25,7 @@ namespace OngProject.Entities
         [MaxLength(255)]
         public string Photo { get; set; }
 
+        [ForeignKey(nameof(User.Roles))]
         public int RoleId { get; set; }
 
         public Role Roles { get; set; }

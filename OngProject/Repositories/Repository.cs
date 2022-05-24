@@ -1,4 +1,5 @@
-﻿using OngProject.DataAccess;
+﻿using Microsoft.EntityFrameworkCore;
+using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using System;
@@ -10,26 +11,26 @@ namespace OngProject.Repositories
 {
     public class Repository<T> : IRepository<T> where T : Entity
     {
-        AppDbContext _context;
+        private readonly AppDbContext _context;
 
         public Repository(AppDbContext context)
         {
             _context = context;
         }
 
-        public T GetById(int id)
+        public async Task<T> GetByIdAsync(int id)
         {
-            return _context.Set<T>().Find(id);
+            return await _context.Set<T>().FindAsync(id);
         }
 
-        public List<T> GetAll()
+        public async Task<List<T>> GetAllAsync()
         {
-            return _context.Set<T>().ToList();
+            return await _context.Set<T>().ToListAsync();
         }
 
-        public void Insert(T entity)
+        public async void InsertAsync(T entity)
         {
-            _context.Set<T>().Add(entity);
+            await _context.Set<T>().AddAsync(entity);
         }
 
         public void Update(T entity)

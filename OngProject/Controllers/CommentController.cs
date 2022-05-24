@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
+using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ namespace OngProject.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
-        private readonly CommentBusiness _commentBusiness;
+        private readonly ICommentBusiness _commentBusiness;
 
-        public CommentController(CommentBusiness commentBusiness)
+        public CommentController(ICommentBusiness commentBusiness)
         {
             _commentBusiness = commentBusiness;
         }
@@ -21,11 +22,16 @@ namespace OngProject.Controllers
         #region Get
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Comment>>> GetAllComments()
+        public async Task<ActionResult<IEnumerable<Comment>>> GetAll()
         {
             throw new NotImplementedException();
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById()
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 

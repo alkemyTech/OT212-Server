@@ -19,7 +19,7 @@ namespace OngProject.Controllers
 
         // GET: api/Organizations
         [HttpGet]
-        public IEnumerable<Organization> Get()
+        public IEnumerable<Organization> GetAll()
         {
             throw new NotImplementedException();
         }

@@ -18,12 +18,12 @@ namespace OngProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Member>> Get()
+        public ActionResult<IEnumerable<Member>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id}")]
         public ActionResult<Member> Get(int id)
         {
             throw new NotImplementedException();
