@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OngProject.DataAccess;
 using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using OngProject.Core.Business;
 
 namespace OngProject.Controllers
 {
@@ -11,11 +11,11 @@ namespace OngProject.Controllers
     [ApiController]
     public class SlideController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly SlideBusiness _slideBusiness;
 
-        public SlideController(AppDbContext context)
+        public SlideController(SlideBusiness slideBusiness)
         {
-            _context = context;
+            _slideBusiness = slideBusiness;
         }
 
         #region Get
