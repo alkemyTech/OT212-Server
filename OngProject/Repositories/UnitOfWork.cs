@@ -8,6 +8,9 @@ namespace OngProject.Repositories
     {
         private readonly AppDbContext _context;
 
+        private readonly IRepository<News> _newsRepository;
+
+
         private readonly IRepository<Category> _categoryRepository;
 
 
@@ -20,16 +23,21 @@ namespace OngProject.Repositories
         private Repository<Activity> _activityRepository;
 
 
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
         }
 
 
+        public IRepository<News> NewsRepository
+
+
         public Repository<Category> CategoryRepository
 
 
         public Repository<News> NewsRepository
+
         {
             get
             {
