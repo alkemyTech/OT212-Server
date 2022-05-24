@@ -1,4 +1,5 @@
-﻿using OngProject.Repositories;
+﻿using OngProject.Entities;
+using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
 
