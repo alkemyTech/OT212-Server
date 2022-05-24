@@ -15,12 +15,12 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public List<Testimonials> GetAll()
+        public List<Testimonial> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Testimonials GetById()
+        public Testimonial GetById()
         {
             throw new NotImplementedException();
         }

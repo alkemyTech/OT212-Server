@@ -9,40 +9,18 @@ namespace OngProject.Repositories
         private readonly AppDbContext _context;
 
 
-        private Repository<News> _newsRepository;
+        private IRepository<News> _newsRepository;
 
+        private IRepository<Category> _categoryRepository;
 
-        private readonly IRepository<News> _newsRepository;
-
-
-        private readonly IRepository<Category> _categoryRepository;
-
-
-        private Repository<News> _newsRepository;
-
-
-        private Repository<Category> _categoriesRepository;
-
-        private Repository<Testimonials> _testimonialsRepository;
-
-        private Repository<Activity> _activityRepository;
-
-
+        private IRepository<Testimonial> _testimonialsRepository;
 
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
         }
 
-
         public IRepository<News> NewsRepository
-
-
-        public Repository<Category> CategoryRepository
-
-
-        public Repository<News> NewsRepository
-
         {
             get
             {
@@ -54,27 +32,15 @@ namespace OngProject.Repositories
             }
         }
 
-        public Repository<Category> CategoriesRepository
-
-
-
+        public IRepository<Category> CategoriesRepository
         {
             get
             {
                 if (_categoryRepository == null)
                 {
-
-
                     _categoryRepository = new Repository<Category>(_context);
                 }
                 return _categoryRepository;
-
-
-                    _categoriesRepository = new Repository<Category>(_context);
-                }
-                return _categoriesRepository;
-
-
             }
         }
 
@@ -107,11 +73,11 @@ namespace OngProject.Repositories
         }
 
 
-        public IRepository<Testimonials> TestimonialsRepository
+        public IRepository<Testimonial> TestimonialsRepository
         {
             get{
                 if(_testimonialsRepository == null) 
-                    _testimonialsRepository = new Repository<Testimonials>(_context);
+                    _testimonialsRepository = new Repository<Testimonial>(_context);
                 return _testimonialsRepository;
             }
         }
@@ -141,18 +107,6 @@ namespace OngProject.Repositories
 
             }
         }
-
-
-        public IRepository<Activity> ActivityRepository
-        {
-            get
-            {
-                if (_activityRepository == null)
-                    _activityRepository = new Repository<Activity>(_context);
-                return _activityRepository;
-            }
-        }
-
 
         private IRepository<Comment> _commentRepository;
         public IRepository<Comment> CommentRepository
