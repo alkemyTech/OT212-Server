@@ -1,4 +1,4 @@
-﻿using OngProject.DataAccess;
+using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 
@@ -8,6 +8,10 @@ namespace OngProject.Repositories
     {
         private readonly AppDbContext _context;
 
+
+        private Repository<News> _newsRepository;
+
+
         private readonly IRepository<News> _newsRepository;
 
 
@@ -15,6 +19,7 @@ namespace OngProject.Repositories
 
 
         private Repository<News> _newsRepository;
+
 
         private Repository<Category> _categoriesRepository;
 
@@ -51,15 +56,19 @@ namespace OngProject.Repositories
 
         public Repository<Category> CategoriesRepository
 
+
+
         {
             get
             {
                 if (_categoryRepository == null)
                 {
 
+
                     _categoryRepository = new Repository<Category>(_context);
                 }
                 return _categoryRepository;
+
 
                     _categoriesRepository = new Repository<Category>(_context);
                 }
@@ -157,6 +166,18 @@ namespace OngProject.Repositories
         }
 
 
+        private IRepository<Activity> _activityRepository;
+        public IRepository<Activity> ActivityRepository
+        {
+            get
+            {
+                if (_activityRepository == null)
+                    _activityRepository = new Repository<Activity>(_context);
+                return _activityRepository;
+            }
+        }
+
+
         private IRepository<Slide> _slideRepository;
 
         public IRepository<Slide> SlideRepository
@@ -169,6 +190,7 @@ namespace OngProject.Repositories
                 return _slideRepository;
             }
         }
+
 
     }
 }
