@@ -22,7 +22,7 @@ namespace OngProject.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult GetById()
         {
             throw new NotImplementedException();

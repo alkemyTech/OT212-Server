@@ -8,18 +8,12 @@ namespace OngProject.Repositories
     {
         private readonly AppDbContext _context;
 
-
-        private IRepository<News> _newsRepository;
-
-        private IRepository<Category> _categoryRepository;
-
-        private IRepository<Testimonial> _testimonialsRepository;
-
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
         }
 
+        private IRepository<News> _newsRepository;
         public IRepository<News> NewsRepository
         {
             get
@@ -32,6 +26,7 @@ namespace OngProject.Repositories
             }
         }
 
+        private IRepository<Category> _categoryRepository;
         public IRepository<Category> CategoriesRepository
         {
             get
@@ -72,16 +67,15 @@ namespace OngProject.Repositories
             }
         }
 
-
-        public IRepository<Testimonial> TestimonialsRepository
+        private IRepository<Testimonial> _testimonialRepository;
+        public IRepository<Testimonial> TestimonialRepository
         {
             get{
-                if(_testimonialsRepository == null) 
-                    _testimonialsRepository = new Repository<Testimonial>(_context);
-                return _testimonialsRepository;
+                if(_testimonialRepository == null) 
+                    _testimonialRepository = new Repository<Testimonial>(_context);
+                return _testimonialRepository;
             }
         }
-
 
 
         private IRepository<User> _userRepository;
@@ -133,7 +127,6 @@ namespace OngProject.Repositories
 
 
         private IRepository<Slide> _slideRepository;
-
         public IRepository<Slide> SlideRepository
         {
             get

@@ -21,7 +21,7 @@ namespace OngProject.Controllers
 
         // GET: api/Roles
         [HttpGet]
-        public IEnumerable<Role> Get()
+        public IEnumerable<Role> GetAll()
         {
             throw new NotImplementedException();
         }
