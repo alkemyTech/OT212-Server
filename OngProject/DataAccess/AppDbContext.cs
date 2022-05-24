@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OngProject.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OngProject.DataAccess
 {
@@ -14,5 +10,18 @@ namespace OngProject.DataAccess
         {
 
         }
+
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<Categories> Categories { get; set; }        
+        public DbSet<News> NewsSet { get; set; }
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
+        public DbSet<Slide> Slides { get; set; }
+        public DbSet<Member> Members { get; set; }
+        public DbSet<User> Users { get; set; }
+
     }
 }
