@@ -8,6 +8,9 @@ namespace OngProject.Repositories
     {
         private readonly AppDbContext _context;
 
+        private readonly IRepository<Category> _categoryRepository;
+
+
         private Repository<News> _newsRepository;
 
         private Repository<Category> _categoriesRepository;
@@ -16,10 +19,14 @@ namespace OngProject.Repositories
 
         private Repository<Activity> _activityRepository;
 
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
         }
+
+
+        public Repository<Category> CategoryRepository
 
 
         public Repository<News> NewsRepository
@@ -35,14 +42,21 @@ namespace OngProject.Repositories
         }
 
         public Repository<Category> CategoriesRepository
+
         {
             get
             {
-                if (_categoriesRepository == null)
+                if (_categoryRepository == null)
                 {
+
+                    _categoryRepository = new Repository<Category>(_context);
+                }
+                return _categoryRepository;
+
                     _categoriesRepository = new Repository<Category>(_context);
                 }
                 return _categoriesRepository;
+
 
             }
         }
