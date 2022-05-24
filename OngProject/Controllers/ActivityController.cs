@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using OngProject.Core.Business;
+using Microsoft.AspNetCore.Http;
+using OngProject.Core.Interfaces;
+
 
 namespace OngProject.Controllers
 {
@@ -11,6 +15,7 @@ namespace OngProject.Controllers
     [ApiController]
     public class ActivityController : ControllerBase
     {
+
         private readonly ActivityBusiness _activityBusiness;
 
         public ActivityController(ActivityBusiness activityBusiness)
@@ -22,9 +27,21 @@ namespace OngProject.Controllers
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Activity>>> GetAllActivities()
+
+        private IActivityBussines _activityBussines;
+
+        public ActivityController(IActivityBussines activityBussines)
+        {
+            _activityBussines = activityBussines;   
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
+
         {
             throw new NotImplementedException();
         }
+
 
 
         #endregion
@@ -64,5 +81,30 @@ namespace OngProject.Controllers
             throw new NotImplementedException();
         }
         #endregion
+
+        [HttpGet]
+        public IActionResult GetById()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPost]
+        public IActionResult Insert()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpPut]
+        public IActionResult Update()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpDelete]
+        public IActionResult Delete()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

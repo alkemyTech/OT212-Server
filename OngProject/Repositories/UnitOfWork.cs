@@ -1,4 +1,4 @@
-﻿using OngProject.DataAccess;
+using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 
@@ -8,11 +8,26 @@ namespace OngProject.Repositories
     {
         private readonly AppDbContext _context;
 
+
         private Repository<News> _newsRepository;
+
+
+        private readonly IRepository<News> _newsRepository;
+
+
+        private readonly IRepository<Category> _categoryRepository;
+
+
+        private Repository<News> _newsRepository;
+
 
         private Repository<Category> _categoriesRepository;
 
         private Repository<Testimonials> _testimonialsRepository;
+
+        private Repository<Activity> _activityRepository;
+
+
 
         public UnitOfWork(AppDbContext context)
         {
@@ -20,7 +35,14 @@ namespace OngProject.Repositories
         }
 
 
+        public IRepository<News> NewsRepository
+
+
+        public Repository<Category> CategoryRepository
+
+
         public Repository<News> NewsRepository
+
         {
             get
             {
@@ -33,14 +55,25 @@ namespace OngProject.Repositories
         }
 
         public Repository<Category> CategoriesRepository
+
+
+
         {
             get
             {
-                if (_categoriesRepository == null)
+                if (_categoryRepository == null)
                 {
+
+
+                    _categoryRepository = new Repository<Category>(_context);
+                }
+                return _categoryRepository;
+
+
                     _categoriesRepository = new Repository<Category>(_context);
                 }
                 return _categoriesRepository;
+
 
             }
         }
@@ -109,6 +142,18 @@ namespace OngProject.Repositories
             }
         }
 
+
+        public IRepository<Activity> ActivityRepository
+        {
+            get
+            {
+                if (_activityRepository == null)
+                    _activityRepository = new Repository<Activity>(_context);
+                return _activityRepository;
+            }
+        }
+
+
         private IRepository<Comment> _commentRepository;
         public IRepository<Comment> CommentRepository
         {
@@ -120,6 +165,7 @@ namespace OngProject.Repositories
             }
         }
 
+
         private IRepository<Activity> _activityRepository;
         public IRepository<Activity> ActivityRepository
         {
@@ -130,5 +176,21 @@ namespace OngProject.Repositories
                 return _activityRepository;
             }
         }
+
+
+        private IRepository<Slide> _slideRepository;
+
+        public IRepository<Slide> SlideRepository
+        {
+            get
+            {
+                if(_slideRepository == null)
+                    _slideRepository = new Repository<Slide>(_context);
+
+                return _slideRepository;
+            }
+        }
+
+
     }
 }

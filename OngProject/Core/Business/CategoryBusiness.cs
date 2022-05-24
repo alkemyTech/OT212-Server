@@ -4,20 +4,20 @@ using System.Collections.Generic;
 
 namespace OngProject.Core.Business
 {
-    public class CategoriesBusiness: ICategoriesBusiness
+    public class CategoryBusiness: ICategoryBusiness
     {
         private readonly UnitOfWork _unitOfWork;
 
-        public CategoriesBusiness(UnitOfWork unitOfWork)
+        public CategoryBusiness(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        public List<Categories> GetAll()
+        public List<Category> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Categories GetById()
+        public Category GetById()
         {
             throw new NotImplementedException();
         }
