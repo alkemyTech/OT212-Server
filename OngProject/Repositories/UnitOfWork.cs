@@ -8,9 +8,9 @@ namespace OngProject.Repositories
     {
         private readonly AppDbContext _context;
 
-        private readonly Repository<News> _newsRepository;
+        private Repository<News> _newsRepository;
 
-        private readonly Repository<Categories> _categoriesRepository;
+        private Repository<Category> _categoriesRepository;
 
         private Repository<Testimonials> _testimonialsRepository;
 
@@ -32,13 +32,13 @@ namespace OngProject.Repositories
             }
         }
 
-        public Repository<Categories> CategoriesRepository
+        public Repository<Category> CategoriesRepository
         {
             get
             {
                 if (_categoriesRepository == null)
                 {
-                    _categoriesRepository = new Repository<Categories>(_context);
+                    _categoriesRepository = new Repository<Category>(_context);
                 }
                 return _categoriesRepository;
 
@@ -94,6 +94,8 @@ namespace OngProject.Repositories
                     _userRepository = new Repository<User>(_context);
 
                 return _userRepository;
+            }
+        }
 
         private IRepository<Member> _memberRepository;
         public IRepository<Member> MemberRepository
@@ -115,6 +117,17 @@ namespace OngProject.Repositories
                 if(_commentRepository == null)
                     _commentRepository = new Repository<Comment>(_context);
                 return _commentRepository;
+            }
+        }
+
+        private IRepository<Activity> _activityRepository;
+        public IRepository<Activity> ActivityRepository
+        {
+            get
+            {
+                if (_activityRepository == null)
+                    _activityRepository = new Repository<Activity>(_context);
+                return _activityRepository;
             }
         }
     }
