@@ -2,15 +2,16 @@
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
     public interface ICategoryBusiness
     {
-        public List<Category> GetAll();
-        public Category GetById();
-        public void Insert();
-        public void Update();
-        public void Delete();
+        Task<List<Category>> GetAll();
+        Task<Category> GetById(int id);
+        Task Insert(Category entity);
+        Task Update(Category entity);
+        Task Delete(int id);
     }
 }

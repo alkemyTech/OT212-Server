@@ -2,6 +2,7 @@
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
@@ -13,27 +14,27 @@ namespace OngProject.Core.Business
         {
             _unitOfWork = unitOfWork;
         }
-        public List<News> GetAll()
+
+        public Task<List<News>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public News GetById()
+        public Task<News> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert()
+        public Task Insert(News entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Update()
+        public Task Update(News entity)
         {
             throw new NotImplementedException();
         }
-
-        public void Delete()
+        public Task Delete(int id)
         {
             throw new NotImplementedException();
         }

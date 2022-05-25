@@ -28,22 +28,22 @@ namespace OngProject.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async void InsertAsync(T entity)
+        public async Task InsertAsync(T entity)
         {
             await _context.Set<T>().AddAsync(entity);
         }
 
-        public void Update(T entity)
+        public async Task UpdateAsync(T entity)
         {
             _context.Set<T>().Update(entity);
         }
 
-        public void Delete(T entity)
+        public async Task DeleteAsync(T entity)
         {
             _context.Set<T>().Remove(entity);
         }
 
-        public void SoftDelete(T entity)
+        public async Task SoftDeleteAsync(T entity)
         {
             entity.IsDeleted = true;
             _context.Set<T>().Update(entity);

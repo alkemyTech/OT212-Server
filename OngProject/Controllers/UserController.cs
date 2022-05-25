@@ -71,7 +71,7 @@ namespace OngProject.Controllers
         {
             try
             {
-                _userBusiness.Delete(user);
+                _userBusiness.Delete(user.Id);
                 return Ok();
             }
             catch

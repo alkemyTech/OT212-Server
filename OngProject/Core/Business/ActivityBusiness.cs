@@ -2,45 +2,42 @@
 using OngProject.Entities;
 using OngProject.Repositories;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
     public class ActivityBusiness : IActivityBusiness
     {
-        private readonly UnitOfWork _unitOfWork;
+        private UnitOfWork _unitOfWork;
 
         public ActivityBusiness(UnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;   
         }
 
-        public void DeleteActivity(int id)
+        public Task<List<Activity>> GetAll()
         {
-            Activity activity = _unitOfWork.ActivityRepository.GetById(id);
-            _unitOfWork.ActivityRepository.Delete(activity);
-            _unitOfWork.Save();
+            throw new System.NotImplementedException();
         }
 
-        public IEnumerable<Activity> GetAllActivities()
+        public Task<Activity> GetById(int id)
         {
-            return _unitOfWork.ActivityRepository.GetAll();
+            throw new System.NotImplementedException();
         }
 
-        public Activity GetActivity(int id)
+        public Task Insert(Activity entity)
         {
-            return _unitOfWork.ActivityRepository.GetById(id);
+            throw new System.NotImplementedException();
         }
 
-        public void InsertActivity(Activity activity)
+        public Task Update(Activity entity)
         {
-            _unitOfWork.ActivityRepository.Insert(activity);
-            _unitOfWork.Save();
+            throw new System.NotImplementedException();
         }
 
-        public void UpdateActivity(Activity activity)
+        public Task Delete(int id)
         {
-            _unitOfWork.ActivityRepository.Update(activity);
-            _unitOfWork.Save();
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -1,18 +1,19 @@
 ﻿using OngProject.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Interfaces
 {
     public interface IRoleBusiness
     {
-        Role GetById(int id);
+        Task<Role> GetById(int id);
 
-        List<Role> GetAll();
+        Task<List<Role>> GetAll();
 
-        void Insert(Role entity);
+        Task Insert(Role entity);
 
-        void Update(Role entity);
+        Task Update(Role entity);
 
-        void Delete(Role entity);
+        Task Delete(int id);
     }
 }

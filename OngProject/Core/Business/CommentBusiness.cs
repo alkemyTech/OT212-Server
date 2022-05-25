@@ -2,6 +2,7 @@
 using OngProject.Entities;
 using OngProject.Repositories;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
@@ -14,33 +15,29 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public void DeleteComment(int id)
+        public Task<List<Comment>> GetAll()
         {
-            Comment comment = _unitOfWork.CommentRepository.GetById(id);
-            _unitOfWork.CommentRepository.Delete(comment);
-            _unitOfWork.Save();
+            throw new System.NotImplementedException();
         }
 
-        public IEnumerable<Comment> GetAllComments()
+        public Task<Comment> GetById(int id)
         {
-            return _unitOfWork.CommentRepository.GetAll();
+            throw new System.NotImplementedException();
         }
 
-        public Comment GetComment(int id)
+        public Task Insert(Comment entity)
         {
-            return _unitOfWork.CommentRepository.GetById(id);
+            throw new System.NotImplementedException();
         }
 
-        public void InsertComment(Comment comment)
+        public Task Update(Comment entity)
         {
-            _unitOfWork.CommentRepository.Insert(comment);
-            _unitOfWork.Save();
+            throw new System.NotImplementedException();
+        }
+        public Task Delete(int id)
+        {
+            throw new System.NotImplementedException();
         }
 
-        public void UpdateComment(Comment comment)
-        {
-            _unitOfWork.CommentRepository.Update(comment);
-            _unitOfWork.Save();
-        }
     }
 }

@@ -15,9 +15,9 @@ namespace OngProject.Controllers
     [ApiController]
     public class ActivityController : ControllerBase
     {
-        private IActivityBussines _activityBussines;
+        private IActivityBusiness _activityBussines;
 
-        public ActivityController(IActivityBussines activityBussines)
+        public ActivityController(IActivityBusiness activityBussines)
         {
             _activityBussines = activityBussines;   
         }

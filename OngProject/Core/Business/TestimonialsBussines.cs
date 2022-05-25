@@ -3,6 +3,7 @@ using OngProject.Entities;
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
@@ -15,27 +16,27 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public List<Testimonial> GetAll()
+        public Task<List<Testimonial>> GetAll()
         {
             throw new NotImplementedException();
         }
 
-        public Testimonial GetById()
+        public Task<Testimonial> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void Insert()
+        public Task Insert(Testimonial entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Update()
+        public Task Update(Testimonial entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete()
+        public Task Delete(int id)
         {
             throw new NotImplementedException();
         }

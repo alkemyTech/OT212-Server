@@ -1,18 +1,19 @@
 ﻿using OngProject.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Interfaces
 {
     public interface ICommentBusiness
     {
-        public IEnumerable<Comment> GetAllComments();
+        Task<List<Comment>> GetAll();
 
-        public Comment GetComment(int id);
+        Task<Comment> GetById(int id);
 
-        public void InsertComment(Comment comment);
+        Task Insert(Comment entity);
 
-        public void UpdateComment(Comment comment);
+        Task Update(Comment entity);
 
-        public void DeleteComment(int id);
+        Task Delete(int id);
     }
 }

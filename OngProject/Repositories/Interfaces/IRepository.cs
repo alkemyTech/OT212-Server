@@ -11,10 +11,10 @@ namespace OngProject.Repositories.Interfaces
         Task<T> GetByIdAsync(int id);
         Task<List<T>> GetAllAsync();
 
-        void InsertAsync(T entity);
-        void Update(T entity);
-        void Delete(T entity);
-        void SoftDelete(T entity);
+        Task InsertAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
+        Task SoftDeleteAsync(T entity);
 
     }
 }

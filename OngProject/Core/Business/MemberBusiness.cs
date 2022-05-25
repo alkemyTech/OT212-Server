@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using OngProject.Repositories;
@@ -13,32 +14,29 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public Member GetById(int id)
+        public Task<List<Member>> GetAll()
         {
-            return _unitOfWork.MemberRepository.GetById(id);
+            throw new System.NotImplementedException();
         }
 
-        public List<Member> GetAll()
+        public Task<Member> GetById(int id)
         {
-            return _unitOfWork.MemberRepository.GetAll();
+            throw new System.NotImplementedException();
         }
 
-        public void Insert(Member entity)
+        public Task Insert(Member entity)
         {
-            _unitOfWork.MemberRepository.Insert(entity);
-            _unitOfWork.Save();
+            throw new System.NotImplementedException();
         }
 
-        public void Update(Member entity)
+        public Task Update(Member entity)
         {
-            _unitOfWork.MemberRepository.Update(entity);
-            _unitOfWork.Save();
+            throw new System.NotImplementedException();
+        }
+        public Task Delete(Member entity)
+        {
+            throw new System.NotImplementedException();
         }
 
-        public void Delete(Member entity)
-        {
-            _unitOfWork.MemberRepository.Delete(entity);
-            _unitOfWork.Save();
-        }
     }
 }
