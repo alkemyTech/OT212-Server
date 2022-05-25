@@ -1,6 +1,7 @@
 using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
+using System.Threading.Tasks;
 
 namespace OngProject.Repositories
 {
@@ -39,7 +40,7 @@ namespace OngProject.Repositories
             }
         }
 
-        public async void SaveAsync()
+        public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
         }

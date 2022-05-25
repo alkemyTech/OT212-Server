@@ -2,15 +2,16 @@
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
     public interface INewsBusiness
     {
-        public List<News> GetAll();
-        public News GetById();
-        public void Insert();
-        public void Update();
-        public void Delete();
+        Task<List<News>> GetAll();
+        Task<News> GetById(int id);
+        Task Insert(News entity);
+        Task Update(News entity);
+        Task Delete(int id);
     }
 }

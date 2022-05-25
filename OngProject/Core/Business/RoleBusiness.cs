@@ -2,6 +2,7 @@
 using OngProject.Entities;
 using OngProject.Repositories;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
@@ -13,32 +14,29 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public Role GetById(int id)
+        public Task Delete(int id)
         {
-            return _unitOfWork.RoleRepository.GetById(id);
+            throw new System.NotImplementedException();
         }
 
-        public List<Role> GetAll()
+        public Task<List<Role>> GetAll()
         {
-            return _unitOfWork.RoleRepository.GetAll();
+            throw new System.NotImplementedException();
         }
 
-        public void Insert(Role entity)
+        public Task<Role> GetById(int id)
         {
-            _unitOfWork.RoleRepository.Insert(entity);
-            _unitOfWork.Save();
+            throw new System.NotImplementedException();
         }
 
-        public void Update(Role entity)
+        public Task Insert(Role entity)
         {
-            _unitOfWork.RoleRepository.Update(entity);
-            _unitOfWork.Save();
+            throw new System.NotImplementedException();
         }
 
-        public void Delete(Role entity)
+        public Task Update(Role entity)
         {
-            _unitOfWork.RoleRepository.Delete(entity);
-            _unitOfWork.Save();
+            throw new System.NotImplementedException();
         }
     }
 }

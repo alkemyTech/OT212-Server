@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using OngProject.Entities;
 
 namespace OngProject.Core.Interfaces
 {
     public interface IMemberBusiness
     {
-        Member GetById(int id);
+        Task<Member> GetById(int id);
 
-        List<Member> GetAll();
+        Task<List<Member>> GetAll();
 
-        void Insert(Member entity);
+        Task Insert(Member entity);
 
-        void Update(Member entity);
+        Task Update(Member entity);
 
-        void Delete(Member entity);
+        Task Delete(Member entity);
     }
 }

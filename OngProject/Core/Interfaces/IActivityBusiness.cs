@@ -1,18 +1,15 @@
 ﻿using OngProject.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Interfaces
 {
     public interface IActivityBusiness
     {
-        public IEnumerable<Activity> GetAllActivities();
-
-        public Activity GetActivity(int id);
-
-        public void InsertActivity(Activity activity);
-
-        public void UpdateActivity(Activity activity);
-
-        public void DeleteActivity(int id);
+        Task<List<Activity>> GetAll();
+        Task<Activity> GetById(int id);
+        Task Insert(Activity entity);
+        Task Update(Activity entity);
+        Task Delete(int id);
     }
 }

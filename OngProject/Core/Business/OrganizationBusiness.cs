@@ -16,32 +16,29 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public Organization GetById(int id)
+        public Task<List<Organization>> GetAll()
         {
-            return _unitOfWork.OrganizationRepository.GetById(id);
+            throw new NotImplementedException();
         }
 
-        public List<Organization> GetAll()
+        public Task<Organization> GetById(int id)
         {
-            return _unitOfWork.OrganizationRepository.GetAll();
+            throw new NotImplementedException();
         }
 
-        public void Insert(Organization entity)
+        public Task Insert(Organization entity)
         {
-            _unitOfWork.OrganizationRepository.Insert(entity);
-            _unitOfWork.Save();
+            throw new NotImplementedException();
         }
 
-        public void Update(Organization entity)
+        public Task Update(Organization entity)
         {
-            _unitOfWork.OrganizationRepository.Update(entity);
-            _unitOfWork.Save();
+            throw new NotImplementedException();
         }
 
-        public void Delete(Organization entity)
+        public Task Delete(int id)
         {
-            _unitOfWork.OrganizationRepository.Delete(entity);
-            _unitOfWork.Save();
+            throw new NotImplementedException();
         }
     }
 }

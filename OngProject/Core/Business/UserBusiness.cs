@@ -18,31 +18,28 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public List<User> GetAll()
+        public Task<List<User>> GetAll()
         {
-            var users = _unitOfWork.UserRepository.GetAll();
-            return users;
+            throw new NotImplementedException();
         }
 
-        public User GetById(int id)
+        public Task<User> GetById(int id)
         {
-            var user = _unitOfWork.UserRepository.GetById(id);
-            return user;
+            throw new NotImplementedException();
         }
 
-        public void Insert(User user)
+        public Task Insert(User entity)
         {
-            _unitOfWork.UserRepository.Insert(user);
+            throw new NotImplementedException();
         }
 
-        public void Update(User user)
+        public Task Update(User entity)
         {
-            _unitOfWork.UserRepository.Update(user);
+            throw new NotImplementedException();
         }
-
-        public void Delete(User user)
+        public Task Delete(int id)
         {
-            _unitOfWork.UserRepository.Delete(user);
+            throw new NotImplementedException();
         }
     }
 }

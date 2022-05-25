@@ -1,18 +1,19 @@
 ﻿using OngProject.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Interfaces
 {
     public interface ISlideBusiness
     {
-        public IEnumerable<Slide> GetAllSlides();
+        Task<List<Slide>> GetAll();
 
-        public Slide GetSlide(int id);
+        Task<Slide> GetById(int id);
 
-        public void InsertSlide(Slide slide);
+        Task Insert(Slide slide);
 
-        public void UpdateSlide(Slide slide);
+        Task Update(Slide slide);
 
-        public void DeleteSlide(int id);
+        Task Delete(int id);
     }
 }

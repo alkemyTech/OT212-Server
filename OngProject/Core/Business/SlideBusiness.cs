@@ -2,6 +2,7 @@
 using OngProject.Entities;
 using OngProject.Repositories;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
@@ -14,33 +15,29 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public void DeleteSlide(int id)
+        public Task<List<Slide>> GetAll()
         {
-            Slide slide = _unitOfWork.SlideRepository.GetById(id);
-            _unitOfWork.SlideRepository.Delete(slide);
-            _unitOfWork.Save();
+            throw new System.NotImplementedException();
         }
 
-        public IEnumerable<Slide> GetAllSlides()
+        public Task<Slide> GetById(int id)
         {
-            return _unitOfWork.SlideRepository.GetAll();
+            throw new System.NotImplementedException();
         }
 
-        public Slide GetSlide(int id)
+        public Task Insert(Slide slide)
         {
-            return _unitOfWork.SlideRepository.GetById(id);
+            throw new System.NotImplementedException();
         }
 
-        public void InsertSlide(Slide slide)
+        public Task Update(Slide slide)
         {
-            _unitOfWork.SlideRepository.Insert(slide);
-            _unitOfWork.Save();
+            throw new System.NotImplementedException();
         }
 
-        public void UpdateSlide(Slide slide)
+        public Task Delete(int id)
         {
-            _unitOfWork.SlideRepository.Update(slide);
-            _unitOfWork.Save();
+            throw new System.NotImplementedException();
         }
     }
 }

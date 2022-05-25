@@ -8,14 +8,14 @@ namespace OngProject.Core.Interfaces
 {
     public interface IOrganizationBusiness
     {
-        Organization GetById(int id);
+        Task<List<Organization>> GetAll();
 
-        List<Organization> GetAll();
+        Task<Organization> GetById(int id);
 
-        void Insert(Organization entity);
+        Task Insert(Organization entity);
 
-        void Update(Organization entity);
+        Task Update(Organization entity);
 
-        void Delete(Organization entity);
+        Task Delete(int id);
     }
 }
