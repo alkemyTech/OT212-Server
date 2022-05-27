@@ -1,4 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using System;
@@ -19,6 +21,14 @@ namespace OngProject.Core.Business
         public Task<List<Organization>> GetAll()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<OrganizationDto> Get()
+        {
+            var organizationList = await _unitOfWork.OrganizationRepository.GetAllAsync();
+            var organization = organizationList.FirstOrDefault();
+
+            return organization.MapToOrganizationDto();
         }
 
         public Task<Organization> GetById(int id)
