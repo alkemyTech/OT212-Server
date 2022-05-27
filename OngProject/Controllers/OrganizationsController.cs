@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OngProject.Core.Business;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
-using System;
-using System.Collections.Generic;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("organization")]
     [ApiController]
     public class OrganizationsController : ControllerBase
     {
@@ -24,11 +24,24 @@ namespace OngProject.Controllers
             throw new NotImplementedException();
         }
 
-        // GET api/Organizations/5
-        [HttpGet("{id}")]
-        public Organization Get(int id)
+        [HttpGet]
+        [Route("public")]
+        public async Task<ActionResult<Organization>> Get()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var organizationDto = await _organizationBusiness.Get();
+
+                if (organizationDto == null)
+                    return BadRequest(@"Can't find organization data.");
+
+                return Ok(organizationDto);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($@"OrganizationController.Get: {e.Message}");
+                return BadRequest(@"Can't find organization data.");
+            }
         }
 
         // POST api/Organizations
