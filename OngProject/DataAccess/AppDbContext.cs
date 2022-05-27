@@ -23,10 +23,14 @@ namespace OngProject.DataAccess
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             //Cargando datos
             builder.SeedUsers();
         }
+
+        public DbSet<Contact> Contacts { get; set; }
+
     }
 }
