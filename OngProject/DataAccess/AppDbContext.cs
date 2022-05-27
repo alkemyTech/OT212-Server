@@ -24,6 +24,14 @@ namespace OngProject.DataAccess
         public DbSet<Testimonial> Testimonials { get; set; }
 
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.SeedActivities();
+        }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             //Cargando datos
@@ -31,6 +39,7 @@ namespace OngProject.DataAccess
         }
 
         public DbSet<Contact> Contacts { get; set; }
+
 
     }
 }
