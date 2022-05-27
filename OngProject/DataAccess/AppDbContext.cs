@@ -28,6 +28,10 @@ namespace OngProject.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
+
+            modelBuilder.SeedCategories();
+        }
+
             modelBuilder.SeedActivities();
         }
 
@@ -39,6 +43,7 @@ namespace OngProject.DataAccess
         }
 
         public DbSet<Contact> Contacts { get; set; }
+
 
 
     }
