@@ -53,7 +53,7 @@ namespace OngProject.DataAccess
                     "y jóvenes del barrio promoviendo el soporte socioeducativo y emocional apropiado, desarrollando " +
                     "los recursos institucionales necesarios a través de la articulación de nuestras intervenciones " +
                     "con las escuelas que los alojan, con las familias de los alumnos y con las instancias municipales, " +
-                    "provinciales y nacionales que correspondan.El programa contempla: " +
+                    "provinciales y nacionales que correspondan.El programa contempla: \n" +
                     "● Encuentro semanal con tutores(Individuales y grupales) \n" +
                     "● Actividad proyecto(los participantes del programa deben pensar una actividad relacionada a lo " +
                     "que quieren hacer una vez terminada la escuela y su tutor los acompaña en el proceso) \n" +
