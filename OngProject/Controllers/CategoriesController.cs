@@ -28,7 +28,7 @@ namespace OngProject.Controllers
 
                 if (categoryDtoList.Count == 0)
                 {
-                    return BadRequest("Category list is empty.");
+                    return NotFound("Category list is empty.");
                 }
 
                 return Ok(categoryDtoList);
