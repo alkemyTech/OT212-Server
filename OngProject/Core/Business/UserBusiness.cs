@@ -41,5 +41,13 @@ namespace OngProject.Core.Business
         {
             throw new NotImplementedException();
         }
+
+        public async Task<User> GetByEmail(string email)
+        {
+            var query = new QueryProperty<User>(1,1);
+                query.Where = x => x.Email == email;
+
+            return await _unitOfWork.UserRepository.GetAsync(query);
+        }
     }
 }
