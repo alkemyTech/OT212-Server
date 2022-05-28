@@ -33,6 +33,7 @@ namespace OngProject.Core.Business
             return user.ToUserDto();
         }
 
+        //This method is implemented after passing the QueryProperty branch
         public async Task<bool> Exist(string email)
         {
             //var result = await _unitOfWork.UserRepository.Get(queryProperty);
