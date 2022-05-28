@@ -29,13 +29,8 @@ namespace OngProject.DataAccess
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.SeedActivities();
-        }
-
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
             //Cargando datos
-            builder.SeedUsers();
+            modelBuilder.SeedUsers();
         }
 
         public DbSet<Contact> Contacts { get; set; }

@@ -9,13 +9,14 @@ namespace OngProject.DataAccess
         public static void SeedActivities(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Activity>().HasData(
-                new Activity { 
-                    Id = 1, 
-                    Name = "Programas Educativos", 
-                    Image = "ProgramasEducativos.png", 
-                    Content= "Mediante nuestros programas educativos, buscamos incrementar la capacidad intelectual, " +
+                new Activity
+                {
+                    Id = 1,
+                    Name = "Programas Educativos",
+                    Image = "ProgramasEducativos.png",
+                    Content = "Mediante nuestros programas educativos, buscamos incrementar la capacidad intelectual, " +
                     "moral y afectiva de las personas de acuerdo con la cultura y las normas de convivencia de la " +
-                    "sociedad a la que pertenecen." 
+                    "sociedad a la que pertenecen."
                 },
                 new Activity
                 {
@@ -69,6 +70,7 @@ namespace OngProject.DataAccess
                     "● Paseos recreativos y educativos: Estos paseos están pensados para promover la participación y " +
                     "sentido de pertenencia de los niños, niñas y adolescentes al área educativa"
                 });
+        }
 
         public static void SeedUsers(this ModelBuilder modelBuilder)
         {
