@@ -8,7 +8,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using OngProject.Core.Business;
+using OngProject.Core.Interfaces;
 using OngProject.DataAccess;
+using OngProject.Entities;
+using OngProject.Repositories;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +33,12 @@ namespace OngProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<UnitOfWork>();
+
+            services.AddTransient<IRepository<Slide>, Repository<Slide>>();
+
+            services.AddTransient<ISlideBusiness, SlideBusiness>();
+
             services.AddDbContext<AppDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
