@@ -11,5 +11,7 @@ namespace OngProject.Core.Interfaces
         Task Insert(User entity);
         Task Update(User entity);
         Task Delete(int id);
+
+        Task<User> GetByEmail(string email);
     }
 }

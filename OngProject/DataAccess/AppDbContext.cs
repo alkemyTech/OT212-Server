@@ -11,7 +11,6 @@ namespace OngProject.DataAccess
 
         }
 
-
         public DbSet<Category> Categories { get; set; }
         public DbSet<Role> Roles { get; set; }     
         public DbSet<News> NewsSet { get; set; }
@@ -22,5 +21,29 @@ namespace OngProject.DataAccess
         public DbSet<User> Users { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+
+            modelBuilder.SeedActivities();
+            //Cargando datos
+            modelBuilder.SeedUsers();
+
+
+            modelBuilder.SeedCategories();
+
+            modelBuilder.SeedUsers();
+
+            modelBuilder.SeedActivities();
+
+            modelBuilder.SeedTestimonials();
+
+            modelBuilder.SeedNewsSet();
+        }
+
+        public DbSet<Contact> Contacts { get; set; }
     }
 }

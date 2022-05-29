@@ -3,6 +3,9 @@ using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
+using System.Linq;
 
 namespace OngProject.Core.Business
 {
@@ -15,9 +18,11 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public Task<List<Category>> GetAll()
+        public async Task<List<CategoryNameDTO>> GetAll()
         {
-            throw new NotImplementedException();
+            var categoriesList = await _unitOfWork.CategoriesRepository.GetAllAsync();
+
+            return categoriesList.Select(x => CategoryMapper.MapToCategoryNameDTO(x)).ToList();
         }
 
         public Task<Category> GetById(int id)

@@ -11,7 +11,7 @@ namespace OngProject.Repositories.Interfaces
         Task<T> GetByIdAsync(int id);
         Task<T> GetAsync(QueryProperty<T> query);
         Task<List<T>> GetAllAsync();
-        Task<List<T>> GetAllAsync(QueryProperty<T> query);
+
         Task InsertAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
