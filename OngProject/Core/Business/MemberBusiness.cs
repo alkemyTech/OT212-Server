@@ -14,9 +14,9 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public Task<List<Member>> GetAll()
+        public async Task<List<Member>> GetAll()
         {
-            throw new System.NotImplementedException();
+            return await _unitOfWork.MemberRepository.GetAllAsync();
         }
 
         public Task<Member> GetById(int id)

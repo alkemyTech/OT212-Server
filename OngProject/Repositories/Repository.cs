@@ -48,5 +48,36 @@ namespace OngProject.Repositories
             entity.IsDeleted = true;
             _context.Set<T>().Update(entity);
         }
+
+        public Task<T> GetAsync(QueryProperty<T> query)
+        {
+            var source = ApplyQuery(query, _context.Set<T>().AsQueryable());
+
+            return source.FirstOrDefaultAsync();
+        }
+
+        public Task<List<T>> GetAllAsync(QueryProperty<T> query)
+        {
+            var source = ApplyQuery(query, _context.Set<T>().AsQueryable());
+
+            return source.ToListAsync();
+        }
+
+        private static IQueryable<T> ApplyQuery(QueryProperty<T> query, IQueryable<T> source)
+        {
+            if (query is null)
+                return source;
+
+            if (query.Where is not null)
+                source = source.Where(query.Where);
+
+            foreach (var property in query.Includes)
+            {
+                source = source.Include(property);
+            }
+
+            return source.Skip(query.Skip)
+                        .Take(query.Take);
+        }
     }
 }

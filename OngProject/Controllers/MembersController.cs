@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
 namespace OngProject.Controllers
@@ -18,9 +22,18 @@ namespace OngProject.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Member>> GetAll()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetAll()
         {
-            throw new NotImplementedException();
+            var task = _memberBusiness.GetAll();
+
+            var members = await task;
+
+            if(members.Count == 0)
+            {
+                return NotFound("Members list is empty");
+            }
+
+            return Ok(members.Select(x => x.MapToMemberDto()));
         }
 
         [HttpGet("{id}")]

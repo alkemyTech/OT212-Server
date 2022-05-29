@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using OngProject.Core.Business;
+using OngProject.Core.Interfaces;
 using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories;
@@ -39,6 +41,10 @@ namespace OngProject
             services.AddTransient<IRepository<Slide>, Repository<Slide>>();
 
             services.AddTransient<ISlideBusiness, SlideBusiness>();
+
+            services.AddTransient<IRepository<Member>, Repository<Member>>();
+
+            services.AddTransient<IMemberBusiness, MemberBusiness>();
 
 
             services.AddDbContext<AppDbContext>(options => 
