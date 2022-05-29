@@ -17,9 +17,6 @@ namespace OngProject.DataAccess
                 new News { Id = 4, Name = "News 4", Content = "Content of news number 4", Image = "www.fakeurl.com/image1.jpg", CategoryId = 4, LastModified = System.DateTime.Now, IsDeleted = false },
                 new News { Id = 5, Name = "News 5", Content = "Content of news number 5", Image = "www.fakeurl.com/image1.jpg", CategoryId = 5, LastModified = System.DateTime.Now, IsDeleted = false });
         }
-    }
-}
-
 
         public static void SeedCategories(this ModelBuilder modelBuilder)
         {
