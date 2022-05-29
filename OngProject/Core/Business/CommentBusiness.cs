@@ -18,12 +18,8 @@ namespace OngProject.Core.Business
         public async Task<List<Comment>> GetAll()
         {
             var repository = _unitOfWork.CommentRepository;
-            var query = new QueryProperty<Comment>(1, 1)
-            {
-                OrderBy = x => x.LastModified
-            };
 
-            return await repository.GetAllAsync(query);
+            return await repository.GetAllAsync();
         }
 
         public Task<Comment> GetById(int id)
