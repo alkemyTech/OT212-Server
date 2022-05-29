@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class CommentController : ControllerBase
     {
@@ -22,9 +25,18 @@ namespace OngProject.Controllers
         #region Get
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Comment>>> GetAll()
+        public async Task<ActionResult<IEnumerable<CommentDto>>> GetAll()
         {
-            throw new NotImplementedException();
+            var comments = _commentBusiness.GetAll();
+
+            var result = await comments;
+
+            if(result.Count == 0)
+            {
+                return NotFound("Comment list is empty");
+            }
+
+            return Ok(result.Select(x => x.MapToCommentDto()));
         }
 
         [HttpGet("{id}")]

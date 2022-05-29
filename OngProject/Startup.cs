@@ -8,7 +8,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using OngProject.Core.Business;
+using OngProject.Core.Interfaces;
 using OngProject.DataAccess;
+using OngProject.Entities;
+using OngProject.Repositories;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +35,12 @@ namespace OngProject
         {
             services.AddDbContext<AppDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<UnitOfWork>();
+
+            services.AddTransient<IRepository<Comment>, Repository<Comment>>();
+
+            services.AddTransient<ICommentBusiness, CommentBusiness>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

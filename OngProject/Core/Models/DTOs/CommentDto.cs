@@ -1,6 +1,6 @@
 ﻿namespace OngProject.Core.Models.DTOs
 {
-    public class CommentDto: Dto
+    public class CommentDto
     {
         public string Body { get; set; }
     }
