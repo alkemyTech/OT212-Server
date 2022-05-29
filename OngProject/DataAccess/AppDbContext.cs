@@ -11,11 +11,6 @@ namespace OngProject.DataAccess
 
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            builder.SeedNewsSet();
-        }
-
         public DbSet<Category> Categories { get; set; }
         public DbSet<Role> Roles { get; set; }     
         public DbSet<News> NewsSet { get; set; }
@@ -46,11 +41,9 @@ namespace OngProject.DataAccess
 
             modelBuilder.SeedTestimonials();
 
+            modelBuilder.SeedNewsSet();
         }
 
         public DbSet<Contact> Contacts { get; set; }
-
-
-
     }
 }
