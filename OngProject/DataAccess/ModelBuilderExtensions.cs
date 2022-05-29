@@ -130,6 +130,7 @@ namespace OngProject.DataAccess
                     "sentido de pertenencia de los niños, niñas y adolescentes al área educativa"
                 });
         }
+
         public static void SeedUsers(this ModelBuilder modelBuilder)
         {
             //Users

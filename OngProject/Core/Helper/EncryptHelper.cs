@@ -11,7 +11,8 @@ namespace OngProject.Core.Helper
             SHA256 sha256 = SHA256.Create();
             ASCIIEncoding encoding = new ASCIIEncoding();
             var hash = sha256.ComputeHash(encoding.GetBytes(text));
-            return Convert.ToBase64String(hash);
+            var result = Convert.ToBase64String(hash);
+            return result.Substring(0,19);
         }
     }
 }
