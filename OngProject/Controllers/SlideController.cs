@@ -8,7 +8,7 @@ using OngProject.Core.Interfaces;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Slides")]
     [ApiController]
     public class SlideController : ControllerBase
     {
@@ -22,9 +22,9 @@ namespace OngProject.Controllers
         #region Get
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Slide>>> GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            throw new NotImplementedException();
+            return Ok(await _slideBusiness.GetAll());
         }
 
         [HttpGet("{id}")]
