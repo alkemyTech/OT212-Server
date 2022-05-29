@@ -34,16 +34,12 @@ namespace OngProject.DataAccess
 
 
             modelBuilder.SeedCategories();
-        }
+
+            modelBuilder.SeedUsers();
 
             modelBuilder.SeedActivities();
-        }
 
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            //Cargando datos
-            builder.SeedUsers();
+            modelBuilder.SeedTestimonials();
         }
 
         public DbSet<Contact> Contacts { get; set; }

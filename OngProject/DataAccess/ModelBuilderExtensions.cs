@@ -63,18 +63,19 @@ namespace OngProject.DataAccess
                             Name = "Convivencia",
                             Image = "https://escuelacanariablog.files.wordpress.com/2018/09/mundo_nic3b1os.jpg"
                         });
-
+        }
 
         public static void SeedActivities(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Activity>().HasData(
-                new Activity { 
-                    Id = 1, 
-                    Name = "Programas Educativos", 
-                    Image = "ProgramasEducativos.png", 
-                    Content= "Mediante nuestros programas educativos, buscamos incrementar la capacidad intelectual, " +
+                new Activity
+                {
+                    Id = 1,
+                    Name = "Programas Educativos",
+                    Image = "ProgramasEducativos.png",
+                    Content = "Mediante nuestros programas educativos, buscamos incrementar la capacidad intelectual, " +
                     "moral y afectiva de las personas de acuerdo con la cultura y las normas de convivencia de la " +
-                    "sociedad a la que pertenecen." 
+                    "sociedad a la que pertenecen."
                 },
                 new Activity
                 {
@@ -128,7 +129,7 @@ namespace OngProject.DataAccess
                     "● Paseos recreativos y educativos: Estos paseos están pensados para promover la participación y " +
                     "sentido de pertenencia de los niños, niñas y adolescentes al área educativa"
                 });
-
+        }
         public static void SeedUsers(this ModelBuilder modelBuilder)
         {
             //Users
@@ -157,15 +158,26 @@ namespace OngProject.DataAccess
                 new User { Id = 18, FirstName = "Lucas", LastName = "Rappone", Email = "prueba18@gmail.com", Password = "1234", Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
                 new User { Id = 19, FirstName = "Claudio", LastName = "Villareal", Email = "prueba19@gmail.com", Password = "1234", Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
                 new User { Id = 20, FirstName = "Nicolas", LastName = "Ferrari", Email = "prueba20@gmail.com", Password = "1234", Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false }
-                ) ;
-
+                );
+        
             //Roles
             modelBuilder.Entity<Role>()
                 .HasData(
-                new Role { Id = 1, Name = "Administrador", Description = "Cuenta con accesos a mayores funcionalidades de la página", LastModified=System.DateTime.Now, IsDeleted=false},
-                new Role { Id = 2, Name = "Usuario", Description = "Cuenta con accesos básicos de la página", LastModified=System.DateTime.Now, IsDeleted=false}
+                new Role { Id = 1, Name = "Administrador", Description = "Cuenta con accesos a mayores funcionalidades de la página", LastModified = System.DateTime.Now, IsDeleted = false },
+                new Role { Id = 2, Name = "Usuario", Description = "Cuenta con accesos básicos de la página", LastModified = System.DateTime.Now, IsDeleted = false }
                 );
-
+        }
+        public static void SeedTestimonials(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Testimonial>().HasData(
+                new Testimonial { Id = 1, Name = "Carlos", Content = "testimoniotestimoniotestimoniotestimoniotestimoniotestimonio", Image = null },
+                new Testimonial { Id = 2, Name = "Florencia", Content = "testimoniotestimoniotestimoniotestimoniotestimoniotestimonio", Image = null },
+                new Testimonial { Id = 3, Name = "Juan", Content = "testimoniotestimoniotestimoniotestimoniotestimoniotestimonio", Image = null },
+                new Testimonial { Id = 4, Name = "Camilo", Content = "testimoniotestimoniotestimoniotestimoniotestimoniotestimonio", Image = null },
+                new Testimonial { Id = 5, Name = "Luis", Content = "testimoniotestimoniotestimoniotestimoniotestimoniotestimonio", Image = null },
+                new Testimonial { Id = 6, Name = "Gabrielo", Content = "testimoniotestimoniotestimoniotestimoniotestimoniotestimonio", Image = null },
+                new Testimonial { Id = 7, Name = "Claudio", Content = "testimoniotestimoniotestimoniotestimoniotestimoniotestimonio", Image = null }
+                );
         }
     }
 }
