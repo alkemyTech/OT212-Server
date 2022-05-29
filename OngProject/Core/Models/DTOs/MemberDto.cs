@@ -8,7 +8,7 @@
 
         public string InstagramUrl { get; set; }
 
-        public string LinedinUrl { get; set; }
+        public string LinkedinUrl { get; set; }
 
         public string Image { get; set; }
 
