@@ -34,10 +34,13 @@ namespace OngProject.Core.Business
         }
 
         //This method is implemented after passing the QueryProperty branch
-        public async Task<bool> Exist(string email)
+        private async Task<bool> Exist(string email)
         {
-            //var result = await _unitOfWork.UserRepository.Get(queryProperty);
-            return false;
+            var query = new QueryProperty<User>(1, 1);
+            query.Where = x => x.Email == email;
+
+            var user =  await _unitOfWork.UserRepository.GetAsync(query);
+            return user != null;
         }
     }
 }
