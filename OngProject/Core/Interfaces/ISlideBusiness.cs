@@ -1,4 +1,5 @@
-﻿using OngProject.Entities;
+﻿using OngProject.Core.Models.DTOs;
+using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,7 +7,7 @@ namespace OngProject.Core.Interfaces
 {
     public interface ISlideBusiness
     {
-        Task<List<Slide>> GetAll();
+        Task<List<SlideDTO>> GetAll();
 
         Task<Slide> GetById(int id);
 
