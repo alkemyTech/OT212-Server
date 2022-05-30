@@ -36,28 +36,12 @@ namespace OngProject.Controllers
                 if(userDto == null)
                     return BadRequest("El usuario ya existe");
 
-                await _emailServices.SendEmailAsync(userDto.Email,"Bienvenido", "Bienvenido");
+                var emailText = EmailHelper.GetWelcomeEmail();
+                await _emailServices.SendEmailAsync(userDto.Email, "Bienvenido", emailText);
 
                 return Ok(userDto);
             }
             catch (Exception)
-            {
-                return BadRequest("Ocurrió un error inesperado");
-            }
-        }
-
-        [HttpPost]
-        [Route("Email")]
-        public async Task<ActionResult<string>> Register(string email)
-        {
-            
-            try
-            {
-                await _emailServices.SendEmailAsync(email, "Bienvenido", "Bienvenido");
-
-                return Ok(email);
-            }
-            catch (Exception ex)
             {
                 return BadRequest("Ocurrió un error inesperado");
             }
