@@ -27,9 +27,11 @@ namespace OngProject.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.SeedCategories();
 
             modelBuilder.SeedUsers();
+
+
+            modelBuilder.SeedCategories();
 
             modelBuilder.SeedActivities();
 

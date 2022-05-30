@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using OngProject.Core.Helper;
+﻿using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
-using OngProject.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
@@ -31,7 +29,7 @@ namespace OngProject.Controllers
             try
             {
                 var userDto = await _authBusiness.Register(registerUser);
-                if(userDto == null)
+                if (userDto == null)
                     return BadRequest("El usuario ya existe");
 
                 return Ok(userDto);
@@ -40,6 +38,23 @@ namespace OngProject.Controllers
             {
                 return BadRequest("Ocurrió un error inesperado");
             }
+        }
+        [HttpPost("login")]
+        public async Task<ActionResult<string>> Login(LoginDto userDto)
+        {
+            try
+            {
+                return Ok(await _authBusiness.Login(userDto));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch
+            {
+                return BadRequest("Algo salió mal.");
+            }
+
         }
     }
 }
