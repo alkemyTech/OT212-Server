@@ -12,10 +12,12 @@ namespace OngProject.Core.Business
     public class AuthBusiness : IAuthBusiness
     {
         private readonly UnitOfWork _unitOfWork;
+        private readonly IEmailServices _emailServices;
 
-        public AuthBusiness(UnitOfWork unitOfWork)
+        public AuthBusiness(UnitOfWork unitOfWork, IEmailServices emailServices)
         {
             _unitOfWork = unitOfWork;
+            _emailServices = emailServices;
         }
 
         public async Task<UserDto> Register(RegisterDto registerUser)
@@ -30,6 +32,9 @@ namespace OngProject.Core.Business
 
             await _unitOfWork.UserRepository.InsertAsync(user);
             await _unitOfWork.SaveAsync();
+
+            var emailText = EmailHelper.GetWelcomeEmail();
+            await _emailServices.SendEmailAsync(user.Email, "Bienvenido", emailText);
 
             return user.ToUserDto();
         }

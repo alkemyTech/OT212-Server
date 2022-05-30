@@ -13,7 +13,7 @@ namespace OngProject.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthBusiness _authBusiness;
-
+        
         public AuthController(IAuthBusiness authBusiness)
         {
             _authBusiness = authBusiness;
