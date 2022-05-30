@@ -33,6 +33,16 @@ namespace OngProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddAppServices();
+
+            services.AddTransient<UnitOfWork>();
+
+            services.AddTransient<IRepository<Slide>, Repository<Slide>>();
+
+            services.AddTransient<ISlideBusiness, SlideBusiness>();
+
+
             services.AddDbContext<AppDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -41,6 +51,14 @@ namespace OngProject
             services.AddTransient<IRepository<Comment>, Repository<Comment>>();
 
             services.AddTransient<ICommentBusiness, CommentBusiness>();
+
+            services.AddControllers();
+
+            services.AddTransient<UnitOfWork>();
+
+            services.AddTransient<IRepository<Category>, Repository<Category>>();
+
+            services.AddTransient<ICategoryBusiness, CategoryBusiness>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

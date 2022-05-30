@@ -1,7 +1,10 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
@@ -15,9 +18,11 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public Task<List<Slide>> GetAll()
+        public async Task<List<SlideDTO>> GetAll()
         {
-            throw new System.NotImplementedException();
+            var slideList = await _unitOfWork.SlideRepository.GetAllAsync();
+
+             return slideList.Select(x => SlideMapper.MapToSlideDTO(x)).ToList();
         }
 
         public Task<Slide> GetById(int id)
