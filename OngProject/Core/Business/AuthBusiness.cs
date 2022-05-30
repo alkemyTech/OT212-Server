@@ -1,10 +1,15 @@
-﻿using OngProject.Core.Helper;
+﻿using Microsoft.IdentityModel.Tokens;
+using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
+using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
@@ -37,16 +42,11 @@ namespace OngProject.Core.Business
         public async Task<string> Login(LoginDto userDto)
         {
             var user = await Verify(userDto.Email, userDto.Password);
-            string token = "token";
 
-            if (user)
-            {
-                return token;
-            }
+            if (user != null)
+                return GenerateToken(user);
             else
-            {
-                throw new KeyNotFoundException("El mail o la contraseña son incorrectas.");
-            }
+                throw new KeyNotFoundException("El mail y/o la contraseña son incorrectas.");
         }
 
         //This method is implemented after passing the QueryProperty branch
@@ -59,17 +59,42 @@ namespace OngProject.Core.Business
             return user != null;
         }
 
-        private async Task<bool> Verify(string email, string password)
+        private async Task<User> Verify(string email, string password)
         {
             var query = new QueryProperty<User>(1, 1);
             var passwordHash = EncryptHelper.GetSHA256(password);
 
             query.Where = x => (x.Email == email)
             && (x.Password == passwordHash);
-
+            query.Includes.Add(x => x.Roles);
 
             var user = await _unitOfWork.UserRepository.GetAsync(query);
-            return user != null;
+            return user;
+        }
+
+        private string GenerateToken(User user)
+        {
+            var key = Encoding.ASCII.GetBytes("AppSetings:Token");
+
+            ClaimsIdentity claims = new ClaimsIdentity();
+            claims.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+            claims.AddClaim(new Claim(ClaimTypes.Role, user.Roles.Name));
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = claims,
+                // Nuestro token va a durar un día
+                Expires = DateTime.UtcNow.AddDays(1),
+                // Credenciales para generar el token usando nuestro secretykey y el algoritmo hash 256
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                                                            SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var createdToken = tokenHandler.CreateToken(tokenDescriptor);
+
+            var token = tokenHandler.WriteToken(createdToken);
+            return token;
         }
     }
 }
