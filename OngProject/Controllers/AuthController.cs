@@ -15,12 +15,10 @@ namespace OngProject.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthBusiness _authBusiness;
-        private readonly IEmailServices _emailServices;
-
-        public AuthController(IAuthBusiness authBusiness, IEmailServices emailServices)
+        
+        public AuthController(IAuthBusiness authBusiness)
         {
             _authBusiness = authBusiness;
-            _emailServices = emailServices;
         }
 
         [HttpPost]
@@ -35,9 +33,6 @@ namespace OngProject.Controllers
                 var userDto = await _authBusiness.Register(registerUser);
                 if(userDto == null)
                     return BadRequest("El usuario ya existe");
-
-                var emailText = EmailHelper.GetWelcomeEmail();
-                await _emailServices.SendEmailAsync(userDto.Email, "Bienvenido", emailText);
 
                 return Ok(userDto);
             }
