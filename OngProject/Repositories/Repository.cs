@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
@@ -51,7 +51,7 @@ namespace OngProject.Repositories
 
         public Task<T> GetAsync(QueryProperty<T> query)
         {
-            var source = ApplyQuery(query,_context.Set<T>().AsQueryable());
+            var source = ApplyQuery(query, _context.Set<T>().AsQueryable());
 
             return source.FirstOrDefaultAsync();
         }
@@ -63,7 +63,7 @@ namespace OngProject.Repositories
             return source.ToListAsync();
         }
 
-        private IQueryable<T> ApplyQuery(QueryProperty<T> query, IQueryable<T> source)
+        private static IQueryable<T> ApplyQuery(QueryProperty<T> query, IQueryable<T> source)
         {
             if (query is null)
                 return source;

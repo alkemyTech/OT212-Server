@@ -15,9 +15,11 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public Task<List<Comment>> GetAll()
+        public async Task<List<Comment>> GetAll()
         {
-            throw new System.NotImplementedException();
+            var repository = _unitOfWork.CommentRepository;
+
+            return await repository.GetAllAsync();
         }
 
         public Task<Comment> GetById(int id)
