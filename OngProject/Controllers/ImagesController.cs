@@ -31,7 +31,7 @@ namespace OngProject.Controllers
                 var fileTransferUtility = new TransferUtility(client);
                 await fileTransferUtility.UploadAsync(uploadRequest);
 
-                return Ok("https://cohorte-mayo-2820e45d.s3.us-east-1.amazonaws.com/" + file.FileName);
+                return Ok("https://cohorte-mayo-2820e45d.s3.us-east-1.amazonaws.com/" + file.FileName.ToString());
             }
             catch(Exception ex)
             {
