@@ -1,25 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using OngProject.Core.Business;
-
 using OngProject.Core.Interfaces;
-
 using OngProject.DataAccess;
-using OngProject.Entities;
 using OngProject.Repositories;
-using OngProject.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OngProject
 {
@@ -30,31 +19,38 @@ namespace OngProject
             Configuration = configuration;
         }
 
+        public void AddAppServices(IServiceCollection services)
+        {
+            services.AddTransient<AppDbContext>();
+            services.AddTransient<UnitOfWork>();
+
+            services.AddTransient<IActivityBusiness, ActivityBusiness>();
+            services.AddTransient<IAuthBusiness, AuthBusiness>();
+            services.AddTransient<ICategoryBusiness, CategoryBusiness>();
+            services.AddTransient<ICommentBusiness, CommentBusiness>();
+            services.AddTransient<IMemberBusiness, MemberBusiness>();
+            services.AddTransient<INewsBusiness, NewsBusiness>();
+            services.AddTransient<IOrganizationBusiness, OrganizationBusiness>();
+            services.AddTransient<IRoleBusiness, RoleBusiness>();
+            services.AddTransient<ISlideBusiness, SlideBusiness>();
+            services.AddTransient<ITestimonialsBussines, TestimonialsBussines>();
+            services.AddTransient<IUserBusiness, UserBusiness>();
+
+        }
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddAppServices();
-
-            services.AddTransient<UnitOfWork>();
-
-            services.AddTransient<IRepository<Slide>, Repository<Slide>>();
-
-            services.AddTransient<ISlideBusiness, SlideBusiness>();
+            AddAppServices(services);
 
 
             services.AddDbContext<AppDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
-
-            services.AddTransient<UnitOfWork>();
-
-            services.AddTransient<IRepository<Category>, Repository<Category>>();
-
-            services.AddTransient<ICategoryBusiness, CategoryBusiness>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
