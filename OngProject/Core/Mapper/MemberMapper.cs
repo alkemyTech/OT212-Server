@@ -14,7 +14,7 @@ namespace OngProject.Core.Mapper
                 Description = member.Description,
                 FacebookUrl = member.FacebookUrl,
                 InstagramUrl = member.InstagramUrl,
-                LinedinUrl = member.LinedinUrl,
+                LinkedinUrl = member.LinkedinUrl,
                 Image = member.Image
             };
         }

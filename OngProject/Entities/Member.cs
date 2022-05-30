@@ -15,7 +15,7 @@ namespace OngProject.Entities
         public string InstagramUrl { get; set; }
 
         [StringLength(255)]
-        public string LinedinUrl { get; set; }
+        public string LinkedinUrl { get; set; }
 
         [Required]
         [StringLength(255)]

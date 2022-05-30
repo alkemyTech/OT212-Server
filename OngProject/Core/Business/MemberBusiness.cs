@@ -8,7 +8,7 @@ namespace OngProject.Core.Business
 {
     public class MemberBusiness : IMemberBusiness
     {
-        private UnitOfWork _unitOfWork;
+        private readonly UnitOfWork _unitOfWork;
         public MemberBusiness(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
