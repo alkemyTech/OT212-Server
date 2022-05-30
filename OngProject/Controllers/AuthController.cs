@@ -45,22 +45,5 @@ namespace OngProject.Controllers
                 return BadRequest("Ocurrió un error inesperado");
             }
         }
-
-        [HttpPost]
-        [Route("Email")]
-        public async Task<ActionResult<string>> Register(string email)
-        {
-            
-            try
-            {
-                await _emailServices.SendEmailAsync(email, "Bienvenido", "Bienvenido");
-
-                return Ok(email);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Ocurrió un error inesperado");
-            }
-        }
     }
 }
