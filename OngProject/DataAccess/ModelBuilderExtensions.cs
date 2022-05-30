@@ -61,42 +61,7 @@ namespace OngProject.DataAccess
                             Image = "https://escuelacanariablog.files.wordpress.com/2018/09/mundo_nic3b1os.jpg"
                         });
         }
-        public static void SeedMembers(this ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Member>()
-                        .HasData(
-                            new Member 
-                            { 
-                                Id = 1, Name = "Johan", 
-                                Description = "Estudiante",
-                                FacebookUrl = "facebook.com/profile/johan",
-                                LinkedinUrl = "linkedin.com/profile/johan",
-                                InstagramUrl = "instagram.com/profile/johan",
-                                Image = "https://image.com/Johan"
-                            },
-
-                            new Member
-                            {
-                                Id = 2,
-                                Name = "Victor",
-                                Description = "Estudiante de septimo grado",
-                                FacebookUrl = "facebook.com/profile/victor",
-                                LinkedinUrl = "linkedin.com/profile/victor",
-                                InstagramUrl = "instagram.com/profile/victor",
-                                Image = "https://image.com/Victor"
-                            },
-                            new Member
-                            {
-                                Id = 3,
-                                Name = "Mathius",
-                                Description = "Profesor",
-                                FacebookUrl = "facebook.com/profile/Mathius",
-                                LinkedinUrl = "linkedin.com/profile/Mathius",
-                                InstagramUrl = "instagram.com/profile/Mathius",
-                                Image = "https://image.com/Mathius"
-                            }
-                        );
-        }
+      
         public static void SeedActivities(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Activity>().HasData(

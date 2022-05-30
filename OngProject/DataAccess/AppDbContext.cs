@@ -33,7 +33,6 @@ namespace OngProject.DataAccess
 
             modelBuilder.SeedCategories();
 
-            modelBuilder.SeedMembers();
             modelBuilder.SeedActivities();
 
             modelBuilder.SeedTestimonials();
