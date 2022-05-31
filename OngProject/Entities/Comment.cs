@@ -6,10 +6,10 @@ namespace OngProject.Entities
     [Table("Comments")]
     public class Comment : Entity
     {
-        [ForeignKey("Member"), Column("user_id"), Required]
-        public int MemberId { get; set; }
+        [ForeignKey("User"), Column("user_id"), Required]
+        public int UserId { get; set; }
 
-        public Member Member { get; set; }
+        public User User { get; set; }
 
 
         [Required, StringLength(255), Column(TypeName = "varchar")]

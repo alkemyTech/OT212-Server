@@ -1,10 +1,90 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OngProject.Core.Helper;
 using OngProject.Entities;
 
 namespace OngProject.DataAccess
 {
     public static class ModelBuilderExtensions
     {
+
+        public static void SeedMemebers(this ModelBuilder modelBuilder)
+        {
+            var memberElonMusk = new Member {
+                Id = 1,
+                IsDeleted = false,
+                Name = @"Elon Musk",
+                FacebookUrl = @"facebook.com/elonmusk",
+                InstagramUrl = @"facebook.com/elonmusk",
+                LinkedinUrl = @"facebook.com/elonmusk",
+                Image = @"https://commons.wikimedia.org/wiki/File:Elon_Musk_Royal_Society_(crop1).jpg",
+                Description = @"Fundador, consejero delegado e ingeniero jefe de SpaceX; CEO y arquitecto de productos de Tesla; fundador de The Boring Company; y cofundador de Neuralink y OpenAI.​"
+            };
+
+            var memberBillGates = new Member {
+                Id = 2,
+                IsDeleted = false,
+                Name = @"Bill Gates",
+                FacebookUrl = @"facebook.com/BillGates",
+                InstagramUrl = @"facebook.com/BillGates",
+                LinkedinUrl = @"facebook.com/BillGates",
+                Image = @"https://commons.wikimedia.org/wiki/File:Bill_Gates_2017_(cropped).jpg",
+                Description = @"Empresario, informático y filántropo estadounidense, conocido por haber creado y fundado junto con Paul Allen, la empresa Microsoft."
+            };
+
+            var memberJeffBezos = new Member {
+                Id = 3,
+                IsDeleted = false,
+                Name = @"Jeff Bezos",
+                FacebookUrl = @"facebook.com/JeffBezos",
+                InstagramUrl = @"facebook.com/JeffBezos",
+                LinkedinUrl = @"facebook.com/JeffBezos",
+                Image = @"https://commons.wikimedia.org/wiki/File:Jeff_Bezos_talking.jpg",
+                Description = @"Empresario y magnate estadounidense, fundador de la empresa de venta en línea Amazon de la cual posee el 7%."
+            };
+
+            var memberMarkZuckerberg = new Member {
+                Id = 4,
+                IsDeleted = false,
+                Name = @"Mark Zuckerberg",
+                FacebookUrl = @"facebook.com/MarkZuckerberg",
+                InstagramUrl = @"facebook.com/MarkZuckerberg",
+                LinkedinUrl = @"facebook.com/MarkZuckerberg",
+                Image = @"https://commons.wikimedia.org/wiki/File:Mark_Zuckerberg_F8_2019_Keynote_(32830578717)_(cropped).jpg",
+                Description = @"Programador y empresario estadounidense, uno de los creadores y fundadores de Facebook, y su actual presidente."
+            };
+
+            var memberLarryPage = new Member {
+                Id = 5,
+                IsDeleted = false,
+                Name = @"Larry Page",
+                FacebookUrl = @"facebook.com/LarryPage",
+                InstagramUrl = @"facebook.com/LarryPage",
+                LinkedinUrl = @"facebook.com/LarryPage",
+                Image = @"https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Larry_Page_in_the_European_Parliament%2C_17.06.2009.jpg/360px-Larry_Page_in_the_European_Parliament%2C_17.06.2009.jpg",
+                Description = @"Ingeniero en computación y empresario estadounidense, creador junto con Serguéi Brin de Google. Es conocido por haber creado el algoritmo matemático 'PageRank'."
+            };
+
+            var memberSergueiBrin = new Member {
+                Id = 6,
+                IsDeleted = false,
+                Name = @"Serguéi Brin",
+                FacebookUrl = @"facebook.com/SergueiBrin",
+                InstagramUrl = @"facebook.com/SergueiBrin",
+                LinkedinUrl = @"facebook.com/SergueiBrin",
+                Image = @"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Sergey_Brin_Ted_2010.jpg/405px-Sergey_Brin_Ted_2010.jpg",
+                Description = @"Empresario e informático teórico estadounidense de origen ruso que junto a Larry Page, fundó Google. En conjunto mantienen el control de la compañía."
+            };
+
+            modelBuilder.Entity<Member>()
+                .HasData(
+                memberElonMusk,
+                memberBillGates,
+                memberJeffBezos,
+                memberMarkZuckerberg,
+                memberLarryPage,
+                memberSergueiBrin
+                );
+        }
 
         public static void SeedNewsSet(this ModelBuilder modelBuilder)
         {
@@ -131,31 +211,32 @@ namespace OngProject.DataAccess
         public static void SeedUsers(this ModelBuilder modelBuilder)
         {
             //Users
+            var password = EncryptHelper.GetSHA256("1234");
             modelBuilder.Entity<User>()
                 .HasData(
                 //Role:Admin
-                new User { Id = 1, FirstName = "María", LastName = "Hernandez", Email = "prueba1@gmail.com", Password = "1234", Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 2, FirstName = "José", LastName = "Gimenez", Email = "prueba2@gmail.com", Password = "1234", Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 3, FirstName = "Esteban", LastName = "Luciano", Email = "prueba3@gmail.com", Password = "1234", Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 4, FirstName = "Joaquin", LastName = "Mercedez", Email = "prueba4@gmail.com", Password = "1234", Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 5, FirstName = "Sofía", LastName = "García", Email = "prueba5@gmail.com", Password = "1234", Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 6, FirstName = "Franco", LastName = "Caseres", Email = "prueba6@gmail.com", Password = "1234", Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 7, FirstName = "Enrique", LastName = "Rossi", Email = "prueba7@gmail.com", Password = "1234", Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 8, FirstName = "Catalina", LastName = "Fernandez", Email = "prueba8@gmail.com", Password = "1234", Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 9, FirstName = "Julieta", LastName = "Rodriguez", Email = "prueba9@gmail.com", Password = "1234", Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 10, FirstName = "Camila", LastName = "Swartz", Email = "prueba10@gmail.com", Password = "1234", Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 1, FirstName = "María", LastName = "Hernandez", Email = "prueba1@gmail.com", Password = password, Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 2, FirstName = "José", LastName = "Gimenez", Email = "prueba2@gmail.com", Password = password, Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 3, FirstName = "Esteban", LastName = "Luciano", Email = "prueba3@gmail.com", Password = password, Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 4, FirstName = "Joaquin", LastName = "Mercedez", Email = "prueba4@gmail.com", Password = password, Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 5, FirstName = "Sofía", LastName = "García", Email = "prueba5@gmail.com", Password = password, Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 6, FirstName = "Franco", LastName = "Caseres", Email = "prueba6@gmail.com", Password = password, Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 7, FirstName = "Enrique", LastName = "Rossi", Email = "prueba7@gmail.com", Password = password, Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 8, FirstName = "Catalina", LastName = "Fernandez", Email = "prueba8@gmail.com", Password = password, Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 9, FirstName = "Julieta", LastName = "Rodriguez", Email = "prueba9@gmail.com", Password = password, Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 10, FirstName = "Camila", LastName = "Swartz", Email = "prueba10@gmail.com", Password = password, Photo = null, RoleId = 1, LastModified = System.DateTime.Now, IsDeleted = false },
 
                 //Role:User
-                new User { Id = 11, FirstName = "Carlos", LastName = "Gimenez", Email = "prueba11@gmail.com", Password = "1234", Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 12, FirstName = "Florencia", LastName = "Fernandez", Email = "prueba12@gmail.com", Password = "1234", Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 13, FirstName = "Juan", LastName = "Liwens", Email = "prueba13@gmail.com", Password = "1234", Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 14, FirstName = "Camilo", LastName = "Quinteros", Email = "prueba14@gmail.com", Password = "1234", Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 15, FirstName = "Ruby", LastName = "Llano", Email = "prueba15@gmail.com", Password = "1234", Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 16, FirstName = "Gabriela", LastName = "Martinez", Email = "prueba16@gmail.com", Password = "1234", Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 17, FirstName = "Luis", LastName = "Peralta", Email = "prueba17@gmail.com", Password = "1234", Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 18, FirstName = "Lucas", LastName = "Rappone", Email = "prueba18@gmail.com", Password = "1234", Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 19, FirstName = "Claudio", LastName = "Villareal", Email = "prueba19@gmail.com", Password = "1234", Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
-                new User { Id = 20, FirstName = "Nicolas", LastName = "Ferrari", Email = "prueba20@gmail.com", Password = "1234", Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false }
+                new User { Id = 11, FirstName = "Carlos", LastName = "Gimenez", Email = "prueba11@gmail.com", Password = password, Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 12, FirstName = "Florencia", LastName = "Fernandez", Email = "prueba12@gmail.com", Password = password, Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 13, FirstName = "Juan", LastName = "Liwens", Email = "prueba13@gmail.com", Password = password, Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 14, FirstName = "Camilo", LastName = "Quinteros", Email = "prueba14@gmail.com", Password = password, Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 15, FirstName = "Ruby", LastName = "Llano", Email = "prueba15@gmail.com", Password = password, Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 16, FirstName = "Gabriela", LastName = "Martinez", Email = "prueba16@gmail.com", Password = password, Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 17, FirstName = "Luis", LastName = "Peralta", Email = "prueba17@gmail.com", Password = password, Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 18, FirstName = "Lucas", LastName = "Rappone", Email = "prueba18@gmail.com", Password = password, Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 19, FirstName = "Claudio", LastName = "Villareal", Email = "prueba19@gmail.com", Password = password, Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
+                new User { Id = 20, FirstName = "Nicolas", LastName = "Ferrari", Email = "prueba20@gmail.com", Password = password, Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false }
                 );
         
             //Roles
@@ -165,6 +246,7 @@ namespace OngProject.DataAccess
                 new Role { Id = 2, Name = "Usuario", Description = "Cuenta con accesos básicos de la página", LastModified = System.DateTime.Now, IsDeleted = false }
                 );
         }
+
         public static void SeedTestimonials(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Testimonial>().HasData(
