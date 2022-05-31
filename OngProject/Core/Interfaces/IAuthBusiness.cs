@@ -6,5 +6,6 @@ namespace OngProject.Core.Interfaces
     public interface IAuthBusiness
     {
         Task<UserDto> Register(RegisterDto registerUser);
+        Task<string> Login(LoginDto userDto);
     }
 }

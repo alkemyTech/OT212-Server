@@ -21,6 +21,7 @@ namespace OngProject.DataAccess
         public DbSet<User> Users { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,22 +29,18 @@ namespace OngProject.DataAccess
             base.OnModelCreating(modelBuilder);
 
 
-            modelBuilder.SeedActivities();
-            //Cargando datos
             modelBuilder.SeedUsers();
-
 
             modelBuilder.SeedCategories();
-
-            modelBuilder.SeedUsers();
 
             modelBuilder.SeedActivities();
 
             modelBuilder.SeedTestimonials();
 
             modelBuilder.SeedNewsSet();
+
+            modelBuilder.SeedMemebers();
         }
 
-        public DbSet<Contact> Contacts { get; set; }
     }
 }
