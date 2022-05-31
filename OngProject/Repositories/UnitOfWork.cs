@@ -139,6 +139,15 @@ namespace OngProject.Repositories
             }
         }
 
-
+        private IRepository<Contact> _contactRepository;
+        public IRepository<Contact> ContactRepository
+        {
+            get
+            {
+                if(_contactRepository == null)
+                    _contactRepository = new Repository<Contact>(_context);
+                return _contactRepository;
+            }
+        }
     }
 }

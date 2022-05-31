@@ -13,6 +13,7 @@ namespace OngProject
             services.AddScoped<IUserBusiness, UserBusiness>();
             services.AddScoped<IAuthBusiness, AuthBusiness>();
             services.AddScoped<IEmailServices, EmailServices>();
+            services.AddScoped<IContactBusiness, ContactBusiness>();
 
             return services;
         }
