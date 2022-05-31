@@ -41,6 +41,13 @@ namespace OngProject
         public void AddAppServices(IServiceCollection services)
         {
 
+
+            AddAppServices();
+
+            services.AddTransient<UnitOfWork>();
+
+            services.AddTransient<IContactBusiness, ContactBusiness>();
+
             services.AddTransient<AppDbContext>();
             services.AddTransient<UnitOfWork>();
 
@@ -64,10 +71,12 @@ namespace OngProject
         {
 
 
+
             services.AddAppServices();
 
             services.AddDbContext<AppDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
 
 
             services.AddControllers();
@@ -77,14 +86,17 @@ namespace OngProject
 
             AddAppServices(services);
 
+
             services.AddDbContext<AppDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
              services.AddControllers();
 
+
             services.AddTransient<IRepository<Category>, Repository<Category>>();
 
             services.AddTransient<ICategoryBusiness, CategoryBusiness>();
+
 
 
             services.AddSwaggerGen(c =>
