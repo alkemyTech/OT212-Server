@@ -14,7 +14,6 @@ namespace OngProject.Core.Mapper
                 Phone = entity.Phone,
                 Email = entity.Email,
                 Message = entity.Message,
-                DeletedAt = entity.DeletedAt,
             };
         }
     }

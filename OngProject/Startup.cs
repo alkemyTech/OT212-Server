@@ -34,7 +34,7 @@ namespace OngProject
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddAppServices();
+            AddAppServices();
 
             services.AddTransient<UnitOfWork>();
 
