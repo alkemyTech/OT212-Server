@@ -1,4 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories;
@@ -18,9 +20,10 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public Task<List<User>> GetAll()
+        public async Task<List<UserDto>> GetAll()
         {
-            throw new NotImplementedException();
+            var userList = await _unitOfWork.UserRepository.GetAllAsync();
+            return userList.Select(x => UserMapper.ToUserDto(x)).ToList();
         }
 
         public Task<User> GetById(int id)

@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
@@ -29,11 +32,12 @@ namespace OngProject.Controllers
             }
         }
         [HttpGet]
-        public ActionResult<List<User>> GetAll()
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<List<UserDto>>> GetAll()
         {
             try
             {
-                return Ok(_userBusiness.GetAll());
+                return Ok(await _userBusiness.GetAll());
             }
             catch
             {
