@@ -109,9 +109,14 @@ namespace OngProject
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
+
+                };
+            });
+
                     
                 };
             });
+
 
         }
 
