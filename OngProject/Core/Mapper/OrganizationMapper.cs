@@ -11,7 +11,10 @@ namespace OngProject.Core.Mapper
                 Name = entity.Name,
                 Address = entity.Address,
                 Phone = entity.Phone,
-                Image = entity.Image
+                Image = entity.Image,
+                FacebookUrl = entity.FacebookUrl,
+                LinkedinUrl = entity.LinkedinUrl,
+                InstagramUrl = entity.InstagramUrl,
             };
     }
 }
