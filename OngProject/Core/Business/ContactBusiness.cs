@@ -1,7 +1,10 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
@@ -14,10 +17,11 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWor;
         }
 
-        public async Task<List<Contact>> GetAll()
+        public async Task<List<ContactDto>> GetAll()
         {
             var contactList = await _unitOfWork.ContactRepository.GetAllAsync();
-            return contactList;
+
+            return contactList.Select(x => ContactMapper.MapToContactDto(x)).ToList();
         }
 
         public Task<Contact> GetById(int id)

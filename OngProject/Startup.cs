@@ -38,25 +38,13 @@ namespace OngProject
 
             services.AddTransient<UnitOfWork>();
 
-            services.AddTransient<IRepository<Slide>, Repository<Slide>>();
-
-            services.AddTransient<ISlideBusiness, SlideBusiness>();
-
+            services.AddTransient<IContactBusiness, ContactBusiness>();
 
             services.AddDbContext<AppDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddTransient<UnitOfWork>();
-
-            services.AddTransient<IRepository<Comment>, Repository<Comment>>();
-
-            services.AddTransient<ICommentBusiness, CommentBusiness>();
 
             services.AddControllers();
-
-            services.AddTransient<IRepository<Category>, Repository<Category>>();
-
-            services.AddTransient<ICategoryBusiness, CategoryBusiness>();
 
             services.AddSwaggerGen(c =>
             {
