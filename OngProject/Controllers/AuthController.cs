@@ -21,7 +21,7 @@ namespace OngProject.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public async Task<ActionResult<User>> Register(RegisterDto registerUser)
+        public async Task<ActionResult<User>> Register([FromForm] RegisterDto registerUser)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
