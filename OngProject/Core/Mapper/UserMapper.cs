@@ -26,7 +26,7 @@ namespace OngProject.Core.Mapper
             user.LastName = registerDto.LastName;
             user.Email = registerDto.Email;
             user.Password = registerDto.Password;
-            user.Photo = registerDto.Photo;
+            user.Photo = registerDto.Photo?.FileName;
 
             return user;
         }

@@ -32,6 +32,11 @@ namespace OngProject.Core.Business
                 return null;
 
             var user = registerUser.ToUserModel();
+            
+            //Get an add image url.
+            if (registerUser.Photo != null)
+                user.Photo = await ImageUploadHelper.UploadImageToS3(registerUser.Photo);
+
             user.Password = EncryptHelper.GetSHA256(user.Password); //Encriptamos la contraseña
             user.RoleId = 2; //Rol de usuario
 

@@ -1,4 +1,5 @@
-﻿using OngProject.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using OngProject.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Core.Models.DTOs
@@ -17,6 +18,6 @@ namespace OngProject.Core.Models.DTOs
         [Required]
         [Compare(nameof(Password))]
         public string PasswordRepeat { get; set; }
-        public string Photo { get; set; }
+        public IFormFile Photo { get; set; }
     }
 }

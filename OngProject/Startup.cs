@@ -40,17 +40,9 @@ namespace OngProject
 
         public void AddAppServices(IServiceCollection services)
         {
-
-
-            AddAppServices();
-
             services.AddTransient<UnitOfWork>();
 
             services.AddTransient<IContactBusiness, ContactBusiness>();
-
-            services.AddTransient<AppDbContext>();
-            services.AddTransient<UnitOfWork>();
-
             services.AddTransient<IActivityBusiness, ActivityBusiness>();
             services.AddTransient<IAuthBusiness, AuthBusiness>();
             services.AddTransient<ICategoryBusiness, CategoryBusiness>();
@@ -62,42 +54,19 @@ namespace OngProject
             services.AddTransient<ISlideBusiness, SlideBusiness>();
             services.AddTransient<ITestimonialsBussines, TestimonialsBussines>();
             services.AddTransient<IUserBusiness, UserBusiness>();
-
+            services.AddTransient<IEmailServices, EmailServices>();
         }
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
-
-            services.AddAppServices();
-
-            services.AddDbContext<AppDbContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-
-
-            services.AddControllers();
-
-            services.AddTransient<UnitOfWork>();
-
-
             AddAppServices(services);
 
-
             services.AddDbContext<AppDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-             services.AddControllers();
-
-
-            services.AddTransient<IRepository<Category>, Repository<Category>>();
-
-            services.AddTransient<ICategoryBusiness, CategoryBusiness>();
-
-
+            services.AddControllers();
 
             services.AddSwaggerGen(c =>
             {
@@ -124,12 +93,6 @@ namespace OngProject
 
                 };
             });
-
-                    
-                };
-            });
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
