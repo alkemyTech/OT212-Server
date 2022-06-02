@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using OngProject.Core.Helper;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -39,10 +40,7 @@ namespace OngProject.Core.Business
             {
                 var emailTo = entity.Email;
                 var subject = @$"{entity.Name} thanks for contact us.";
-                var htmlContent = $@"
-                    <strong>{entity.Name} thanks for contact us!</strong>
-                    </br> We'll keep in touch.
-                ";
+                var htmlContent = EmailHelper.GetNewContactEmail(entity.Name);
                 var plainContent = $@"{entity.Name} thanks for contact us. We'll keep in touch.";
 
                 await _emailServices.SendEmailAsync(emailTo, subject, htmlContent, plainContent);
