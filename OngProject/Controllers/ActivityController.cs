@@ -7,12 +7,13 @@ using System;
 using OngProject.Core.Business;
 using Microsoft.AspNetCore.Http;
 using OngProject.Core.Interfaces;
-
+using OngProject.Core.Models.DTOs;
+using OngProject.Core.Models;
+using System.Linq;
 
 namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     public class ActivityController : ControllerBase
     {
         private IActivityBusiness _activityBussines;
@@ -35,9 +36,24 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert()
+        public async Task<Response<ActivityInsertDto>> Insert([FromForm] ActivityInsertDto entity)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+                return new Response<ActivityInsertDto>(entity, false, (from item in ModelState.Values
+                                                                   from error in item.Errors
+                                                                   select error.ErrorMessage).ToArray(),
+                                                                        ResponseMessage.ValidationErrors);
+
+            try
+            {
+                await _activityBussines.Insert(entity);
+                return new Response<ActivityInsertDto>(entity, true);
+
+            }
+            catch (Exception)
+            {
+                return new Response<ActivityInsertDto>(entity, false, null, ResponseMessage.UnexpectedErrors);
+            }
         }
 
         [HttpPut]
