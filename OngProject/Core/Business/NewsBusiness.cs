@@ -1,4 +1,6 @@
-﻿using OngProject.Entities;
+﻿using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
+using OngProject.Entities;
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
@@ -20,9 +22,14 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task<News> GetById(int id)
+        public async Task<NewsDto> GetById(int id)
         {
-            throw new NotImplementedException();
+            var query = new QueryProperty<News>(1, 1);
+            query.Where = x => x.Id == id;
+            query.Includes.Add(x => x.Category);
+
+            var entity = await _unitOfWork.NewsRepository.GetAsync(query);
+            return entity?.ToNewsDto();
         }
 
         public Task Insert(News entity)
