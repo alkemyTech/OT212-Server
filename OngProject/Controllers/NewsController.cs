@@ -1,11 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
+using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
+using OngProject.Entities;
 using OngProject.Repositories;
 using System;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    public class NewsController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class NewsController : ControllerBase
     {
         private readonly INewsBusiness _newsBusiness;
 
@@ -20,10 +26,22 @@ namespace OngProject.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpGet]
-        public IActionResult GetById()
+        [HttpGet("{id}")]
+        public async Task<Response<NewsDto>> GetById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var entity = await _newsBusiness.GetById(id);
+                if (entity == null)
+                    return new Response<NewsDto>(entity, false, null, ResponseMessage.NotFound);
+
+                return new Response<NewsDto>(entity, true, null, ResponseMessage.Success);
+            }
+            catch (Exception)
+            {
+                return new Response<NewsDto>(null, false, null, ResponseMessage.UnexpectedErrors);
+            }
+            
         }
 
         [HttpPost]
