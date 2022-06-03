@@ -5,11 +5,12 @@ using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class NewsController : ControllerBase
     {
@@ -56,11 +57,22 @@ namespace OngProject.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpDelete]
-        public IActionResult Delete()
+        [HttpDelete("{id}")]
+        public async Task<Response<NewsDto>> Delete(int id)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                var entity = await _newsBusiness.GetById(id);
+                if (entity == null)
+                    return new Response<NewsDto>(entity, false, null, ResponseMessage.NotFound);
 
+                await _newsBusiness.Delete(id);
+                return new Response<NewsDto>(entity, true, null, ResponseMessage.Success);
+            }
+            catch (Exception)
+            {
+                return new Response<NewsDto>(null, false, null, ResponseMessage.UnexpectedErrors);
+            }
+        }
     }
 }
