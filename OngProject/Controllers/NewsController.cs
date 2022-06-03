@@ -6,12 +6,12 @@ using OngProject.Entities;
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
     [Route("[controller]")]
-    [ApiController]
     public class NewsController : ControllerBase
     {
         private readonly INewsBusiness _newsBusiness;
@@ -46,9 +46,24 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert()
+        public async Task<Response<NewsInsertDto>> Insert([FromForm] NewsInsertDto entity)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+                return new Response<NewsInsertDto>(entity, false, (from item in ModelState.Values
+                                                                   from error in item.Errors
+                                                                   select error.ErrorMessage).ToArray(),
+                                                                        ResponseMessage.ValidationErrors);
+
+            try
+            {
+                await _newsBusiness.Insert(entity);
+                return new Response<NewsInsertDto>(entity, true);
+
+            }
+            catch (Exception)
+            {
+                return new Response<NewsInsertDto>(entity, false, null, ResponseMessage.UnexpectedErrors);
+            }
         }
 
         [HttpPut]

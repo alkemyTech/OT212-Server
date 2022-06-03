@@ -16,7 +16,17 @@ namespace OngProject.Core.Mapper
             newsDto.CategoryName = news.Category?.Name;
 
             return newsDto;
+        }
+        public static News ToModel(this NewsInsertDto newsInsertDto)
+        {
+            News news = new News();
 
+            news.Name = newsInsertDto.Name;
+            news.Content = newsInsertDto.Content;
+            news.Image = newsInsertDto.Image?.FileName;
+            news.CategoryId = newsInsertDto.CategoryId;
+
+            return news;
         }
     }
 }
