@@ -20,3 +20,11 @@ namespace OngProject.Core.Models
         public string Message { get; set; }
     }
 }
+
+public static class ResponseMessage
+{
+    public static string Success = "Success";
+    public static string Error = "Error";
+    public static string NotFound = "Record not found";
+    public static string ValidationErrors = "Validations errors found";
+}
