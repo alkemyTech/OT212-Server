@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Core.Models.DTOs
 {
-    public class NewsDto
+    public class NewsDto : Dto
     {
         [Required]
         [StringLength(255)]

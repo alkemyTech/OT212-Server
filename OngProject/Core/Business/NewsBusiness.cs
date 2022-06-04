@@ -32,13 +32,15 @@ namespace OngProject.Core.Business
             return entity?.ToNewsDto();
         }
 
-        public async Task Insert(NewsInsertDto entity)
+        public async Task<NewsDto> Insert(NewsInsertDto entity)
         {
             var news = entity.ToModel();
             news.Image = await Helper.ImageUploadHelper.UploadImageToS3(entity.Image);
 
             await _unitOfWork.NewsRepository.InsertAsync(news);
             await _unitOfWork.SaveAsync();
+
+            return news.ToNewsDto();
         }
 
         public Task Update(News entity)

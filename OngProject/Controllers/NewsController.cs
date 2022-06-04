@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
+using OngProject.Core.Mapper;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -46,23 +47,23 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<Response<NewsInsertDto>> Insert([FromForm] NewsInsertDto entity)
+        public async Task<Response<NewsDto>> Insert([FromForm] NewsInsertDto entity)
         {
             if (!ModelState.IsValid)
-                return new Response<NewsInsertDto>(entity, false, (from item in ModelState.Values
+                return new Response<NewsDto>(entity.ToNewsDto(), false, (from item in ModelState.Values
                                                                    from error in item.Errors
                                                                    select error.ErrorMessage).ToArray(),
                                                                         ResponseMessage.ValidationErrors);
 
             try
             {
-                await _newsBusiness.Insert(entity);
-                return new Response<NewsInsertDto>(entity, true);
+                var resp = await _newsBusiness.Insert(entity);
+                return new Response<NewsDto>(resp, true);
 
             }
             catch (Exception)
             {
-                return new Response<NewsInsertDto>(entity, false, null, ResponseMessage.UnexpectedErrors);
+                return new Response<NewsDto>(entity.ToNewsDto(), false, null, ResponseMessage.UnexpectedErrors);
             }
         }
 

@@ -11,7 +11,7 @@ namespace OngProject.Core.Business
     {
         Task<List<News>> GetAll();
         Task<NewsDto> GetById(int id);
-        Task Insert(NewsInsertDto entity);
+        Task<NewsDto> Insert(NewsInsertDto entity);
         Task Update(News entity);
         Task Delete(int id);
     }
