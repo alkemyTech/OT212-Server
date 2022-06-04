@@ -1,17 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
+using OngProject.Core.Mapper;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
     [Route("[controller]")]
-    [ApiController]
     public class NewsController : ControllerBase
     {
         private readonly INewsBusiness _newsBusiness;
@@ -46,9 +47,24 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert()
+        public async Task<Response<NewsDto>> Insert([FromForm] NewsInsertDto entity)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+                return new Response<NewsDto>(entity.ToNewsDto(), false, (from item in ModelState.Values
+                                                                   from error in item.Errors
+                                                                   select error.ErrorMessage).ToArray(),
+                                                                        ResponseMessage.ValidationErrors);
+
+            try
+            {
+                var resp = await _newsBusiness.Insert(entity);
+                return new Response<NewsDto>(resp, true);
+
+            }
+            catch (Exception)
+            {
+                return new Response<NewsDto>(entity.ToNewsDto(), false, null, ResponseMessage.UnexpectedErrors);
+            }
         }
 
         [HttpPut]

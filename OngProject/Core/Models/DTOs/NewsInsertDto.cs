@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Core.Models.DTOs
 {
-    public class NewsDto : Dto
+    public class NewsInsertDto
     {
         [Required]
         [StringLength(255)]
@@ -14,12 +14,9 @@ namespace OngProject.Core.Models.DTOs
         public string Content { get; set; }
 
         [Required]
-        public string Image { get; set; }
+        public IFormFile Image { get; set; }
 
         [Required]
         public int CategoryId { get; set; }
-
-        public string CategoryName { get; set; }
-
     }
 }
