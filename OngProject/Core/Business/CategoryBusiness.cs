@@ -25,9 +25,12 @@ namespace OngProject.Core.Business
             return categoriesList.Select(x => CategoryMapper.MapToCategoryNameDTO(x)).ToList();
         }
 
-        public Task<Category> GetById(int id)
+        public async Task<CategoryDto> GetById(int id)
         {
-            throw new NotImplementedException();
+            var entity = await _unitOfWork.CategoriesRepository.GetByIdAsync(id);
+            if (entity == null)
+                return null;
+            return CategoryMapper.MapToCategoryDto(entity);
         }
 
         public Task Insert(Category entity)

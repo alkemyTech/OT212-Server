@@ -9,5 +9,12 @@ namespace OngProject.Core.Mapper
         {
             Name = entity.Name,
         };
+
+        public static CategoryDto MapToCategoryDto(this Category entity) => new CategoryDto
+        {
+            Name = entity.Name,
+            Description = entity.Description,
+            Image = entity.Image,
+        };
     }
 }
