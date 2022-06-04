@@ -9,5 +9,15 @@ namespace OngProject.Core.Mapper
         { 
             return new CommentDto { Body = entity.Body };
         }
+
+        public static Comment MapToComment(this CommentInsertDto entity)
+        {
+            return new Comment
+            {
+                Body = entity.Body,
+                NewsId = entity.NewsId,
+                UserId = entity.UserId
+            };
+        }
     }
 }
