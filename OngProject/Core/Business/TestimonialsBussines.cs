@@ -75,9 +75,50 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task Delete(int id)
+        public async Task<Response<TestimonialDto>> Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var testimonial = await _unitOfWork.TestimonialRepository.GetByIdAsync(id);
+
+                if(testimonial == null)
+                    return new Response<TestimonialDto>
+                    {
+                        Data = null,
+                        Succeeded = false,
+                        Message = ResponseMessage.NotFound,
+                        Errors = new string[1] { "Can't find the testimonial." }
+                    };
+
+                await _unitOfWork.TestimonialRepository.SoftDeleteAsync(testimonial);
+                await _unitOfWork.SaveAsync();
+
+                var testimonialDto = testimonial.MapToTestimonialDto();
+
+                var response = new Response<TestimonialDto>
+                {
+                    Data = testimonialDto,
+                    Succeeded = true,
+                    Message = ResponseMessage.Success,
+                    Errors = null
+                };
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"TestimonialsBusiness.Delete: {ex.Message}");
+
+                var response = new Response<TestimonialDto>
+                {
+                    Data = null,
+                    Succeeded = false,
+                    Message = ResponseMessage.Error,
+                    Errors = new string[1] { "The delete can't be done." }
+                };
+
+                return response;
+            }
         }
     }
 }

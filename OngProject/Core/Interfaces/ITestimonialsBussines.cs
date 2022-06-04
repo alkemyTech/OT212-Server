@@ -12,6 +12,6 @@ namespace OngProject.Core.Interfaces
         Task<Testimonial> GetById(int id);
         Task<Response<TestimonialDto>> Insert(TestimonialCreationDto creationDto);
         Task Update(Testimonial entity);
-        Task Delete(int id);
+        Task<Response<TestimonialDto>> Delete(int id);
     }
 }
