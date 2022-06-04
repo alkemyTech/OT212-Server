@@ -2,6 +2,7 @@
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
@@ -53,9 +54,17 @@ namespace OngProject.Controllers
          * Create the implementation
          */
         [HttpPost]
-        public async Task<ActionResult<Comment>> CreateComment([FromForm] Comment comment)
+        public async Task<Response<CommentInsertDto>> CreateComment([FromForm] CommentInsertDto commentDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _commentBusiness.Insert(commentDto);
+                return new Response<CommentInsertDto>(commentDto, true);
+            }
+            catch (Exception)
+            {
+                return new Response<CommentInsertDto>(commentDto, false, null, ResponseMessage.Error);
+            }
         }
         #endregion
 
