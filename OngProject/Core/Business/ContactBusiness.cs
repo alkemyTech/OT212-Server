@@ -38,12 +38,23 @@ namespace OngProject.Core.Business
         {
             try
             {
+                var contact = new Contact 
+                {
+                    Name = entity.Name,
+                    Phone = entity.Phone,
+                    Email = entity.Email,
+                    Message = entity.Message,
+                    DeletedAt = System.DateTime.Now
+                };
+                await _unitOfWork.ContactRepository.InsertAsync(contact);
+                
                 var emailTo = entity.Email;
                 var subject = @$"{entity.Name} thanks for contact us.";
                 var htmlContent = EmailHelper.GetNewContactEmail(entity.Name);
                 var plainContent = $@"{entity.Name} thanks for contact us. We'll keep in touch.";
 
                 await _emailServices.SendEmailAsync(emailTo, subject, htmlContent, plainContent);
+                await _unitOfWork.SaveAsync();
             }
             catch (Exception e)
             {
