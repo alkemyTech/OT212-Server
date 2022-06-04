@@ -2,6 +2,7 @@
 using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using OngProject.Core.Models.DTOs;
 
 namespace OngProject.Core.Interfaces
 {
@@ -9,7 +10,7 @@ namespace OngProject.Core.Interfaces
     {
         Task<List<Activity>> GetAll();
         Task<Activity> GetById(int id);
-        Task Insert(ActivityInsertDto entity);
+        Task<ActivityDto> Insert(ActivityInsertDto entity);
         Task Update(Activity entity);
         Task Delete(int id);
     }

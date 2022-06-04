@@ -10,6 +10,7 @@ using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Core.Models;
 using System.Linq;
+using OngProject.Core.Mapper;
 
 namespace OngProject.Controllers
 {
@@ -36,23 +37,23 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<Response<ActivityInsertDto>> Insert([FromForm] ActivityInsertDto entity)
+        public async Task<Response<ActivityDto>> Insert([FromForm] ActivityInsertDto entity)
         {
             if (!ModelState.IsValid)
-                return new Response<ActivityInsertDto>(entity, false, (from item in ModelState.Values
+                return new Response<ActivityDto>(entity.ToActivityDto(), false, (from item in ModelState.Values
                                                                    from error in item.Errors
                                                                    select error.ErrorMessage).ToArray(),
                                                                         ResponseMessage.ValidationErrors);
 
             try
             {
-                await _activityBussines.Insert(entity);
-                return new Response<ActivityInsertDto>(entity, true);
+                var resp = await _activityBussines.Insert(entity);
+                return new Response<ActivityDto>(resp, true);
 
             }
             catch (Exception)
             {
-                return new Response<ActivityInsertDto>(entity, false, null, ResponseMessage.UnexpectedErrors);
+                return new Response<ActivityDto>(entity.ToActivityDto(), false, null, ResponseMessage.UnexpectedErrors);
             }
         }
 

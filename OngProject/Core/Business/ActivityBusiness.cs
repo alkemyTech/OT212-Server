@@ -27,13 +27,15 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public async Task Insert(ActivityInsertDto entity)
+        public async Task<ActivityDto> Insert(ActivityInsertDto entity)
         {
             var activity = entity.ToActivityModel();
             activity.Image = await Helper.ImageUploadHelper.UploadImageToS3(entity.Image);
 
             await _unitOfWork.ActivityRepository.InsertAsync(activity);
             await _unitOfWork.SaveAsync();
+
+            return activity.ToActivityDto();
         }
 
         public Task Update(Activity entity)
