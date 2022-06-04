@@ -39,9 +39,13 @@ namespace OngProject.Core.Business
         {
             throw new NotImplementedException();
         }
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var entity = await _unitOfWork.CategoriesRepository.GetByIdAsync(id);
+            if (entity == null)
+                throw new KeyNotFoundException();
+            await _unitOfWork.CategoriesRepository.SoftDeleteAsync(entity);
+            await _unitOfWork.SaveAsync();
         }
     }
 }
