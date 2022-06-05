@@ -29,7 +29,7 @@ namespace OngProject.Core.Business
         {
             var slide = await _unitOfWork.SlideRepository.GetByIdAsync(id);
             
-            if (slide == null)
+            if (slide == null || slide.IsDeleted)
                 return null;
 
             slide.Organization = await _unitOfWork.OrganizationRepository.GetByIdAsync(slide.OrganizationId);
