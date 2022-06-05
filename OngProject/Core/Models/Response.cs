@@ -1,4 +1,4 @@
-﻿namespace OngProject.Core.Models
+namespace OngProject.Core.Models
 {
     public class Response<T>
     {
@@ -27,4 +27,5 @@
         public const string UnexpectedErrors = "An unexpected error occurred, try again later";
     }
 }
+
 

@@ -9,7 +9,7 @@ namespace OngProject.Core.Interfaces
     {
         Task<List<ContactDto>> GetAll();
         Task<Contact> GetById(int id);
-        Task Insert(Contact entity);
+        Task Insert(ContactDto entity);
         Task Update(Contact entity);
         Task Delete(int id);
     }

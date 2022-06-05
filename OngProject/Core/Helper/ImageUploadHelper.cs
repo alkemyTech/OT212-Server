@@ -12,19 +12,21 @@ namespace OngProject.Core.Helper
 {
     public static class ImageUploadHelper
     {
-        /* This is the main method of the helper for uploading an image to AWS S3 service */
-
-        public static async Task<string> UploadImageToS3(IFormFile file)
+        public static async Task<bool> IsImage(IFormFile file)
         {
             var isImage = GetKnownFileType(await GetBytes(file));
 
-            if (!(isImage.Equals(FileType.Jpeg) ||
-                isImage.Equals(FileType.Bmp) ||
-                isImage.Equals(FileType.Png) ||
-                isImage.Equals(FileType.Gif)))
-            {
+            return isImage.Equals(FileType.Jpeg) 
+                || isImage.Equals(FileType.Bmp) 
+                || isImage.Equals(FileType.Png) 
+                || isImage.Equals(FileType.Gif);
+        }
+
+        /* This is the main method of the helper for uploading an image to AWS S3 service */
+        public static async Task<string> UploadImageToS3(IFormFile file)
+        {
+            if (! await IsImage(file))
                 throw new Exception("Not a jpg/png/bmp/gif image");
-            }
 
             var client = new AmazonS3Client(RegionEndpoint.USEast1);
             var newMemoryStream = new MemoryStream();
