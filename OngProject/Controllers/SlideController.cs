@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using OngProject.Core.Models.DTOs;
 
 namespace OngProject.Controllers
 {
@@ -28,9 +30,20 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById()
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<SlideDetailsDto>> GetById(int id)
         {
-            throw new NotImplementedException();
+            var taskSlide = _slideBusiness.GetById(id);
+
+            var slide = await taskSlide;
+
+            if(slide == null)
+            {
+                return NotFound("No existe esa id para el slide!");
+            }
+
+            return Ok(slide);
+
         }
 
         #endregion

@@ -247,6 +247,22 @@ namespace OngProject.DataAccess
                 );
         }
 
+        public static void SeedOrganization(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Organization>()
+                        .HasData(
+                        new Organization { Id = 1, Name = "MicroTextLTA", Image = "MicroText.jpg", Phone = "3023032169", Email = "MicroTextLTA@gmail.com", WelcomeText = "Bienvenido a MicroTextLTA" }
+                        );
+        }
+        public static void SeedSlides(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Slide>()
+                        .HasData(
+                            new Slide { Id = 1, ImageUrl = "url.png", Order = 100, Text = "Prueba1", OrganizationId = 1},
+                            new Slide { Id = 2, ImageUrl = "url2.png", Order = 150, Text = "Prueba1", OrganizationId = 1 }
+                        );
+        }
+
         public static void SeedTestimonials(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Testimonial>().HasData(

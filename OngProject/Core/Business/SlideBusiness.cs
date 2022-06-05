@@ -25,9 +25,16 @@ namespace OngProject.Core.Business
              return slideList.Select(x => SlideMapper.MapToSlideDTO(x)).ToList();
         }
 
-        public Task<Slide> GetById(int id)
+        public async Task<SlideDetailsDto> GetById(int id)
         {
-            throw new System.NotImplementedException();
+            var slide = await _unitOfWork.SlideRepository.GetByIdAsync(id);
+            
+            if (slide == null)
+                return null;
+
+            slide.Organization = await _unitOfWork.OrganizationRepository.GetByIdAsync(slide.OrganizationId);
+
+            return slide.MapToSlideDetailsDto();
         }
 
         public Task Insert(Slide slide)

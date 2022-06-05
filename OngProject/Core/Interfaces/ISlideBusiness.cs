@@ -9,7 +9,7 @@ namespace OngProject.Core.Interfaces
     {
         Task<List<SlideDTO>> GetAll();
 
-        Task<Slide> GetById(int id);
+        Task<SlideDetailsDto> GetById(int id);
 
         Task Insert(Slide slide);
 
