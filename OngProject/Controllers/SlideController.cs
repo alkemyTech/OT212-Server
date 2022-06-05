@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 using System;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
+using OngProject.Core.Models;
+using OngProject.Core.Mapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OngProject.Controllers
 {
@@ -28,7 +32,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById()
+        public async Task<ActionResult> GetById(int id)
         {
             throw new NotImplementedException();
         }
@@ -60,14 +64,20 @@ namespace OngProject.Controllers
         #endregion
 
         #region Delete
-        /* To Do:
-         * Change Slide for SlideDeleteDto or SlideDelete (the name doesn't yet exist)
-         * Create the implementation
-         */
+
         [HttpDelete]
-        public async Task<ActionResult<Slide>> DeleteSlide(int id, [FromForm] Slide slide)
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<Response<SlideDTO>>> DeleteSlide(int id)
         {
-            throw new NotImplementedException();
+            var result = await _slideBusiness.Delete(id);
+            if (result.Succeeded)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound(result);
+            }
         }
         #endregion
     }
