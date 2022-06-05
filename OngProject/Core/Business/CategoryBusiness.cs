@@ -30,9 +30,18 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task Insert(Category entity)
+        public async Task Insert(CategoryInsertDto categoryDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var category = CategoryMapper.MapToCategoryInsertDto(categoryDto);
+                await _unitOfWork.CategoriesRepository.InsertAsync(await category);
+                await _unitOfWork.SaveAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " Check if image is string and not empty.");
+            }            
         }
 
         public Task Update(Category entity)

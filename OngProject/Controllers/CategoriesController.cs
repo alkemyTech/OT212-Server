@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
+using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using OngProject.Repositories;
 using System;
 using System.Threading.Tasks;
@@ -47,9 +49,17 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert()
+        public async Task<IActionResult> Insert([FromForm] CategoryInsertDto categoryDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _categoryBusiness.Insert(categoryDto);
+                return Ok(new Response<CategoryInsertDto>(categoryDto, true, null, ResponseMessage.Success));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response<CategoryInsertDto>(categoryDto, false, null, ex.Message));
+            }
         }
 
         [HttpPut]
