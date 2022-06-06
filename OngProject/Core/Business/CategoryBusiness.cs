@@ -30,13 +30,14 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public async Task Insert(CategoryInsertDto categoryDto)
+        public async Task<CategoryDto> Insert(CategoryInsertDto categoryDto)
         {
             try
             {
-                var category = CategoryMapper.MapToCategoryInsertDto(categoryDto);
-                await _unitOfWork.CategoriesRepository.InsertAsync(await category);
+                var category = await CategoryMapper.MapToCategoryInsertDto(categoryDto);
+                await _unitOfWork.CategoriesRepository.InsertAsync(category);
                 await _unitOfWork.SaveAsync();
+                return CategoryMapper.MapToCategoryDto(category);
             }
             catch (Exception ex)
             {

@@ -11,7 +11,7 @@ namespace OngProject.Controllers
 {
     [ApiController]
     [Route("api/categories")]
-    [Authorize(Roles = "Administrador")]
+    //[Authorize(Roles = "Administrador")]
     public class CategoriesController : Controller
     {
         private readonly ICategoryBusiness _categoryBusiness;
@@ -53,8 +53,8 @@ namespace OngProject.Controllers
         {
             try
             {
-                await _categoryBusiness.Insert(categoryDto);
-                return Ok(new Response<CategoryInsertDto>(categoryDto, true, null, ResponseMessage.Success));
+                var tryInsert = await _categoryBusiness.Insert(categoryDto);
+                return Ok(new Response<CategoryDto>(tryInsert, true, null, ResponseMessage.Success));
             }
             catch (Exception ex)
             {
