@@ -1,4 +1,4 @@
-﻿using OngProject.Core.Helper;
+using OngProject.Core.Helper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System.Threading.Tasks;
@@ -8,11 +8,12 @@ namespace OngProject.Core.Mapper
     public static class SlideMapper
     {
         public static SlideDTO MapToSlideDTO(this Slide entity)
-            => new SlideDTO
+            => new()
             {
                 ImageUrl = entity.ImageUrl,
                 Order = entity.Order
             };
+
 
         public async static Task<Slide> MapToSlideInsertDto(this SlideInsertDto entity)
             => new Slide
@@ -31,6 +32,15 @@ namespace OngProject.Core.Mapper
                 Text = entity.Text,
                 Organization = organization.MapToOrganizationDto(),
                 
+
+        public static SlideDetailsDto MapToSlideDetailsDto(this Slide entity)
+            => new()
+            {
+                ImageUrl = entity.ImageUrl,
+                Order = entity.Order,
+                Text = entity.Text,
+                Organization = entity.Organization.MapToOrganizationDto(),
+
             };
     }
 }

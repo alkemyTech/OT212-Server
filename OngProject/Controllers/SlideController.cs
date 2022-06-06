@@ -1,11 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Entities;
 using System.Threading.Tasks;
 using System;
 using OngProject.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using OngProject.Core.Models.DTOs;
 using OngProject.Core.Models;
+
 using Microsoft.AspNetCore.Authorization;
+
+
+
 
 namespace OngProject.Controllers
 {
@@ -29,9 +34,22 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetById(int id)
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<Response<SlideDetailsDto>>> GetById(int id)
         {
-            throw new NotImplementedException();
+            var taskSlide = _slideBusiness.GetById(id);
+
+            var slideResponse = await taskSlide;
+
+            if(slideResponse.Succeeded)
+            {
+                return Ok(slideResponse);
+                
+            }
+            else
+            {
+                return NotFound(slideResponse);
+            }
         }
 
         #endregion

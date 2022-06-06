@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Core.Models.DTOs
@@ -8,6 +8,7 @@ namespace OngProject.Core.Models.DTOs
         public string ImageUrl { get; set; }
         public int Order { get; set; }
     }
+
 
     public class SlideInsertDto
     {
@@ -25,6 +26,9 @@ namespace OngProject.Core.Models.DTOs
 
     public class SlideDetailsDto : SlideDTO
     {
+
+    public class SlideDetailsDto : SlideDTO
+    {     
         public string Text { get; set; }
         public OrganizationDto Organization { get; set; }
     }
