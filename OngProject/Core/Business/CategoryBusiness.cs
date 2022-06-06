@@ -41,7 +41,7 @@ namespace OngProject.Core.Business
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message + " Check if image is string and not empty.");
+                throw new Exception(ex.Message + " Check if name is string and not empty.");
             }            
         }
 
