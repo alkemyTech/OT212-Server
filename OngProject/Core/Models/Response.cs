@@ -1,4 +1,4 @@
-﻿namespace OngProject.Core.Models
+namespace OngProject.Core.Models
 {
     public class Response<T>
     {
