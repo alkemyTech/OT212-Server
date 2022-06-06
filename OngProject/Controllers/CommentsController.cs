@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
@@ -7,7 +9,11 @@ using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
@@ -32,7 +38,7 @@ namespace OngProject.Controllers
 
             var result = await comments;
             System.Diagnostics.Debug.WriteLine(result.Count);
-            if(result.Count == 0)
+            if (result.Count == 0)
             {
                 return NotFound("Comment list is empty");
             }
@@ -41,29 +47,45 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById()
+        [Authorize(Roles= "Administrador")]
+        public async Task<Response<Comment>> GetById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var entity = await _commentBusiness.GetById(id);
+                if(entity != null)
+                    return new Response<Comment>(entity, true);
+                return new Response<Comment>(null, false, null, ResponseMessage.NotFound);
+            }
+            catch
+            {
+                return new Response<Comment>(null, false, null, ResponseMessage.Error);
+            }
         }
 
         #endregion
 
         #region Post
-        /* To Do:
-         * Change Comment for CommentDto or CommentCreate (the name doesn't yet exist)
-         * Create the implementation
-         */
+
         [HttpPost]
+        [Authorize]
         public async Task<Response<CommentInsertDto>> CreateComment([FromForm] CommentInsertDto commentDto)
         {
             try
             {
-                await _commentBusiness.Insert(commentDto);
-                return new Response<CommentInsertDto>(commentDto, true);
+                var userClaim = HttpContext.User.Identity as ClaimsIdentity;
+                var userId = int.Parse(userClaim.FindFirst(x => x.Type == "Id").Value);
+
+                if (userId == commentDto.UserId)
+                {
+                    await _commentBusiness.Insert(commentDto);
+                    return new Response<CommentInsertDto>(commentDto, true);
+                }
+                return new Response<CommentInsertDto>(null, false, null, ResponseMessage.ValidationErrors);
             }
             catch (Exception)
             {
-                return new Response<CommentInsertDto>(commentDto, false, null, ResponseMessage.Error);
+                return new Response<CommentInsertDto>(null, false, null, ResponseMessage.Error);
             }
         }
         #endregion
@@ -81,14 +103,31 @@ namespace OngProject.Controllers
         #endregion
 
         #region Delete
-        /* To Do:
-         * Change Comment for CommentDeleteDto or CommentDelete (the name doesn't yet exist)
-         * Create the implementation
-         */
-        [HttpDelete]
-        public async Task<ActionResult<Comment>> DeleteComment(int id, [FromForm] Comment comment)
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<Response<CommentDto>> DeleteComment(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userClaim = HttpContext.User.Identity as ClaimsIdentity;
+                var commentUserId = int.Parse(userClaim.FindFirst(x => x.Type == "Id").Value);
+                var user = await _commentBusiness.GetById(id);
+
+                if (user.UserId == commentUserId)
+                {
+                    var entity = await _commentBusiness.Delete(id);
+                    return new Response<CommentDto>(entity, true);
+                }
+                return new Response<CommentDto>(null, false, null, ResponseMessage.ValidationErrors);
+            }        
+            catch (KeyNotFoundException)
+            {
+                return new Response<CommentDto>(null, false, null, ResponseMessage.NotFound);
+            }
+            catch
+            {
+                return new Response<CommentDto>(null, false, null, ResponseMessage.Error);
+            }
         }
         #endregion
     }
