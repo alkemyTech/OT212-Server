@@ -11,7 +11,7 @@ namespace OngProject.Core.Interfaces
     {
         Task<List<Organization>> GetAll();
 
-        Task<OrganizationDto> Get();
+        Task<OrganizationDetailsDto> Get();
 
         Task<Organization> GetById(int id);
 

@@ -12,7 +12,7 @@ namespace OngProject.Core.Business
 {
     public class OrganizationBusiness : IOrganizationBusiness
     {
-        private UnitOfWork _unitOfWork;
+        private readonly UnitOfWork _unitOfWork;
         public OrganizationBusiness(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -23,12 +23,19 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public async Task<OrganizationDto> Get()
+        public async Task<OrganizationDetailsDto> Get()
         {
             var organizationList = await _unitOfWork.OrganizationRepository.GetAllAsync();
+            
             var organization = organizationList.FirstOrDefault();
 
-            return organization.MapToOrganizationDto();
+            var slideList = (await _unitOfWork.SlideRepository.GetAllAsync())
+                            .Where(x => x.OrganizationId == organization.Id)
+                            .OrderBy(x => x.Order)
+                            .Select(x => x.MapToSlideDTO());
+
+
+            return organization.MapToOrganizationDetailsDto(slideList);
         }
 
         public Task<Organization> GetById(int id)
