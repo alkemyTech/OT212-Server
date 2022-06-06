@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -5,26 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-
 using Microsoft.OpenApi.Models;
 using OngProject.Core.Business;
-
-using OngProject.Core.Helper;
-
 using OngProject.Core.Interfaces;
 using OngProject.DataAccess;
-using OngProject.Entities;
+using OngProject.Middleware;
 using OngProject.Repositories;
-using OngProject.Repositories.Interfaces;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace OngProject
@@ -56,7 +44,6 @@ namespace OngProject
             services.AddTransient<IUserBusiness, UserBusiness>();
             services.AddTransient<IEmailServices, EmailServices>();
         }
-
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -110,6 +97,8 @@ namespace OngProject
             app.UseRouting();
 
             app.UseAuthentication();
+
+            app.UsePersistActionsRestrictions();
 
             app.UseAuthorization();
 
