@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Models.DTOs;
+﻿using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,6 +16,6 @@ namespace OngProject.Core.Interfaces
 
         Task Update(Slide slide);
 
-        Task Delete(int id);
+        Task<Response<SlideDTO>> Delete(int id);
     }
 }
