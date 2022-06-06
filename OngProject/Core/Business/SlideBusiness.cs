@@ -1,5 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
@@ -25,16 +26,18 @@ namespace OngProject.Core.Business
              return slideList.Select(x => SlideMapper.MapToSlideDTO(x)).ToList();
         }
 
-        public async Task<SlideDetailsDto> GetById(int id)
+        public async Task<Response<SlideDetailsDto>> GetById(int id)
         {
             var slide = await _unitOfWork.SlideRepository.GetByIdAsync(id);
-            
-            if (slide == null || slide.IsDeleted)
-                return null;
+
+            if (slide == null || slide.IsDeleted) 
+            {
+                return new Response<SlideDetailsDto>(null, false, new string[] { "The id doesn't exist!" }, ResponseMessage.NotFound);
+            }
 
             slide.Organization = await _unitOfWork.OrganizationRepository.GetByIdAsync(slide.OrganizationId);
 
-            return slide.MapToSlideDetailsDto();
+            return new Response<SlideDetailsDto>(slide.MapToSlideDetailsDto());
         }
 
         public Task Insert(Slide slide)
