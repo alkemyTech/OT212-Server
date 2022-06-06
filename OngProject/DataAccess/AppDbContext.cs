@@ -40,6 +40,10 @@ namespace OngProject.DataAccess
             modelBuilder.SeedNewsSet();
 
             modelBuilder.SeedMemebers();
+
+            modelBuilder.SeedOrganization();
+
+            modelBuilder.SeedSlides();
         }
 
     }
