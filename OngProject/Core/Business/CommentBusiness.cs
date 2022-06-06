@@ -1,10 +1,15 @@
-﻿using OngProject.Core.Interfaces;
+﻿
+using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
@@ -25,17 +30,17 @@ namespace OngProject.Core.Business
             return await repository.GetAllAsync();
         }
 
-        public Task<Comment> GetById(int id)
+        public async Task<Comment> GetById(int id)
         {
-            throw new System.NotImplementedException();
+            var comment = await _unitOfWork.CommentRepository.GetByIdAsync(id);
+            return comment;
         }
 
         public async Task Insert(CommentInsertDto commentDto)
         {
-            var userId = await _unitOfWork.UserRepository.GetByIdAsync(commentDto.UserId);
             var newsId = await _unitOfWork.NewsRepository.GetByIdAsync(commentDto.NewsId);
 
-            if ((userId != null) && (newsId != null))
+            if (newsId != null)
             {
                 var comment = CommentMapper.MapToComment(commentDto);
                 await _unitOfWork.CommentRepository.InsertAsync(comment);
@@ -49,9 +54,21 @@ namespace OngProject.Core.Business
         {
             throw new System.NotImplementedException();
         }
-        public Task Delete(int id)
+        public async Task<CommentDto> Delete(int id)
         {
-            throw new System.NotImplementedException();
+            var comment = await _unitOfWork.CommentRepository.GetByIdAsync(id);
+
+            if ((comment != null) && (comment.IsDeleted == false))
+            {
+                var commentDto = CommentMapper.MapToCommentDto(comment);
+
+                await _unitOfWork.CommentRepository.SoftDeleteAsync(comment);
+                await _unitOfWork.SaveAsync();
+
+                return commentDto;
+            }
+            else
+                throw new KeyNotFoundException();
         }
 
     }

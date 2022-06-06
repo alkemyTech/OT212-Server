@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
@@ -18,11 +19,13 @@ namespace OngProject.Core.Business
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IEmailServices _emailServices;
+        private readonly IConfiguration _configuration;
 
-        public AuthBusiness(UnitOfWork unitOfWork, IEmailServices emailServices)
+        public AuthBusiness(UnitOfWork unitOfWork, IEmailServices emailServices, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _emailServices = emailServices;
+            _configuration = configuration;
         }
 
         public async Task<UserDto> Register(RegisterDto registerUser)
@@ -84,9 +87,11 @@ namespace OngProject.Core.Business
 
         private string GenerateToken(User user)
         {
-            var key = Encoding.ASCII.GetBytes("AppSetings:Token");
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                _configuration.GetSection("JWT:Secret").Value));
 
             ClaimsIdentity claims = new ClaimsIdentity();
+            claims.AddClaim(new Claim(type: "Id", value: user.Id.ToString()));
             claims.AddClaim(new Claim(ClaimTypes.Email, user.Email));
             claims.AddClaim(new Claim(ClaimTypes.Role, user.Roles.Name));
 
@@ -96,8 +101,7 @@ namespace OngProject.Core.Business
                 // Nuestro token va a durar un día
                 Expires = DateTime.UtcNow.AddDays(1),
                 // Credenciales para generar el token usando nuestro secretykey y el algoritmo hash 256
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                                                            SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(key,SecurityAlgorithms.HmacSha256Signature)
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
