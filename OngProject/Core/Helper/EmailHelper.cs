@@ -5,13 +5,17 @@ namespace OngProject.Core.Helper
 {
     public static class EmailHelper
     {
+        public static string GetNewContactEmail(string userName)
+            => GetEmailForTemplate($"{userName} thanks for contact us!",
+                "We'll keep in touch.");
+
         public static string GetWelcomeEmail()
         {
             return GetEmailForTemplate("Bienvenido a Somos Mas", 
                 "Su usuario ha sido creado con éxito", "somosmas@email.com");
         }
 
-        public static string GetEmailForTemplate(string title, string message, string contact)
+        public static string GetEmailForTemplate(string title, string message, string contact = "somosmas@email.com")
         {
             try
             {

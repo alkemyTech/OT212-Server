@@ -1,4 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using System.Collections.Generic;
@@ -25,9 +27,15 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public Task Insert(Activity entity)
+        public async Task<ActivityDto> Insert(ActivityInsertDto entity)
         {
-            throw new System.NotImplementedException();
+            var activity = entity.ToActivityModel();
+            activity.Image = await Helper.ImageUploadHelper.UploadImageToS3(entity.Image);
+
+            await _unitOfWork.ActivityRepository.InsertAsync(activity);
+            await _unitOfWork.SaveAsync();
+
+            return activity.ToActivityDto();
         }
 
         public Task Update(Activity entity)
