@@ -59,9 +59,17 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert()
+        public async Task<IActionResult> Insert([FromForm] CategoryInsertDto categoryDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var tryInsert = await _categoryBusiness.Insert(categoryDto);
+                return Ok(new Response<CategoryDto>(tryInsert, true, null, ResponseMessage.Success));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response<CategoryInsertDto>(categoryDto, false, null, ex.Message));
+            }
         }
 
         [HttpPut]

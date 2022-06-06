@@ -33,9 +33,19 @@ namespace OngProject.Core.Business
             return CategoryMapper.MapToCategoryDto(entity);
         }
 
-        public Task Insert(Category entity)
+        public async Task<CategoryDto> Insert(CategoryInsertDto categoryDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var category = await CategoryMapper.MapToCategoryInsertDto(categoryDto);
+                await _unitOfWork.CategoriesRepository.InsertAsync(category);
+                await _unitOfWork.SaveAsync();
+                return CategoryMapper.MapToCategoryDto(category);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + " Check if name is string and not empty.");
+            }            
         }
 
         public Task Update(Category entity)
