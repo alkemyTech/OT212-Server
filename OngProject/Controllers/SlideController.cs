@@ -1,13 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Entities;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
-using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using OngProject.Core.Models.DTOs;
 using OngProject.Core.Models;
+
+using Microsoft.AspNetCore.Authorization;
+
+
 
 
 namespace OngProject.Controllers
@@ -53,14 +55,21 @@ namespace OngProject.Controllers
         #endregion
 
         #region Post
-        /* To Do:
-         * Change Slide for SlideDto or SlideCreate (the name doesn't yet exist)
-         * Create the implementation
-         */
+
         [HttpPost]
-        public async Task<ActionResult<Slide>> CreateSlide([FromForm] Slide slide)
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<Response<SlideDetailsDto>>> Insert([FromForm] SlideInsertDto slideDto)
         {
-            throw new NotImplementedException();
+            var result = await _slideBusiness.Insert(slideDto);
+
+            if (result.Succeeded)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
         #endregion
 

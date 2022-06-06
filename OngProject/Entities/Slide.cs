@@ -15,7 +15,7 @@ namespace OngProject.Entities
         [Required(ErrorMessage = "You must enter an order!")]
         public int Order { get; set; }
 
-        [Required(ErrorMessage = "You mush enter an organization id!"), ForeignKey("Organization")]
+        [Required(ErrorMessage = "You must enter an organization id!"), ForeignKey("Organization")]
         public int OrganizationId { get; set; }
 
         public Organization Organization { get; set; }

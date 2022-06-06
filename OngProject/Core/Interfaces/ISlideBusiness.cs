@@ -12,7 +12,7 @@ namespace OngProject.Core.Interfaces
 
         Task<Response<SlideDetailsDto>> GetById(int id);
 
-        Task Insert(Slide slide);
+        Task<Response<SlideDetailsDto>> Insert(SlideInsertDto slideDto);
 
         Task Update(Slide slide);
 

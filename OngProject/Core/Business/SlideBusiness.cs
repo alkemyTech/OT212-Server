@@ -40,9 +40,30 @@ namespace OngProject.Core.Business
             return new Response<SlideDetailsDto>(slide.MapToSlideDetailsDto());
         }
 
-        public Task Insert(Slide slide)
+        public async Task<Response<SlideDetailsDto>> Insert(SlideInsertDto slideDto)
         {
-            throw new System.NotImplementedException();
+            var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync(slideDto.OrganizationId);
+            if (organization == null)
+            {
+                string[] errors = new string[]
+                {
+                    "The organization id does not exist!",
+                    "Organization attribute was null!"
+                };
+                return new Response<SlideDetailsDto>(null, false, errors, ResponseMessage.ValidationErrors);
+            }
+            
+            if(slideDto.Order is null)
+            {
+                slideDto.Order = (await _unitOfWork.SlideRepository.GetAllAsync()).Max(x => x.Order) + 1;
+            }
+            var slide = await SlideMapper.MapToSlideInsertDto(slideDto);
+
+            await _unitOfWork.SlideRepository.InsertAsync(slide);
+
+            await _unitOfWork.SaveAsync();
+
+            return new Response<SlideDetailsDto>(slideDto.MapToSlideDetailsDto(organization));
         }
 
         public Task Update(Slide slide)
