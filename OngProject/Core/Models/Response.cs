@@ -27,4 +27,5 @@ public static class ResponseMessage
     public static string Error = "Error";
     public static string NotFound = "Record not found";
     public static string ValidationErrors = "Validations errors found";
+    public static string UnexpectedErrors = "An unexpected error occurred, try again later";
 }
