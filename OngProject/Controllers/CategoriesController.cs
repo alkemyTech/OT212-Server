@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
+using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using OngProject.Repositories;
 using System;
 using System.Threading.Tasks;
@@ -41,9 +43,19 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById()
+        public async Task<IActionResult> GetById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var entity = await _categoryBusiness.GetById(id);
+                if (entity == null)
+                    return NotFound(new Response<CategoryDto>(entity, false, null, ResponseMessage.NotFound));
+                return Ok(new Response<CategoryDto>(entity, true, null, ResponseMessage.Success));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new Response<CategoryDto>(null, false, null, ex.Message));
+            }
         }
 
         [HttpPost]
@@ -59,9 +71,20 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete()
+        public async Task<IActionResult> Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var entity = await _categoryBusiness.GetById(id);
+                if (entity == null)
+                    return NotFound(new Response<CategoryDto>(entity, false, null, ResponseMessage.NotFound));
+                await _categoryBusiness.Delete(id);
+                return Ok(new Response<CategoryDto>(entity, true, null, ResponseMessage.Success));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response<CategoryDto>(null, false, null, ex.Message));
+            }
         }
 
     }

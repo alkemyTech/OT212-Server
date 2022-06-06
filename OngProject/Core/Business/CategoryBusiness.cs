@@ -25,9 +25,12 @@ namespace OngProject.Core.Business
             return categoriesList.Select(x => CategoryMapper.MapToCategoryNameDTO(x)).ToList();
         }
 
-        public Task<Category> GetById(int id)
+        public async Task<CategoryDto> GetById(int id)
         {
-            throw new NotImplementedException();
+            var entity = await _unitOfWork.CategoriesRepository.GetByIdAsync(id);
+            if (entity == null | entity.IsDeleted == true)
+                return null;
+            return CategoryMapper.MapToCategoryDto(entity);
         }
 
         public Task Insert(Category entity)
@@ -39,9 +42,13 @@ namespace OngProject.Core.Business
         {
             throw new NotImplementedException();
         }
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var entity = await _unitOfWork.CategoriesRepository.GetByIdAsync(id);
+            if (entity == null)
+                throw new KeyNotFoundException();
+            await _unitOfWork.CategoriesRepository.SoftDeleteAsync(entity);
+            await _unitOfWork.SaveAsync();
         }
     }
 }

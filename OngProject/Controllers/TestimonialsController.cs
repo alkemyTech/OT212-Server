@@ -48,10 +48,19 @@ namespace OngProject.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpDelete]
-        public IActionResult Delete()
+        [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<TestimonialDto>> Delete(int id)
         {
-            throw new NotImplementedException();
+            var response = await _testimonailsBussines.Delete(id);
+
+            if (response.Message == ResponseMessage.NotFound)
+                return NotFound(response);
+
+            if (!response.Succeeded)
+                return BadRequest(response);
+
+            return Ok(response.Data);
         }
     }
 }

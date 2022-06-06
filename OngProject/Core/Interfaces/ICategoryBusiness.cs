@@ -10,7 +10,7 @@ namespace OngProject.Core.Business
     public interface ICategoryBusiness
     {
         Task<List<CategoryNameDTO>> GetAll();
-        Task<Category> GetById(int id);
+        Task<CategoryDto> GetById(int id);
         Task Insert(Category entity);
         Task Update(Category entity);
         Task Delete(int id);

@@ -62,9 +62,17 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public Task Delete(int id)
+        public async Task<Response<SlideDTO>> Delete(int id)
         {
-            throw new System.NotImplementedException();
+            var slide = await _unitOfWork.SlideRepository.GetByIdAsync(id);
+            if (slide == null)
+                return new Response<SlideDTO>(null, false, new string[] {"The id doesn't exist!"}, ResponseMessage.NotFound);
+
+            await _unitOfWork.SlideRepository.SoftDeleteAsync(slide);
+            await _unitOfWork.SaveAsync();
+
+            return new Response<SlideDTO>(slide.MapToSlideDTO(), true, null);
+
         }
     }
 }
