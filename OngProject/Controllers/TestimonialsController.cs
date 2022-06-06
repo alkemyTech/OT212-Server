@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using System;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/testimonials")]
     public class TestimonialsController : ControllerBase
     {
         private readonly ITestimonialsBussines _testimonailsBussines;
@@ -29,9 +31,15 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Insert()
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<TestimonialDto>> Insert([FromForm] TestimonialCreationDto creationDto)
         {
-            throw new NotImplementedException();
+            var response = await _testimonailsBussines.Insert(creationDto);
+
+            if (!response.Succeeded)
+                return BadRequest(response);
+                
+            return Ok(response.Data);
         }
 
         [HttpPut]
@@ -40,10 +48,19 @@ namespace OngProject.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpDelete]
-        public IActionResult Delete()
+        [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<TestimonialDto>> Delete(int id)
         {
-            throw new NotImplementedException();
+            var response = await _testimonailsBussines.Delete(id);
+
+            if (response.Message == ResponseMessage.NotFound)
+                return NotFound(response);
+
+            if (!response.Succeeded)
+                return BadRequest(response);
+
+            return Ok(response.Data);
         }
     }
 }

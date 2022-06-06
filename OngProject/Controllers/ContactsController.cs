@@ -2,6 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
+using OngProject.Entities;
 using System;
 using System.Threading.Tasks;
 
@@ -9,7 +13,6 @@ namespace OngProject.Controllers
 {
     [Route("contacts")]
     [ApiController]
-    [Authorize(Roles = "Administrador")]
     public class ContactsController : ControllerBase
     {
         private readonly IContactBusiness _contactBusiness;
@@ -19,6 +22,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> GetAll()
         {
             var contacts = await _contactBusiness.GetAll();
@@ -35,6 +39,14 @@ namespace OngProject.Controllers
                 Console.WriteLine($@"ContactsController.Get: {ex.Message}");
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Usuario")]
+        public async Task<ActionResult<Response<ContactDto>>> Insert(ContactDto contactDto)
+        {
+            await _contactBusiness.Insert(contactDto);
+            return new Response<ContactDto>(null, true, null, ResponseMessage.Success);
         }
     }
 }

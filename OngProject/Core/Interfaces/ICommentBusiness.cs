@@ -1,4 +1,5 @@
-﻿using OngProject.Entities;
+﻿using OngProject.Core.Models.DTOs;
+using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace OngProject.Core.Interfaces
 
         Task<Comment> GetById(int id);
 
-        Task Insert(Comment entity);
+        Task Insert(CommentInsertDto commentDto);
 
         Task Update(Comment entity);
 

@@ -16,6 +16,6 @@ namespace OngProject.Core.Interfaces
 
         Task Update(Slide slide);
 
-        Task Delete(int id);
+        Task<Response<SlideDTO>> Delete(int id);
     }
 }

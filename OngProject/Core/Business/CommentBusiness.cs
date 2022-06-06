@@ -1,6 +1,9 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -27,9 +30,19 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public Task Insert(Comment entity)
+        public async Task Insert(CommentInsertDto commentDto)
         {
-            throw new System.NotImplementedException();
+            var userId = await _unitOfWork.UserRepository.GetByIdAsync(commentDto.UserId);
+            var newsId = await _unitOfWork.NewsRepository.GetByIdAsync(commentDto.NewsId);
+
+            if ((userId != null) && (newsId != null))
+            {
+                var comment = CommentMapper.MapToComment(commentDto);
+                await _unitOfWork.CommentRepository.InsertAsync(comment);
+                await _unitOfWork.SaveAsync();
+            }
+            else
+                throw new Exception();
         }
 
         public Task Update(Comment entity)
