@@ -11,7 +11,7 @@ namespace OngProject.Controllers
 {
     [ApiController]
     [Route("api/categories")]
-    //[Authorize(Roles = "Administrador")]
+    [Authorize(Roles = "Administrador")]
     public class CategoriesController : Controller
     {
         private readonly ICategoryBusiness _categoryBusiness;
