@@ -1,4 +1,4 @@
-﻿using OngProject.Core.Helper;
+using OngProject.Core.Helper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System.Threading.Tasks;
@@ -11,11 +11,20 @@ namespace OngProject.Core.Mapper
         {
             Name = entity.Name,
         };
+
         public async static Task<Category> MapToCategoryInsertDto(this CategoryInsertDto dto) => new Category
         {
             Name = dto.Name,
             Description = dto.Description,
             Image = await ImageUploadHelper.UploadImageToS3(dto.Image),
+
+
+        public static CategoryDto MapToCategoryDto(this Category entity) => new CategoryDto
+        {
+            Name = entity.Name,
+            Description = entity.Description,
+            Image = entity.Image,
+
         };
     }
 }

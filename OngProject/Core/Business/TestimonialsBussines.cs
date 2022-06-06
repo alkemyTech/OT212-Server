@@ -1,4 +1,8 @@
-﻿using OngProject.Core.Interfaces;
+﻿using OngProject.Core.Helper;
+using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using System;
@@ -26,9 +30,44 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task Insert(Testimonial entity)
+        public async Task<Response<TestimonialDto>> Insert(TestimonialCreationDto creationDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var testimonial = creationDto.MapToTestimonialEntity();
+
+                if(creationDto.Image != null)
+                    testimonial.Image = await ImageUploadHelper.UploadImageToS3(creationDto.Image);
+
+                await _unitOfWork.TestimonialRepository.InsertAsync(testimonial);
+                await _unitOfWork.SaveAsync();
+
+                var testimonialDto = testimonial.MapToTestimonialDto();
+
+                var response = new Response<TestimonialDto>
+                {
+                    Data = testimonialDto,
+                    Succeeded = true,
+                    Message = ResponseMessage.Success,
+                    Errors = null
+                };
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"TestimonialsBusiness.Insert: {ex.Message}");
+
+                var response = new Response<TestimonialDto>
+                {
+                    Data = null,
+                    Succeeded = false,
+                    Message = ResponseMessage.Error,
+                    Errors = new string[1] { "The insert can't be done." }
+                };
+
+                return response;
+            }
         }
 
         public Task Update(Testimonial entity)
@@ -36,9 +75,50 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task Delete(int id)
+        public async Task<Response<TestimonialDto>> Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var testimonial = await _unitOfWork.TestimonialRepository.GetByIdAsync(id);
+
+                if(testimonial == null)
+                    return new Response<TestimonialDto>
+                    {
+                        Data = null,
+                        Succeeded = false,
+                        Message = ResponseMessage.NotFound,
+                        Errors = new string[1] { "Can't find the testimonial." }
+                    };
+
+                await _unitOfWork.TestimonialRepository.SoftDeleteAsync(testimonial);
+                await _unitOfWork.SaveAsync();
+
+                var testimonialDto = testimonial.MapToTestimonialDto();
+
+                var response = new Response<TestimonialDto>
+                {
+                    Data = testimonialDto,
+                    Succeeded = true,
+                    Message = ResponseMessage.Success,
+                    Errors = null
+                };
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"TestimonialsBusiness.Delete: {ex.Message}");
+
+                var response = new Response<TestimonialDto>
+                {
+                    Data = null,
+                    Succeeded = false,
+                    Message = ResponseMessage.Error,
+                    Errors = new string[1] { "The delete can't be done." }
+                };
+
+                return response;
+            }
         }
     }
 }

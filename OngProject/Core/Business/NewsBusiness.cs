@@ -1,4 +1,6 @@
-﻿using OngProject.Entities;
+﻿using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
+using OngProject.Entities;
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
@@ -20,23 +22,39 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task<News> GetById(int id)
+        public async Task<NewsDto> GetById(int id)
         {
-            throw new NotImplementedException();
+            var query = new QueryProperty<News>(1, 1);
+            query.Where = x => x.Id == id;
+            query.Includes.Add(x => x.Category);
+
+            var entity = await _unitOfWork.NewsRepository.GetAsync(query);
+            return entity?.ToNewsDto();
         }
 
-        public Task Insert(News entity)
+        public async Task<NewsDto> Insert(NewsInsertDto entity)
         {
-            throw new NotImplementedException();
+            var news = entity.ToModel();
+            news.Image = await Helper.ImageUploadHelper.UploadImageToS3(entity.Image);
+
+            await _unitOfWork.NewsRepository.InsertAsync(news);
+            await _unitOfWork.SaveAsync();
+
+            return news.ToNewsDto();
         }
 
         public Task Update(News entity)
         {
             throw new NotImplementedException();
         }
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var entity = await _unitOfWork.NewsRepository.GetByIdAsync(id);
+            if (entity == null)
+                throw new KeyNotFoundException();
+
+            await _unitOfWork.NewsRepository.SoftDeleteAsync(entity);
+            await _unitOfWork.SaveAsync();
         }
     }
 }
