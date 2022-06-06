@@ -1,5 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
@@ -30,9 +31,30 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public Task Insert(Slide slide)
+        public async Task<Response<SlideInsertDto>> Insert(SlideInsertDto slideDto)
         {
-            throw new System.NotImplementedException();
+            var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync(slideDto.OrganizationId);
+            if (organization == null)
+            {
+                string[] errors = new string[]
+                {
+                    "The organization id does not exist!",
+                    "Organization attribute was null!"
+                };
+                return new Response<SlideInsertDto>(slideDto, false, errors, ResponseMessage.ValidationErrors);
+            }
+            
+            if(slideDto.Order is null)
+            {
+                slideDto.Order = (await _unitOfWork.SlideRepository.GetAllAsync()).Max(x => x.Order) + 1;
+            }
+            var slide = await SlideMapper.MapToSlideInsertDto(slideDto);
+
+            await _unitOfWork.SlideRepository.InsertAsync(slide);
+
+            await _unitOfWork.SaveAsync();
+
+            return new Response<SlideInsertDto>(slideDto);
         }
 
         public Task Update(Slide slide)

@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Models.DTOs;
+﻿using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace OngProject.Core.Interfaces
 
         Task<Slide> GetById(int id);
 
-        Task Insert(Slide slide);
+        Task<Response<SlideInsertDto>> Insert(SlideInsertDto slideDto);
 
         Task Update(Slide slide);
 

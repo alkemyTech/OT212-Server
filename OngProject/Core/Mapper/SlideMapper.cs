@@ -1,5 +1,7 @@
-﻿using OngProject.Core.Models.DTOs;
+﻿using OngProject.Core.Helper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Mapper
 {
@@ -10,6 +12,15 @@ namespace OngProject.Core.Mapper
             {
                 ImageUrl = entity.ImageUrl,
                 Order = entity.Order
+            };
+
+        public async static Task<Slide> MapToSlideInsertDto(this SlideInsertDto entity)
+            => new Slide
+            {
+                Order = entity.Order.GetValueOrDefault(),
+                Text = entity.Text,
+                OrganizationId = entity.OrganizationId,
+                ImageUrl = await ImageUploadHelper.UploadImageToS3(entity.Image),
             };
     }
 }
