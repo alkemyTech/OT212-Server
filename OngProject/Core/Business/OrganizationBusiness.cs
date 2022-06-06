@@ -29,6 +29,9 @@ namespace OngProject.Core.Business
             
             var organization = organizationList.FirstOrDefault();
 
+            if (organization == null || organization.IsDeleted)
+                return null;
+
             var slideList = (await _unitOfWork.SlideRepository.GetAllAsync())
                             .Where(x => x.OrganizationId == organization.Id)
                             .OrderBy(x => x.Order)
