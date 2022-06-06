@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -70,17 +71,17 @@ namespace OngProject.Controllers
                 return BadRequest("Algo salió mal.");
             }
         }
-        [HttpDelete]
-        public ActionResult Delete(User user)
+        [HttpDelete("{id}")]
+        public async Task<Response<User>> Delete(int id)
         {
             try
             {
-                _userBusiness.Delete(user.Id);
-                return Ok();
+                await _userBusiness.Delete(id);
+                return new Response<User>(null, true);
             }
             catch
             {
-                return BadRequest("Algo salió mal.");
+                return new Response<User>(null, false, null, ResponseMessage.NotFound);
             }
         }
     }

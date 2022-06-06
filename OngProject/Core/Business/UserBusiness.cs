@@ -40,9 +40,14 @@ namespace OngProject.Core.Business
         {
             throw new NotImplementedException();
         }
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
+            if(user == null)
+                throw new KeyNotFoundException();
+
+            await _unitOfWork.UserRepository.SoftDeleteAsync(user);
+            await _unitOfWork.SaveAsync();
         }
 
         public async Task<User> GetByEmail(string email)
