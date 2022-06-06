@@ -31,7 +31,7 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public async Task<Response<SlideInsertDto>> Insert(SlideInsertDto slideDto)
+        public async Task<Response<SlideDetailsDto>> Insert(SlideInsertDto slideDto)
         {
             var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync(slideDto.OrganizationId);
             if (organization == null)
@@ -41,7 +41,7 @@ namespace OngProject.Core.Business
                     "The organization id does not exist!",
                     "Organization attribute was null!"
                 };
-                return new Response<SlideInsertDto>(slideDto, false, errors, ResponseMessage.ValidationErrors);
+                return new Response<SlideDetailsDto>(null, false, errors, ResponseMessage.ValidationErrors);
             }
             
             if(slideDto.Order is null)
@@ -54,7 +54,7 @@ namespace OngProject.Core.Business
 
             await _unitOfWork.SaveAsync();
 
-            return new Response<SlideInsertDto>(slideDto);
+            return new Response<SlideDetailsDto>(slideDto.MapToSlideDetailsDto(organization));
         }
 
         public Task Update(Slide slide)

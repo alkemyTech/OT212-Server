@@ -40,9 +40,8 @@ namespace OngProject.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult<Response<SlideInsertDto>>> Insert([FromForm] SlideInsertDto slideDto)
+        public async Task<ActionResult<Response<SlideDetailsDto>>> Insert([FromForm] SlideInsertDto slideDto)
         {
-
             var result = await _slideBusiness.Insert(slideDto);
 
             if (result.Succeeded)
@@ -53,7 +52,6 @@ namespace OngProject.Controllers
             {
                 return BadRequest(result);
             }
-
         }
         #endregion
 

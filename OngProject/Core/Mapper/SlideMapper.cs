@@ -22,5 +22,15 @@ namespace OngProject.Core.Mapper
                 OrganizationId = entity.OrganizationId,
                 ImageUrl = await ImageUploadHelper.UploadImageToS3(entity.Image),
             };
+
+        public static SlideDetailsDto MapToSlideDetailsDto(this SlideInsertDto entity, Organization organization)
+            => new()
+            {
+                ImageUrl = entity.Image.FileName,
+                Order = entity.Order.GetValueOrDefault(),
+                Text = entity.Text,
+                Organization = organization.MapToOrganizationDto(),
+                
+            };
     }
 }

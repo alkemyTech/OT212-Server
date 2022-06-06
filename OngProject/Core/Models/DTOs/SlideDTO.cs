@@ -22,4 +22,10 @@ namespace OngProject.Core.Models.DTOs
         [Required(ErrorMessage = "You must enter an organization id!")]
         public int OrganizationId { get; set; }
     }
+
+    public class SlideDetailsDto : SlideDTO
+    {
+        public string Text { get; set; }
+        public OrganizationDto Organization { get; set; }
+    }
 }
