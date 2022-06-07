@@ -7,9 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using OngProject.Core.Models.DTOs;
 using OngProject.Core.Models;
 
-using Microsoft.AspNetCore.Authorization;
-
-
 
 
 namespace OngProject.Controllers

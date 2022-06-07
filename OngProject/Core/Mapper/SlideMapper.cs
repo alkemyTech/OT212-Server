@@ -31,6 +31,7 @@ namespace OngProject.Core.Mapper
                 Order = entity.Order.GetValueOrDefault(),
                 Text = entity.Text,
                 Organization = organization.MapToOrganizationDto(),
+            };
                 
 
         public static SlideDetailsDto MapToSlideDetailsDto(this Slide entity)

@@ -25,9 +25,6 @@ namespace OngProject.Core.Models.DTOs
     }
 
     public class SlideDetailsDto : SlideDTO
-    {
-
-    public class SlideDetailsDto : SlideDTO
     {     
         public string Text { get; set; }
         public OrganizationDto Organization { get; set; }

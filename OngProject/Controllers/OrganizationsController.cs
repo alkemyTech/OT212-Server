@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
 namespace OngProject.Controllers
@@ -26,16 +27,16 @@ namespace OngProject.Controllers
 
         [HttpGet]
         [Route("public")]
-        public async Task<ActionResult<Organization>> Get()
+        public async Task<ActionResult<OrganizationDetailsDto>> Get()
         {
             try
             {
-                var organizationDto = await _organizationBusiness.Get();
+                var organizationDetailsDto = await _organizationBusiness.Get();
 
-                if (organizationDto == null)
+                if (organizationDetailsDto == null)
                     return BadRequest(@"Can't find organization data.");
 
-                return Ok(organizationDto);
+                return Ok(organizationDetailsDto);
             }
             catch (Exception e)
             {
