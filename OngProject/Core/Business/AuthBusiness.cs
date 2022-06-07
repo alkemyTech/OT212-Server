@@ -94,6 +94,7 @@ namespace OngProject.Core.Business
             claims.AddClaim(new Claim(type: "Id", value: user.Id.ToString()));
             claims.AddClaim(new Claim(ClaimTypes.Email, user.Email));
             claims.AddClaim(new Claim(ClaimTypes.Role, user.Roles.Name));
+            claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
