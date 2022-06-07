@@ -54,7 +54,7 @@ namespace OngProject.Controllers
         {
             var response = await _testimonailsBussines.Delete(id);
 
-            if (response.Message == ResponseMessage.NotFound)
+            if (response.Message == "Record not found")
                 return NotFound(response);
 
             if (!response.Succeeded)
