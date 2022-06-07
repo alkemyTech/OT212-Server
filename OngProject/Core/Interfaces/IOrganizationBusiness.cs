@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Models.DTOs;
+﻿using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace OngProject.Core.Interfaces
     {
         Task<List<Organization>> GetAll();
 
-        Task<OrganizationDto> Get();
+        Task<Response<OrganizationDetailsDto>> Get();
 
         Task<Organization> GetById(int id);
 

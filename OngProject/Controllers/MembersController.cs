@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
@@ -64,9 +65,22 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        [Authorize]
+        public async Task<Response<MemberDto>> DeleteMemeber(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var entity = await _memberBusiness.Delete(id);
+                return new Response<MemberDto>(entity, true);
+            }
+            catch (KeyNotFoundException)
+            {
+                return new Response<MemberDto>(null, false, null, ResponseMessage.NotFound);
+            }
+            catch 
+            {
+                return new Response<MemberDto>(null, false, null, ResponseMessage.Error);
+            }
         }
 
     }

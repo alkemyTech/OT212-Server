@@ -15,6 +15,6 @@ namespace OngProject.Core.Interfaces
 
         Task Update(Member entity);
 
-        Task Delete(Member entity);
+        Task <MemberDto> Delete(int id);
     }
 }
