@@ -30,7 +30,7 @@ namespace OngProject.Core.Business
 
             var organization = organizationList.FirstOrDefault();
 
-            if(organization == null)
+            if(organization == null || organization.IsDeleted)
             {
                 string[] errors = new string[]
                 {
