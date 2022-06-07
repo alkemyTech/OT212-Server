@@ -25,6 +25,8 @@ namespace OngProject.Core.Helper
         /* This is the main method of the helper for uploading an image to AWS S3 service */
         public static async Task<string> UploadImageToS3(IFormFile file)
         {
+            if (file == null)
+                return "";
             if (! await IsImage(file))
                 throw new Exception("Not a jpg/png/bmp/gif image");
 

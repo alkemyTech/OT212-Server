@@ -72,6 +72,7 @@ namespace OngProject.Controllers
             }
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Usuario, Administrador")]
         public async Task<Response<User>> Delete(int id)
         {
             try

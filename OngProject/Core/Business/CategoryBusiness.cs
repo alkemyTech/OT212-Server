@@ -28,7 +28,7 @@ namespace OngProject.Core.Business
         public async Task<CategoryDto> GetById(int id)
         {
             var entity = await _unitOfWork.CategoriesRepository.GetByIdAsync(id);
-            if (entity == null | entity.IsDeleted == true)
+            if (entity == null || entity.IsDeleted == true)
                 return null;
             return CategoryMapper.MapToCategoryDto(entity);
         }

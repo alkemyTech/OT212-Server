@@ -42,7 +42,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Usuario")]
+        [Authorize(Roles = "Usuario, Administrador")]
         public async Task<ActionResult<Response<ContactDto>>> Insert(ContactDto contactDto)
         {
             await _contactBusiness.Insert(contactDto);

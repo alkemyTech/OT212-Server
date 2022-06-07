@@ -11,11 +11,11 @@ namespace OngProject.Core.Business
     {
         Task<List<CategoryNameDTO>> GetAll();
 
-        Task<Category> GetById(int id);
+        //Task<Category> GetById(int id);
         public Task<CategoryDto> Insert(CategoryInsertDto categoryDto);
 
         Task<CategoryDto> GetById(int id);
-        Task Insert(Category entity);
+        //Task Insert(Category entity);
 
         Task Update(Category entity);
         Task Delete(int id);
