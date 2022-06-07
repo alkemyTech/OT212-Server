@@ -45,9 +45,17 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] Member entity)
+        public async Task<Response<MemberDto>> CreateMember([FromForm] MemberInsertDto memberDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var entity =  await _memberBusiness.Insert(memberDto);
+                return new Response<MemberDto>(entity,true);
+            }
+            catch
+            {
+                return new Response<MemberDto>(null, false, null, ResponseMessage.Error);
+            }
         }
 
         [HttpPut("{id:int}")]

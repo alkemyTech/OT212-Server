@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
@@ -26,10 +26,15 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public Task Insert(Member entity)
+        public async Task<MemberDto> Insert(MemberInsertDto memberDto)
         {
-            throw new System.NotImplementedException();
+            var member = await MemberMapper.MapToInsertMemberDto(memberDto);
+            await _unitOfWork.MemberRepository.InsertAsync(member);
+            await _unitOfWork.SaveAsync();
+
+            return MemberMapper.MapToMemberDto(member);
         }
+      
 
         public Task Update(Member entity)
         {
@@ -37,6 +42,9 @@ namespace OngProject.Core.Business
         }
         public async Task<MemberDto> Delete(int id)
         {
+
+            throw new System.NotImplementedException();
+
             var member = await _unitOfWork.MemberRepository.GetByIdAsync(id);
 
             if ((member != null) && (member.IsDeleted == false))
@@ -49,6 +57,7 @@ namespace OngProject.Core.Business
             }
             else
                 throw new KeyNotFoundException();
+
         }
     }
 }

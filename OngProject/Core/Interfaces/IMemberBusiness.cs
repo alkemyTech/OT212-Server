@@ -11,7 +11,7 @@ namespace OngProject.Core.Interfaces
 
         Task<List<Member>> GetAll();
 
-        Task Insert(Member entity);
+        Task<MemberDto> Insert(MemberInsertDto memberDto);
 
         Task Update(Member entity);
 
