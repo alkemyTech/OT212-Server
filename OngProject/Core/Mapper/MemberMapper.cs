@@ -1,5 +1,7 @@
-﻿using OngProject.Core.Models.DTOs;
+﻿using OngProject.Core.Helper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Mapper
 {
@@ -18,7 +20,7 @@ namespace OngProject.Core.Mapper
                 Image = member.Image
             };
         }
-        public static Member MapToMember(this MemberInsertDto member)
+        public async static Task<Member> MapToInsertMemberDto(this MemberInsertDto member)
         {
             return new Member
             {
@@ -27,7 +29,16 @@ namespace OngProject.Core.Mapper
                 FacebookUrl = member.FacebookUrl,
                 InstagramUrl = member.InstagramUrl,
                 LinkedinUrl = member.LinkedinUrl,
-                Image = member.Image.FileName
+                Image = await ImageUploadHelper.UploadImageToS3(member.Image)
+            };
+        }
+        public static MemberDto MapToMemberNewDto(this Member entity)
+        {
+            return new MemberDto
+            {
+                Name = entity.Name,
+                Description = entity.Description,
+                Image = entity.Image,
             };
         }
     }

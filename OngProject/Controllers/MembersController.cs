@@ -44,16 +44,16 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<Response<MemberInsertDto>> CreateMember([FromForm] MemberInsertDto memberDto)
+        public async Task<Response<MemberDto>> CreateMember([FromForm] MemberInsertDto memberDto)
         {
             try
             {
-                await _memberBusiness.Insert(memberDto);
-                return new Response<MemberInsertDto>(memberDto,true);
+                var entity =  await _memberBusiness.Insert(memberDto);
+                return new Response<MemberDto>(entity,true);
             }
             catch
             {
-                return new Response<MemberInsertDto>(null, false, null, ResponseMessage.Error);
+                return new Response<MemberDto>(null, false, null, ResponseMessage.Error);
             }
         }
 

@@ -26,13 +26,13 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        public async Task Insert(MemberInsertDto memberDto)
+        public async Task<MemberDto> Insert(MemberInsertDto memberDto)
         {
-            var member = MemberMapper.MapToMember(memberDto);
-            member.Image = await Helper.ImageUploadHelper.UploadImageToS3(memberDto.Image);
-
+            var member = await MemberMapper.MapToInsertMemberDto(memberDto);
             await _unitOfWork.MemberRepository.InsertAsync(member);
             await _unitOfWork.SaveAsync();
+
+            return MemberMapper.MapToMemberDto(member);
         }
       
 
@@ -44,6 +44,5 @@ namespace OngProject.Core.Business
         {
             throw new System.NotImplementedException();
         }
-
     }
 }
