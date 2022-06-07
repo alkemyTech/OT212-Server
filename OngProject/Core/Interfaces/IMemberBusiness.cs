@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
 namespace OngProject.Core.Interfaces
@@ -10,7 +11,7 @@ namespace OngProject.Core.Interfaces
 
         Task<List<Member>> GetAll();
 
-        Task Insert(Member entity);
+        Task Insert(MemberInsertDto memberDto);
 
         Task Update(Member entity);
 

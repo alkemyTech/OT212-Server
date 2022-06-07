@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
@@ -43,9 +44,17 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] Member entity)
+        public async Task<Response<MemberInsertDto>> CreateMember([FromForm] MemberInsertDto memberDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _memberBusiness.Insert(memberDto);
+                return new Response<MemberInsertDto>(memberDto,true);
+            }
+            catch
+            {
+                return new Response<MemberInsertDto>(null, false, null, ResponseMessage.Error);
+            }
         }
 
         [HttpPut("{id:int}")]

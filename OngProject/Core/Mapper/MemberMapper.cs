@@ -18,5 +18,17 @@ namespace OngProject.Core.Mapper
                 Image = member.Image
             };
         }
+        public static Member MapToMember(this MemberInsertDto member)
+        {
+            return new Member
+            {
+                Name = member.Name,
+                Description = member.Description,
+                FacebookUrl = member.FacebookUrl,
+                InstagramUrl = member.InstagramUrl,
+                LinkedinUrl = member.LinkedinUrl,
+                Image = member.Image.FileName
+            };
+        }
     }
 }
