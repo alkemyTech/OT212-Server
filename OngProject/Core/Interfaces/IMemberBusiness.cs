@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
 namespace OngProject.Core.Interfaces
@@ -14,6 +15,6 @@ namespace OngProject.Core.Interfaces
 
         Task Update(Member entity);
 
-        Task Delete(Member entity);
+        Task <MemberDto> Delete(int id);
     }
 }
