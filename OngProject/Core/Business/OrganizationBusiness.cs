@@ -1,5 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
@@ -12,7 +13,7 @@ namespace OngProject.Core.Business
 {
     public class OrganizationBusiness : IOrganizationBusiness
     {
-        private UnitOfWork _unitOfWork;
+        private readonly UnitOfWork _unitOfWork;
         public OrganizationBusiness(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -23,12 +24,29 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public async Task<OrganizationDto> Get()
+        public async Task<Response<OrganizationDetailsDto>> Get()
         {
             var organizationList = await _unitOfWork.OrganizationRepository.GetAllAsync();
+
             var organization = organizationList.FirstOrDefault();
 
-            return organization.MapToOrganizationDto();
+            if(organization == null || organization.IsDeleted)
+            {
+                string[] errors = new string[]
+                {
+                    "The organization id does not exist!",
+                    "Organization attribute was null!"
+                };
+                return new Response<OrganizationDetailsDto>(null, false, errors, ResponseMessage.NotFound);
+            }
+
+            var slideList = (await _unitOfWork.SlideRepository.GetAllAsync())
+                            .Where(x => x.OrganizationId == organization.Id)
+                            .OrderBy(x => x.Order)
+                            .Select(x => x.MapToSlideDTO());
+
+
+            return new Response<OrganizationDetailsDto>(organization.MapToOrganizationDetailsDto(slideList));
         }
 
         public Task<Organization> GetById(int id)
