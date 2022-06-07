@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 
@@ -33,10 +35,20 @@ namespace OngProject.Core.Business
         {
             throw new System.NotImplementedException();
         }
-        public Task Delete(Member entity)
+        public async Task<MemberDto> Delete(int id)
         {
-            throw new System.NotImplementedException();
-        }
+            var member = await _unitOfWork.MemberRepository.GetByIdAsync(id);
 
+            if ((member != null) && (member.IsDeleted == false))
+            {
+                var memberDto = MemberMapper.MapToMemberDto(member);
+                await _unitOfWork.MemberRepository.SoftDeleteAsync(member);
+                await _unitOfWork.SaveAsync();
+
+                return memberDto;
+            }
+            else
+                throw new KeyNotFoundException();
+        }
     }
 }
