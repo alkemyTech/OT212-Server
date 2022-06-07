@@ -42,9 +42,6 @@ namespace OngProject.Core.Business
         }
         public async Task<MemberDto> Delete(int id)
         {
-
-            throw new System.NotImplementedException();
-
             var member = await _unitOfWork.MemberRepository.GetByIdAsync(id);
 
             if ((member != null) && (member.IsDeleted == false))

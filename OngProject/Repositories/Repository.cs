@@ -20,12 +20,14 @@ namespace OngProject.Repositories
 
         public async Task<T> GetByIdAsync(int id)
         {
-            return await _context.Set<T>().FindAsync(id);
+            var source = _context.Set<T>().Where(x => !x.IsDeleted);
+            return await source.FirstOrDefaultAsync(x=>x.Id == id);
         }
 
         public async Task<List<T>> GetAllAsync()
         {
-            return await _context.Set<T>().ToListAsync();
+            var source = _context.Set<T>().Where(x => !x.IsDeleted);
+            return await source.ToListAsync();
         }
 
         public async Task InsertAsync(T entity)
@@ -52,13 +54,15 @@ namespace OngProject.Repositories
         public Task<T> GetAsync(QueryProperty<T> query)
         {
             var source = ApplyQuery(query, _context.Set<T>().AsQueryable());
-
+            source = source.Where(x => !x.IsDeleted);
+            
             return source.FirstOrDefaultAsync();
         }
 
         public Task<List<T>> GetAllAsync(QueryProperty<T> query)
         {
             var source = ApplyQuery(query, _context.Set<T>().AsQueryable());
+            source = source.Where(x => !x.IsDeleted);
 
             return source.ToListAsync();
         }

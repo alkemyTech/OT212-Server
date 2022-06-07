@@ -84,7 +84,7 @@ namespace OngProject
             });
 
             var appSettings = Configuration.GetSection("JWT").GetSection("Secret");
-            var key = Encoding.ASCII.GetBytes(appSettings.Value);
+            var key = Encoding.UTF8.GetBytes(appSettings.Value);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
