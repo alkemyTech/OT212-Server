@@ -52,7 +52,7 @@ namespace OngProject.Controllers
                     return NotFound(new Response<CategoryDto>(entity, false, null, ResponseMessage.NotFound));
                 return Ok(new Response<CategoryDto>(entity, true, null, ResponseMessage.Success));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(new Response<CategoryDto>(null, false, null, ex.Message));
             }
@@ -78,7 +78,7 @@ namespace OngProject.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try

@@ -36,6 +36,9 @@ namespace OngProject.Middleware
             var isRestrictedAction = _restrictedRestMethods.Any(x => x == context.Request.Method);
             var canAccessToRoute = !isRestrictedAction || HasPermissions(context);
 
+            if(await Ownership(context, "/User", "DELETE"))
+                return;
+            
             if (!canAccessToRoute)
                 context.Response.StatusCode = 403; 
 
@@ -67,6 +70,18 @@ namespace OngProject.Middleware
                     || lstPermission.Any(p => string.IsNullOrEmpty(p.Method)))
                     return true;
             }
+
+
+            return false;
+        }
+        private string getUserId(HttpContext context)
+        {
+            var identity = context.User.Identity as ClaimsIdentity;
+            //var userId = context.User.Claims.ToArray()[2].Value;
+            var userId = context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
+            return userId;
+        }
+
 
             lstPermission = permissions.Where(p => !string.IsNullOrEmpty(p.Route) && route.StartsWithSegments(p.Route)).ToList();
 
