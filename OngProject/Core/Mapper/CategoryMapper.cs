@@ -17,7 +17,7 @@ namespace OngProject.Core.Mapper
             Name = dto.Name,
             Description = dto.Description,
             Image = await ImageUploadHelper.UploadImageToS3(dto.Image),
-
+        };
 
         public static CategoryDto MapToCategoryDto(this Category entity) => new CategoryDto
         {

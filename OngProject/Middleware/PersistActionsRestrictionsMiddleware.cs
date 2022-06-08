@@ -29,6 +29,9 @@ namespace OngProject.Middleware
             var isAuthRoute = context.Request.Path.StartsWithSegments("/Auth");
             var canAccessToRoute = isAuthRoute || !isRestrictedAction || userHasAuthorizedRole(context);
 
+            if(await Ownership(context, "/User", "DELETE"))
+                return;
+            
             if (!canAccessToRoute)
                 await context.Response.WriteAsync($"You don't have authorization for this request.");
 
@@ -72,7 +75,8 @@ namespace OngProject.Middleware
         private string getUserId(HttpContext context)
         {
             var identity = context.User.Identity as ClaimsIdentity;
-            var userId = context.User.Claims.ToArray()[2].Value;
+            //var userId = context.User.Claims.ToArray()[2].Value;
+            var userId = context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
             return userId;
         }
 
