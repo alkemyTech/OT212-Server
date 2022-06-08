@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -10,66 +11,67 @@ namespace OngProject.Middleware
     public class PersistActionsRestrictionsMiddleware
     {
         private readonly List<string> _restrictedRestMethods;
-        private readonly List<string> _authorizedRoles;
+        private List<Permission> permissions;
         private readonly RequestDelegate _next;
-        private readonly string _roleUser;
 
         public PersistActionsRestrictionsMiddleware(RequestDelegate next)
         {
             _next = next;
-
-            _authorizedRoles = new List<string> { "Administrador" };
             _restrictedRestMethods = new List<string> { "POST", "PUT", "PATCH", "DELETE" };
-            _roleUser = "Usuario";
+            permissions = new List<Permission>();
+
+            ConfigurePermissions();
+        }
+
+        private void ConfigurePermissions() 
+        {
+            permissions.Add(new Permission { Role = "Administrador"});
+            permissions.Add(new Permission { Route = "/Auth"});
+            permissions.Add(new Permission { Route = "/User", Method = "DELETE"});
+
         }
 
         public async Task InvokeAsync(HttpContext context)
-        { 
+        {
             var isRestrictedAction = _restrictedRestMethods.Any(x => x == context.Request.Method);
-            var isAuthRoute = context.Request.Path.StartsWithSegments("/Auth");
-            var canAccessToRoute = isAuthRoute || !isRestrictedAction || userHasAuthorizedRole(context);
+            var canAccessToRoute = !isRestrictedAction || HasPermissions(context);
 
             if(await Ownership(context, "/User", "DELETE"))
                 return;
             
             if (!canAccessToRoute)
-                await context.Response.WriteAsync($"You don't have authorization for this request.");
+                context.Response.StatusCode = 403; 
 
             else
                 await _next.Invoke(context);
         }
 
-        private bool userHasAuthorizedRole(HttpContext context)
+        private bool HasPermissions(HttpContext context)
         {
+            var lstPermission = new List<Permission>();
+            var route = context.Request.Path;
+            var method = context.Request.Method;
+            var role = "";
+
             var identity = context.User.Identity as ClaimsIdentity;
 
-            if (identity == null || !identity.Claims.Any())
-                return false;
+            if (identity != null && identity.Claims.Any())
+                role = identity.Claims.FirstOrDefault(x => x.Type == identity.RoleClaimType).Value;
 
-            var userRole = identity.Claims.FirstOrDefault(x => x.Type == identity.RoleClaimType);
-            
-            return _authorizedRoles.Any(x => x == userRole.Value);
-        }
 
-        private async Task<bool> Ownership(HttpContext context, string route, string method)
-        {
-            var RouteProtected = context.Request.Path.StartsWithSegments(route) && context.Request.Method == method;
-
-            if (RouteProtected)
+            if (!string.IsNullOrEmpty(role))
             {
-                var canAccessToRoute = userHasAuthorizedRole(context) || userHasRole(context) && compareId(context);
+                if (permissions.Any(p => p.Role == role && string.IsNullOrEmpty(p.Route)))
+                    return true;
 
-                if (canAccessToRoute)
-                {
-                    await _next.Invoke(context);
+                lstPermission = permissions.Where(p => p.Role == role && route.StartsWithSegments(p.Route)).ToList();
+
+                if (lstPermission.Any(p => p.Method == method)
+                    || lstPermission.Any(p => string.IsNullOrEmpty(p.Method)))
                     return true;
-                }
-                if (!canAccessToRoute)
-                {
-                    context.Response.StatusCode = 403;
-                    return true;
-                }
             }
+
+
             return false;
         }
         private string getUserId(HttpContext context)
@@ -80,26 +82,20 @@ namespace OngProject.Middleware
             return userId;
         }
 
-        private bool compareId(HttpContext context)
-        {
-            var idParameter = context.Request.RouteValues["id"].ToString();
-            if (getUserId(context) == idParameter)
-                return true;
-            else return false;
+
+            lstPermission = permissions.Where(p => !string.IsNullOrEmpty(p.Route) && route.StartsWithSegments(p.Route)).ToList();
+
+            return lstPermission.Any(p => p.Method == method)
+                || lstPermission.Any(p => string.IsNullOrEmpty(p.Method));
         }
 
-        private bool userHasRole(HttpContext context)
+        internal class Permission
         {
-            var identity = context.User.Identity as ClaimsIdentity;
+            public string Role { get; set; }
 
-            if (identity == null || !identity.Claims.Any())
-                return false;
+            public string Route { get; set; }
 
-            var userRole = identity.Claims.FirstOrDefault(x => x.Type == identity.RoleClaimType);
-
-            if (userRole.Value == _roleUser)
-                return true;
-            return false;
+            public string Method { get; set; }
         }
     }
 

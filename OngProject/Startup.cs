@@ -123,6 +123,8 @@ namespace OngProject
 
             app.UsePersistActionsRestrictions();
 
+            app.UseOwnershipRestrictions();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
