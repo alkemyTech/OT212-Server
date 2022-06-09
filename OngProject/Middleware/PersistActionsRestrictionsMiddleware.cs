@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -23,11 +22,11 @@ namespace OngProject.Middleware
             ConfigurePermissions();
         }
 
-        private void ConfigurePermissions() 
+        private void ConfigurePermissions()
         {
-            permissions.Add(new Permission { Role = "Administrador"});
-            permissions.Add(new Permission { Route = "/Auth"});
-            permissions.Add(new Permission { Route = "/User", Method = "DELETE"});
+            permissions.Add(new Permission { Role = "Administrador" });
+            permissions.Add(new Permission { Route = "/Auth" });
+            permissions.Add(new Permission { Route = "/User", Method = "DELETE" });
 
         }
 
@@ -36,11 +35,8 @@ namespace OngProject.Middleware
             var isRestrictedAction = _restrictedRestMethods.Any(x => x == context.Request.Method);
             var canAccessToRoute = !isRestrictedAction || HasPermissions(context);
 
-            if(await Ownership(context, "/User", "DELETE"))
-                return;
-            
             if (!canAccessToRoute)
-                context.Response.StatusCode = 403; 
+                context.Response.StatusCode = 403;
 
             else
                 await _next.Invoke(context);
@@ -70,18 +66,6 @@ namespace OngProject.Middleware
                     || lstPermission.Any(p => string.IsNullOrEmpty(p.Method)))
                     return true;
             }
-
-
-            return false;
-        }
-        private string getUserId(HttpContext context)
-        {
-            var identity = context.User.Identity as ClaimsIdentity;
-            //var userId = context.User.Claims.ToArray()[2].Value;
-            var userId = context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            return userId;
-        }
-
 
             lstPermission = permissions.Where(p => !string.IsNullOrEmpty(p.Route) && route.StartsWithSegments(p.Route)).ToList();
 
