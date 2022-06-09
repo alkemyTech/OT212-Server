@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
     [Route("[controller]")]
-    [ApiController]
     public class UserController : ControllerBase
     {
         private readonly IUserBusiness _userBusiness;
@@ -58,19 +60,32 @@ namespace OngProject.Controllers
                 return BadRequest("Algo salió mal.");
             }
         }
-        [HttpPut]
-        public ActionResult Update(User user)
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<Response<UserDto>>> Update(int id, [FromForm] UserEditDto user)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(new Response<UserDto>(user.ToUserDto(), 
+                                        false, 
+                                        (from item in ModelState.Values
+                                        from error in item.Errors
+                                        select error.ErrorMessage).ToArray(),
+                                        ResponseMessage.ValidationErrors));
             try
             {
-                _userBusiness.Update(user);
-                return Ok();
+                var entity = await _userBusiness.GetById(id);
+                if (entity == null)
+                    return NotFound(new Response<UserDto>(entity, false, null, ResponseMessage.NotFound));
+
+                var resp = await _userBusiness.Update(id, user);
+                return Ok(new Response<UserDto>(resp,true));
             }
-            catch
+            catch (Exception)
             {
-                return BadRequest("Algo salió mal.");
+                return BadRequest(new Response<UserDto>(null, false, null, ResponseMessage.UnexpectedErrors));
             }
         }
+
         [HttpDelete("{id}")]
         [Authorize(Roles = "Usuario, Administrador")]
         public async Task<Response<User>> Delete(int id)

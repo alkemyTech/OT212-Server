@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using OngProject.Core.Helper;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.DataAccess;
@@ -26,9 +27,11 @@ namespace OngProject.Core.Business
             return userList.Select(x => UserMapper.ToUserDto(x)).ToList();
         }
 
-        public Task<User> GetById(int id)
+        public async Task<UserDto> GetById(int id)
         {
-            throw new NotImplementedException();
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
+            
+            return user?.ToUserDto();
         }
 
         public Task Insert(User entity)
@@ -36,10 +39,24 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task Update(User entity)
+        public async Task<UserDto> Update(int id, UserEditDto entity)
         {
-            throw new NotImplementedException();
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
+            if(user == null)
+                return null;
+
+            entity.ToUserModel(user);
+
+            //Get an add image url.
+            if (entity.Photo != null)
+                user.Photo = await ImageUploadHelper.UploadImageToS3(entity.Photo);
+
+            await _unitOfWork.UserRepository.UpdateAsync(user);
+            await _unitOfWork.SaveAsync();
+
+            return user.ToUserDto();
         }
+
         public async Task Delete(int id)
         {
             var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
