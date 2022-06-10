@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OngProject.Core.Mapper;
-using OngProject.Core.Models.DTOs;
 using System.Linq;
+using OngProject.Core.Models.DTOs;
+using OngProject.Core.Models;
 
 namespace OngProject.Core.Business
 {
@@ -22,8 +23,8 @@ namespace OngProject.Core.Business
         {
             var query = new QueryProperty<Category>(page, pageSize);
             var categoriesList = await _unitOfWork.CategoriesRepository.GetAllAsync(query);
-            
-            var totalItems = await _unitOfWork.CategoriesRepository.Count();
+
+            int totalItems = await CountElements();
 
             var list = categoriesList.Select(x => CategoryMapper.MapToCategoryNameDTO(x)).ToList();
 
@@ -31,6 +32,9 @@ namespace OngProject.Core.Business
 
             return pagelist;
         }
+
+        public async Task<int> CountElements()
+            => await _unitOfWork.CategoriesRepository.Count();
 
         public async Task<CategoryDto> GetById(int id)
         {

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace OngProject.Repositories
+namespace OngProject.Core.Models
 {
     public class PageList<T> where T : class
     {
@@ -21,13 +20,13 @@ namespace OngProject.Repositories
             Page = page;
             PageSize = pageSize;
             TotalItems = totalItems;
-            TotalPage = (int) Math.Ceiling(TotalItems / (double)PageSize);
+            TotalPage = (int)Math.Ceiling(TotalItems / (double)PageSize);
             URL = url;
 
-            if(page > 1)
+            if (page > 1)
                 PreviusPage = $"{URL}?page={page - 1}";
 
-            if(page < TotalPage)
+            if (page < TotalPage)
                 NextPage = $"{URL}?page={page + 1}";
 
             Items = items;

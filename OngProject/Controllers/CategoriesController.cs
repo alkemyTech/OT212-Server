@@ -1,18 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
-using OngProject.Repositories;
-using System;
-using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
     [ApiController]
     [Route("api/categories")]
-    [Authorize(Roles = "Administrador")]
+    //[Authorize(Roles = "Administrador")]
     public class CategoriesController : Controller
     {
         private readonly ICategoryBusiness _categoryBusiness;
@@ -27,12 +25,19 @@ namespace OngProject.Controllers
         {
             try
             {
-                var categoryDtoList = await _categoryBusiness.GetAll(page,pageSize, $"{this.Request.Host}{this.Request.Path}");
+                if (pageSize < 1 || page < 1)
+                    return BadRequest("Incorrect page or size number.");
+
+                var elemntsCount = await _categoryBusiness.CountElements();
+                var higherPageNumber = (int)Math.Ceiling(elemntsCount / (double)pageSize);
+
+                if (page > higherPageNumber)
+                    return BadRequest($"Incorrect page. Max page number is {higherPageNumber}.");
+
+                var categoryDtoList = await _categoryBusiness.GetAll(page,pageSize, $"{Request.Host}{Request.Path}");
 
                 if (categoryDtoList.Items.Count == 0)
-                {
                     return NotFound("Category list is empty.");
-                }
 
                 return Ok(categoryDtoList);
             }
