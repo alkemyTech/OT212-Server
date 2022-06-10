@@ -1,12 +1,13 @@
-﻿using OngProject.Entities;
-using OngProject.Repositories;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OngProject.Core.Mapper;
-using System.Linq;
+using OngProject.Entities;
+using OngProject.Repositories;
 using OngProject.Core.Models.DTOs;
 using OngProject.Core.Models;
+using OngProject.Core.Helper;
 
 namespace OngProject.Core.Business
 {
@@ -61,10 +62,27 @@ namespace OngProject.Core.Business
             }            
         }
 
-        public Task Update(Category entity)
+        public async Task<CategoryDto> Update(int id, CategoryInsertDto categoryDto)
         {
-            throw new NotImplementedException();
+            var category = await _unitOfWork.CategoriesRepository.GetByIdAsync(id);
+
+            if (category != null)
+            {
+                var image = await ImageUploadHelper.UploadImageToS3(categoryDto.Image);
+
+                category.Name = categoryDto.Name;
+                category.Description= categoryDto.Description;
+                category.Image = image;
+
+
+                await _unitOfWork.CategoriesRepository.UpdateAsync(category);
+                await _unitOfWork.SaveAsync();
+
+                return category.MapToCategoryDto();
+            }
+            throw new KeyNotFoundException();
         }
+
         public async Task Delete(int id)
         {
             var entity = await _unitOfWork.CategoriesRepository.GetByIdAsync(id);
@@ -73,5 +91,6 @@ namespace OngProject.Core.Business
             await _unitOfWork.CategoriesRepository.SoftDeleteAsync(entity);
             await _unitOfWork.SaveAsync();
         }
+
     }
 }
