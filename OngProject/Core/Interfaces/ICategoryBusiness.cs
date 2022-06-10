@@ -9,7 +9,7 @@ namespace OngProject.Core.Business
 {
     public interface ICategoryBusiness
     {
-        Task<List<CategoryNameDTO>> GetAll();
+        Task<PageList<CategoryNameDTO>> GetAll(int page, int pageSize, string url);
 
         //Task<Category> GetById(int id);
         public Task<CategoryDto> Insert(CategoryInsertDto categoryDto);
