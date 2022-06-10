@@ -30,5 +30,27 @@ namespace OngProject.Core.Mapper
 
             return user;
         }
+
+        public static User ToUserModel(this UserEditDto registerDto, User user)
+        {
+            user.FirstName = registerDto.FirstName;
+            user.LastName = registerDto.LastName;
+            user.Email = registerDto.Email;
+            user.Photo = registerDto.Photo?.FileName;
+
+            return user;
+        }
+
+        public static UserDto ToUserDto(this UserEditDto registerDto)
+        {
+            UserDto user = new UserDto();
+            
+            user.FirstName = registerDto.FirstName;
+            user.LastName = registerDto.LastName;
+            user.Email = registerDto.Email;
+            user.Photo = registerDto.Photo?.FileName;
+
+            return user;
+        }
     }
 }

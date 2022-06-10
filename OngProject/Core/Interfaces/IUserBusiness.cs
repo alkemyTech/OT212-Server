@@ -7,10 +7,10 @@ namespace OngProject.Core.Interfaces
 {
     public interface IUserBusiness
     {
-        Task<User> GetById(int id);
+        Task<UserDto> GetById(int id);
         Task<List<UserDto>> GetAll();
         Task Insert(User entity);
-        Task Update(User entity);
+        Task<UserDto> Update(int id, UserEditDto entity);
         Task Delete(int id);
 
         Task<User> GetByEmail(string email);
