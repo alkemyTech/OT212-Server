@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -58,6 +61,11 @@ namespace OngProject
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
+
+                // Add Swagger Doc;
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
@@ -111,8 +119,12 @@ namespace OngProject
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OngProject v1"));
+                app.UseSwagger(c=> c.RouteTemplate = "/api/docs/{documentName}/swagger.json");
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/api/docs/v1/swagger.json", "OngProject v1");
+                    c.RoutePrefix = "api/docs";
+                });
             }
 
             app.UseHttpsRedirection();
