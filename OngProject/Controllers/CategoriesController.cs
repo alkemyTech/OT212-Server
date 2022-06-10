@@ -5,6 +5,7 @@ using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
@@ -72,10 +73,24 @@ namespace OngProject.Controllers
             }
         }
 
-        [HttpPut]
-        public IActionResult Update()
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id,[FromForm] CategoryInsertDto categoryDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var entity = await _categoryBusiness.Update(id, categoryDto);
+                return Ok(new Response<CategoryDto>(entity, true, null, ResponseMessage.Success));
+
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new Response<CategoryDto>(null, false, null, ResponseMessage.NotFound));
+            }
+            catch
+            {
+                return BadRequest(new Response<CategoryDto>(null, false, null, ResponseMessage.Error));
+            }
+
         }
 
         [HttpDelete("{id}")]
