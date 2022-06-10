@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Models;
@@ -15,20 +16,20 @@ namespace OngProject.Controllers
     public class CategoriesController : Controller
     {
         private readonly ICategoryBusiness _categoryBusiness;
-
+        
         public CategoriesController(ICategoryBusiness categoryBusiness)
         {
             _categoryBusiness = categoryBusiness;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int page,int pageSize = 10)
         {
             try
             {
-                var categoryDtoList = await _categoryBusiness.GetAll();
+                var categoryDtoList = await _categoryBusiness.GetAll(page,pageSize, $"{this.Request.Host}{this.Request.Path}");
 
-                if (categoryDtoList.Count == 0)
+                if (categoryDtoList.Items.Count == 0)
                 {
                     return NotFound("Category list is empty.");
                 }

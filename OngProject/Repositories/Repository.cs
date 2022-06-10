@@ -83,5 +83,10 @@ namespace OngProject.Repositories
             return source.Skip(query.Skip)
                         .Take(query.Take);
         }
+
+        public async Task<int> Count()
+        {
+            return await _context.Set<T>().Where(x => !x.IsDeleted).CountAsync();
+        }
     }
 }

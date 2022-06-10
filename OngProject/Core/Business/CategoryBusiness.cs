@@ -18,11 +18,18 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<CategoryNameDTO>> GetAll()
+        public async Task<PageList<CategoryNameDTO>> GetAll(int page, int pageSize = 10, string url = "")
         {
-            var categoriesList = await _unitOfWork.CategoriesRepository.GetAllAsync();
+            var query = new QueryProperty<Category>(page, pageSize);
+            var categoriesList = await _unitOfWork.CategoriesRepository.GetAllAsync(query);
+            
+            var totalItems = await _unitOfWork.CategoriesRepository.Count();
 
-            return categoriesList.Select(x => CategoryMapper.MapToCategoryNameDTO(x)).ToList();
+            var list = categoriesList.Select(x => CategoryMapper.MapToCategoryNameDTO(x)).ToList();
+
+            var pagelist = new PageList<CategoryNameDTO>(list, page, pageSize, totalItems, url);
+
+            return pagelist;
         }
 
         public async Task<CategoryDto> GetById(int id)
