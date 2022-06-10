@@ -1,27 +1,23 @@
-
-using Microsoft.AspNetCore.Mvc;
-using OngProject.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System;
-using OngProject.Core.Business;
-using Microsoft.AspNetCore.Http;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Core.Models;
-using System.Linq;
 using OngProject.Core.Mapper;
 
 namespace OngProject.Controllers
 {
-    [Route("api/[controller]")]
+    [ApiController]
+    [Route("api/activities")]
     public class ActivityController : ControllerBase
     {
-        private IActivityBusiness _activityBussines;
+        private IActivityBusiness _activityBusiness;
 
         public ActivityController(IActivityBusiness activityBussines)
         {
-            _activityBussines = activityBussines;   
+            _activityBusiness = activityBussines;   
         }
 
         [HttpGet]
@@ -47,7 +43,7 @@ namespace OngProject.Controllers
 
             try
             {
-                var resp = await _activityBussines.Insert(entity);
+                var resp = await _activityBusiness.Insert(entity);
                 return new Response<ActivityDto>(resp, true);
 
             }
@@ -57,10 +53,18 @@ namespace OngProject.Controllers
             }
         }
 
-        [HttpPut]
-        public IActionResult Update()
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<Response<ActivityDto>>> Update([FromForm] ActivityUpdateDto dto, int id)
         {
-            throw new NotImplementedException();
+            var response = await _activityBusiness.Update(dto, id);
+
+            if (response.Message == ResponseMessage.NotFound)
+                return NotFound("Can't find the activity.");
+
+            if (!response.Succeeded)
+                return BadRequest(response);
+
+            return Ok(response);
         }
 
         [HttpDelete]

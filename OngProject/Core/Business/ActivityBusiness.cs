@@ -1,8 +1,10 @@
 ﻿using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -38,9 +40,58 @@ namespace OngProject.Core.Business
             return activity.ToActivityDto();
         }
 
-        public Task Update(Activity entity)
+        public async Task<Response<ActivityDto>> Update(ActivityUpdateDto updateDto, int id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var activity = await _unitOfWork.ActivityRepository.GetByIdAsync(id);
+
+                if(activity == null)
+                    return new Response<ActivityDto>
+                    {
+                        Succeeded = false,
+                        Message = ResponseMessage.NotFound,
+                        Errors = new string[] {"Can't find the activity.'"}
+                    };
+
+                if (updateDto.Image != null)
+                { 
+                    var imgUrl = await Helper.ImageUploadHelper.UploadImageToS3(updateDto.Image);
+
+                    if(string.IsNullOrEmpty(imgUrl))
+                        return new Response<ActivityDto>
+                        {
+                            Succeeded = false,
+                            Message = ResponseMessage.Error,
+                            Errors = new string[] { "Can't update image." }
+                        };
+
+                    activity.Image = imgUrl;
+                }
+
+                activity.Name = updateDto.Name;
+                activity.Content = updateDto.Content;
+
+                await _unitOfWork.ActivityRepository.UpdateAsync(activity);
+                await _unitOfWork.SaveAsync();
+
+                var activityDto = activity.ToActivityDto();
+
+                return new Response<ActivityDto> {
+                    Data = activityDto,
+                    Succeeded = true,
+                    Message = ResponseMessage.Success,
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"ActivityBusiness.Update: {ex.Message}");
+                return new Response<ActivityDto> { 
+                    Succeeded = false,
+                    Message = ResponseMessage.UnexpectedErrors,
+                    Errors = new string[] {"Unexpected error when try to update activity."}
+                };
+            }
         }
 
         public Task Delete(int id)
