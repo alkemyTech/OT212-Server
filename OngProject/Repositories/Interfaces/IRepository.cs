@@ -17,5 +17,6 @@ namespace OngProject.Repositories.Interfaces
         Task DeleteAsync(T entity);
         Task SoftDeleteAsync(T entity);
 
+        Task<int> Count();
     }
 }

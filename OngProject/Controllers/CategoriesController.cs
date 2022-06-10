@@ -1,42 +1,48 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Repositories;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
 
     [SwaggerTag("Categories", "Web API para mantenimiento de Categorías")]
-
     [ApiController]
     [Route("api/categories")]
     [Authorize(Roles = "Administrador")]
     public class CategoriesController : Controller
     {
         private readonly ICategoryBusiness _categoryBusiness;
-
+        
         public CategoriesController(ICategoryBusiness categoryBusiness)
         {
             _categoryBusiness = categoryBusiness;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int page,int pageSize = 10)
         {
             try
             {
-                var categoryDtoList = await _categoryBusiness.GetAll();
+                if (pageSize < 1 || page < 1)
+                    return BadRequest("Incorrect page or size number.");
 
-                if (categoryDtoList.Count == 0)
-                {
+                var elemntsCount = await _categoryBusiness.CountElements();
+                var higherPageNumber = (int)Math.Ceiling(elemntsCount / (double)pageSize);
+
+                if (page > higherPageNumber)
+                    return BadRequest($"Incorrect page. Max page number is {higherPageNumber}.");
+
+                var categoryDtoList = await _categoryBusiness.GetAll(page,pageSize, $"{Request.Host}{Request.Path}");
+
+                if (categoryDtoList.Items.Count == 0)
                     return NotFound("Category list is empty.");
-                }
 
                 return Ok(categoryDtoList);
             }

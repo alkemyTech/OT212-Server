@@ -1,11 +1,12 @@
-﻿using OngProject.Entities;
-using OngProject.Repositories;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OngProject.Core.Mapper;
+using OngProject.Entities;
+using OngProject.Repositories;
 using OngProject.Core.Models.DTOs;
-using System.Linq;
+using OngProject.Core.Models;
 using OngProject.Core.Helper;
 
 namespace OngProject.Core.Business
@@ -19,12 +20,22 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<CategoryNameDTO>> GetAll()
+        public async Task<PageList<CategoryNameDTO>> GetAll(int page, int pageSize = 10, string url = "")
         {
-            var categoriesList = await _unitOfWork.CategoriesRepository.GetAllAsync();
+            var query = new QueryProperty<Category>(page, pageSize);
+            var categoriesList = await _unitOfWork.CategoriesRepository.GetAllAsync(query);
 
-            return categoriesList.Select(x => CategoryMapper.MapToCategoryNameDTO(x)).ToList();
+            int totalItems = await CountElements();
+
+            var list = categoriesList.Select(x => CategoryMapper.MapToCategoryNameDTO(x)).ToList();
+
+            var pagelist = new PageList<CategoryNameDTO>(list, page, pageSize, totalItems, url);
+
+            return pagelist;
         }
+
+        public async Task<int> CountElements()
+            => await _unitOfWork.CategoriesRepository.Count();
 
         public async Task<CategoryDto> GetById(int id)
         {

@@ -1,18 +1,17 @@
+using System.Threading.Tasks;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
-using OngProject.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
     public interface ICategoryBusiness
     {
-        Task<List<CategoryNameDTO>> GetAll();
-        public Task<CategoryDto> Insert(CategoryInsertDto categoryDto);
+        Task<int> CountElements();
         Task<CategoryDto> GetById(int id);
-        Task<CategoryDto> Update(int id, CategoryInsertDto categoryDto);
+        Task<PageList<CategoryNameDTO>> GetAll(int page, int pageSize, string url);
+        Task<CategoryDto> Insert(CategoryInsertDto categoryDto);
+        Task Update(Category entity);
         Task Delete(int id);
     }
 }
