@@ -59,9 +59,23 @@ namespace OngProject.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<Response<MemberDto>> Update(int id, [FromForm] MemberUpdateDto entity)
+        public async Task<ActionResult<Response<MemberDto>>> Update(int id, [FromForm] MemberUpdateDto entity)
         {
-            throw new NotImplementedException();
+            var response = await _memberBusiness.Update(entity, id);
+
+            if (response.Message == ResponseMessage.NotFound)
+            {
+                return NotFound(response);
+            }
+            if (response.Succeeded)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+
         }
 
         [HttpDelete("{id}")]
