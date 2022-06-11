@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using OngProject.Core.Helper;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
@@ -66,9 +67,54 @@ namespace OngProject.Core.Business
             return new Response<SlideDetailsDto>(slideDto.MapToSlideDetailsDto(organization));
         }
 
-        public Task Update(Slide slide)
+        public async Task<Response<SlideUpdateDto>> Update(int id, SlideInsertDto slideDto)
         {
-            throw new System.NotImplementedException();
+            var slide = await _unitOfWork.SlideRepository.GetByIdAsync(id);
+
+            if (slide == null)
+                return new Response<SlideUpdateDto>(null, false, null, ResponseMessage.NotFound);
+
+            var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync(slideDto.OrganizationId);
+
+            if (organization == null)
+                return new Response<SlideUpdateDto>(null, false, new string[] { "The organization id does not exist!" });
+
+            if(slideDto.Order == null)
+                slideDto.Order = (await _unitOfWork.SlideRepository.GetAllAsync()).Max(x => x.Order) + 1;
+
+            if (slideDto.Image != null)
+            {
+                var imgUrl = await ImageUploadHelper.UploadImageToS3(slideDto.Image);
+
+                if (string.IsNullOrEmpty(imgUrl))
+                    return new Response<SlideUpdateDto>
+                    {
+                        Succeeded = false,
+                        Message = ResponseMessage.Error,
+                        Errors = new string[] { "Can't update image." }
+                    };
+
+                slide.ImageUrl = imgUrl;
+            }
+
+            var aux = await SlideMapper.MapToSlideInsertDto(slideDto);
+
+            slide.Text = slideDto.Text;
+            slide.Order = slideDto.Order.GetValueOrDefault();
+            slide.OrganizationId = slideDto.OrganizationId;
+            slide.LastModified = System.DateTime.Now;
+
+            await _unitOfWork.SlideRepository.UpdateAsync(slide);
+            await _unitOfWork.SaveAsync();
+            var slideUpdate = new SlideUpdateDto()
+            {
+                Image = slide.ImageUrl,
+                Text = slide.Text,
+                OrganizationId = slide.OrganizationId,
+                Order = slide.Order,
+                Id = slide.Id,
+            };
+            return new Response<SlideUpdateDto>(slideUpdate, true, null, ResponseMessage.Success);
         }
 
         public async Task<Response<SlideDTO>> Delete(int id)
