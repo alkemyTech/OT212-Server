@@ -26,6 +26,7 @@ namespace OngProject.Controllers
         /// <summary>
         /// Inserta un objeto de tipo Activity
         /// </summary>
+        /// <remarks>Si el objeto a insertar en la base de datos cumple con los requisitos, será creado correctamente (código 201), caso contrario, si el ModelState es inválido mandará un BadRequest (código 400).</remarks>
         /// <response code="401">Unauthorized. No tienes permiso para ver esta información.</response>              
         /// <response code="201">Created. Objeto creado correctamente.</response>        
         /// <response code="400">BadRequest. No se ha podido crear el objeto.</response>
@@ -55,6 +56,7 @@ namespace OngProject.Controllers
         /// <summary>
         /// Actualiza un objeto de tipo Activity
         /// </summary>
+        /// <remarks>Siempre y cuando el objeto exista en la base de datos, se podrá actualizar, de lo contrario no se podrá actualizar y mandará un NotFound (código 404) porque no se encontró el objeto.</remarks>
         /// <param name="dto">Objeto a actualizar</param>
         /// <param name="id">Id del objeto a actualizar.</param>
         /// <response code="401">Unauthorized. No tienes permiso para ver esta información.</response>              
