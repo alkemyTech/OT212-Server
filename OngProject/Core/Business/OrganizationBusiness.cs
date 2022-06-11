@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using OngProject.Core.Helper;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
@@ -59,9 +60,33 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task Update(Organization entity)
+        public async Task<OrganizationDto> Update(int id, OrganizationUpdateDto organizationDto)
         {
-            throw new NotImplementedException();
+            var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync(id);
+
+            if (organization != null)
+            {
+                var image = await ImageUploadHelper.UploadImageToS3(organizationDto.Image);
+
+                organization.Name = organizationDto.Name;
+                organization.Address = organizationDto.Address;
+                organization.Phone = organizationDto.Phone;
+                organization.Email = organizationDto.Email;
+                organization.Image = image;
+                organization.WelcomeText = organizationDto.WelcomeText;
+                organization.AboutUsText = organizationDto.AboutUsText;
+                organization.FacebookUrl = organizationDto.FacebookUrl;
+                organization.LinkedinUrl = organizationDto.LinkedinUrl;
+                organization.InstagramUrl = organizationDto.InstagramUrl;
+
+
+                await _unitOfWork.OrganizationRepository.UpdateAsync(organization);
+                await _unitOfWork.SaveAsync();
+
+                return organization.MapToOrganizationDto();
+            }
+
+            throw new KeyNotFoundException();
         }
 
         public Task Delete(int id)
