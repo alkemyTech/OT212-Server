@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Core.Models;
@@ -9,29 +10,24 @@ using OngProject.Core.Mapper;
 
 namespace OngProject.Controllers
 {
+    [SwaggerTag("Categories", "Web API para mantenimiento de Categorías")]
     [ApiController]
     [Route("api/activities")]
     public class ActivityController : ControllerBase
     {
-        private IActivityBusiness _activityBusiness;
+        private readonly IActivityBusiness _activityBusiness;
 
         public ActivityController(IActivityBusiness activityBussines)
         {
             _activityBusiness = activityBussines;   
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Inserta un objeto de tipo Activity
+        /// </summary>
+        /// <response code="401">Unauthorized. No tienes permiso para ver esta información.</response>              
+        /// <response code="200">Created. Objeto creado correctamente.</response>        
+        /// <response code="400">BadRequest. No se ha podido crear el objeto.</response>
         [HttpPost]
         public async Task<Response<ActivityDto>> Insert([FromForm] ActivityInsertDto entity)
         {
@@ -53,6 +49,14 @@ namespace OngProject.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza un objeto de tipo Activity
+        /// </summary>
+        /// <param name="id">Id del objeto a actualizar.</param>
+        /// <response code="401">Unauthorized. No tienes permiso para ver esta información.</response>              
+        /// <response code="200">Updated. Objeto actualizado correctamente.</response>        
+        /// <response code="400">BadRequest. No se ha podido actualizar el objeto.</response>
+        /// <response code="404">NotFound. No se ha encontrado el objeto.</response>
         [HttpPut("{id:int}")]
         public async Task<ActionResult<Response<ActivityDto>>> Update([FromForm] ActivityUpdateDto dto, int id)
         {
@@ -65,12 +69,6 @@ namespace OngProject.Controllers
                 return BadRequest(response);
 
             return Ok(response);
-        }
-
-        [HttpDelete]
-        public IActionResult Delete()
-        {
-            throw new NotImplementedException();
         }
 
     }
