@@ -77,7 +77,7 @@ namespace OngProject.Core.Business
             var organization = await _unitOfWork.OrganizationRepository.GetByIdAsync(slideDto.OrganizationId);
 
             if (organization == null)
-                return new Response<SlideUpdateDto>(null, false, new string[] { "The organization id does not exist!" });
+                return new Response<SlideUpdateDto>(null, false, new string[] { "The organization id does not exist!" }, ResponseMessage.ValidationErrors);
 
             if(slideDto.Order == null)
                 slideDto.Order = (await _unitOfWork.SlideRepository.GetAllAsync()).Max(x => x.Order) + 1;
