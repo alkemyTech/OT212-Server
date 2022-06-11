@@ -70,9 +70,41 @@ namespace OngProject.Core.Business
             }
         }
 
-        public Task Update(Testimonial entity)
+        public async Task<Response<TestimonialDto>> Update(int id, TestimonialCreationDto entity)
         {
-            throw new NotImplementedException();
+            var testimonial = await _unitOfWork.TestimonialRepository.GetByIdAsync(id);
+            if (testimonial == null)
+                return new Response<TestimonialDto>
+                {
+                    Data = null,
+                    Succeeded = false,
+                    Message = ResponseMessage.NotFound,
+                };
+
+            if (entity.Image != null)
+            {
+                var imgUrl = await ImageUploadHelper.UploadImageToS3(entity.Image);
+
+                if (string.IsNullOrEmpty(imgUrl))
+                    return new Response<TestimonialDto>
+                    {
+                        Succeeded = false,
+                        Message = ResponseMessage.Error,
+                        Errors = new string[] { "Can't update image." }
+                    };
+                testimonial.Image = imgUrl;
+            }
+            
+            testimonial.Name = entity.Name;
+            testimonial.Content = entity.Content;
+            testimonial.LastModified = System.DateTime.Now;
+            
+            await _unitOfWork.TestimonialRepository.UpdateAsync(testimonial);
+            await _unitOfWork.SaveAsync();
+            
+            var testimonialDto = testimonial.MapToTestimonialDto();
+
+            return new Response<TestimonialDto>(testimonialDto, true, null);
         }
 
         public async Task<Response<TestimonialDto>> Delete(int id)
