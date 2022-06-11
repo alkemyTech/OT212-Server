@@ -32,6 +32,19 @@ namespace OngProject.Core.Mapper
                 Image = await ImageUploadHelper.UploadImageToS3(member.Image)
             };
         }
+
+        public static Member MapToUpdateMemberDto(this MemberUpdateDto member, int id)
+        {
+            return new Member
+            {
+                Id = id,
+                Name = member.Name,
+                Description = member.Description,
+                FacebookUrl = member.FacebookUrl,
+                InstagramUrl = member.InstagramUrl,
+                LinkedinUrl = member.LinkedinUrl,
+            };
+        }
         public static MemberDto MapToMemberNewDto(this Member entity)
         {
             return new MemberDto

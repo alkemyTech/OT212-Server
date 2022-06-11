@@ -59,7 +59,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult Put(int id, [FromBody] Member entity)
+        public async Task<Response<MemberDto>> Update(int id, [FromForm] MemberUpdateDto entity)
         {
             throw new NotImplementedException();
         }
