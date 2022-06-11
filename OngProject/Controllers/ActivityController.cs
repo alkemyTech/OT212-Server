@@ -23,21 +23,15 @@ namespace OngProject.Controllers
             _activityBusiness = activityBussines;   
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Inserta un objeto de tipo Activity
+        /// </summary>
+        /// <response code="401">Unauthorized. No tienes permiso para ver esta información.</response>              
+        /// <response code="201">Created. Objeto creado correctamente.</response>        
+        /// <response code="400">BadRequest. No se ha podido crear el objeto.</response>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Response<ActivityDto>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Response<ActivityDto>))]
         public async Task<Response<ActivityDto>> Insert([FromForm] ActivityInsertDto entity)
         {
             if (!ModelState.IsValid)
@@ -58,10 +52,19 @@ namespace OngProject.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza un objeto de tipo Activity
+        /// </summary>
+        /// <param name="dto">Objeto a actualizar</param>
+        /// <param name="id">Id del objeto a actualizar.</param>
+        /// <response code="401">Unauthorized. No tienes permiso para ver esta información.</response>              
+        /// <response code="200">Updated. Objeto actualizado correctamente.</response>        
+        /// <response code="400">BadRequest. No se ha podido actualizar el objeto.</response>
+        /// <response code="404">NotFound. No se ha encontrado el objeto.</response>
         [HttpPut("{id:int}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<ActivityDto>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Response<ActivityDto>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
         public async Task<ActionResult<Response<ActivityDto>>> Update([FromForm] ActivityUpdateDto dto, int id)
         {
             var response = await _activityBusiness.Update(dto, id);
