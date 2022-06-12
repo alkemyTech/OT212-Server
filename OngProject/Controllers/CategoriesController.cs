@@ -30,26 +30,16 @@ namespace OngProject.Controllers
         {
             try
             {
-                if (pageSize < 1 || page < 1)
-                    return BadRequest("Incorrect page or size number.");
-
-                var elemntsCount = await _categoryBusiness.CountElements();
-                var higherPageNumber = (int)Math.Ceiling(elemntsCount / (double)pageSize);
-
-                if (page > higherPageNumber)
-                    return BadRequest($"Incorrect page. Max page number is {higherPageNumber}.");
-
                 var categoryDtoList = await _categoryBusiness.GetAll(page,pageSize, $"{Request.Host}{Request.Path}");
-
-                if (categoryDtoList.Items.Count == 0)
-                    return NotFound("Category list is empty.");
+                
+                if(!categoryDtoList.Succeeded)
+                    return BadRequest(categoryDtoList);
 
                 return Ok(categoryDtoList);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($@"CategoriesController.Get: {ex.Message}");
-                return BadRequest(ex.Message);
+                return BadRequest(ResponseMessage.UnexpectedErrors);
             }
         }
 

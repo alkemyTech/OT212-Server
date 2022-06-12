@@ -8,6 +8,9 @@ namespace OngProject.Repositories
     {
         public QueryProperty(int page, int pageCount)
         {
+            page = page > 0 ? page : 1;
+            pageCount = pageCount > 0 ? pageCount : 1;
+
             Skip = (page - 1) * pageCount;
             Take = pageCount;
         }

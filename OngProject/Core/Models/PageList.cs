@@ -12,6 +12,8 @@ namespace OngProject.Core.Models
         public string NextPage { get; private set; }
         public string PreviusPage { get; private set; }
         public string URL { get; private set; }
+        public bool Succeeded { get; private set; } = true;
+        public string Message { get; set; } = "Succeeded";
 
         public List<T> Items { get; private set; }
 
@@ -29,7 +31,24 @@ namespace OngProject.Core.Models
             if (page < TotalPage)
                 NextPage = $"{URL}?page={page + 1}";
 
+            if (page < 1)
+                NextPage = $"{URL}?page=1";
+
             Items = items;
+
+            if (page < 1 || page > TotalPage)
+            {
+                Succeeded = false;
+                Message = $"The page number must be between 1 and {TotalPage}.";
+                items.Clear();
+            }
+
+            if(pageSize < 0)
+            {
+                Succeeded = false;
+                Message = "The page size must be greater than 0";
+                items.Clear();
+            }
         }
     }
 }
