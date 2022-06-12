@@ -1,9 +1,11 @@
 ﻿using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
@@ -16,10 +18,20 @@ namespace OngProject.Core.Business
         {
             _unitOfWork = unitOfWork;
         }
-
-        public Task<List<News>> GetAll()
+        public async Task<int> CountNews()
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.NewsRepository.Count();
+        }
+
+        public async Task<PageList<NewsDto>> GetAll(int page, int pageSize, string url)
+        {
+            var query = new QueryProperty<News>(page, pageSize);
+            var newsList = await _unitOfWork.NewsRepository.GetAllAsync(query);
+            var totalItems = await CountNews();
+            var newsDtoList = newsList.Select(x => NewsMapper.ToNewsDto(x)).ToList();
+            var pageList = new PageList<NewsDto>(newsDtoList, page, pageSize, totalItems, url);
+
+            return pageList;
         }
 
         public async Task<NewsDto> GetById(int id)

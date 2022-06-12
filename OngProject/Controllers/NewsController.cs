@@ -23,9 +23,36 @@ namespace OngProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll(int page, int pageSize = 10)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (pageSize < 1 || page < 1)
+                    return BadRequest(new Response<NewsDto>(null, false, new string[1]
+                    {"Incorrect number of page or page size."}, ResponseMessage.ValidationErrors));
+
+                var elementCount = await _newsBusiness.CountNews();
+                var higherPageNumber = (int)Math.Ceiling(elementCount / (double)pageSize);
+
+                if (page > higherPageNumber)
+                    return BadRequest(new Response<NewsDto>(null, false, new string[1]
+                        {$"Incorrect page. Maximum page number is {higherPageNumber}."},
+                        ResponseMessage.ValidationErrors));
+
+                var newsList = await _newsBusiness.GetAll(page, pageSize, $"{Request.Host}{Request.Path}");
+
+                if (newsList.Items.Count == 0)
+                    return NotFound(new Response<NewsDto>(null, false, new string[1]
+                        {"News list is empty."}, ResponseMessage.NotFound));
+
+                return Ok(new Response<PageList<NewsDto>>(newsList, true, null, ResponseMessage.Success));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response<NewsDto>(null, false, new string[1]
+                        {ex.Message},
+                        ResponseMessage.UnexpectedErrors));
+            }
         }
 
         [HttpGet("{id}")]
