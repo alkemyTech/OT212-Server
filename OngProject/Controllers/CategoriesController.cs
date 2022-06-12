@@ -25,8 +25,8 @@ namespace OngProject.Controllers
             _categoryBusiness = categoryBusiness;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll(int page,int pageSize = 10)
+        [HttpGet()]
+        public async Task<IActionResult> GetAll([FromQuery] int page, [FromQuery] int pageSize = 10)
         {
             try
             {

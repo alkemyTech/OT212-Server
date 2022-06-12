@@ -26,13 +26,13 @@ namespace OngProject.Core.Models
             URL = url;
 
             if (page > 1)
-                PreviusPage = $"{URL}?page={page - 1}";
+                PreviusPage = $"{URL}?page={page - 1}&pageSize={pageSize}";
 
             if (page < TotalPage)
-                NextPage = $"{URL}?page={page + 1}";
+                NextPage = $"{URL}?page={page + 1}&pageSize={pageSize}";
 
             if (page < 1)
-                NextPage = $"{URL}?page=1";
+                NextPage = $"{URL}?page=1&pageSize={pageSize}";
 
             Items = items;
 
@@ -40,15 +40,26 @@ namespace OngProject.Core.Models
             {
                 Succeeded = false;
                 Message = $"The page number must be between 1 and {TotalPage}.";
-                items.Clear();
+                ClearResult();
             }
 
             if(pageSize < 0)
             {
                 Succeeded = false;
                 Message = "The page size must be greater than 0";
-                items.Clear();
+                ClearResult();
             }
+        }
+
+        private void ClearResult()
+        {
+            Items.Clear();
+            Page = 0;
+            PageSize = 0;
+            TotalPage = 0;
+            NextPage = null;
+            PreviusPage = null;
+            URL = null;
         }
     }
 }
