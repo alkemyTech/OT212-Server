@@ -29,4 +29,18 @@ namespace OngProject.Core.Models.DTOs
         public string Text { get; set; }
         public OrganizationDto Organization { get; set; }
     }
+
+    public class SlideUpdateDto : Dto
+    {
+        public int? Order { get; set; }
+
+        [Required(ErrorMessage = "You must enter a text!"), StringLength(65535)]
+        public string Text { get; set; }
+
+        [Required(ErrorMessage = "You must enter an image!")]
+        public string Image { get; set; }
+
+        [Required(ErrorMessage = "You must enter an organization id!")]
+        public int OrganizationId { get; set; }
+    }
 }

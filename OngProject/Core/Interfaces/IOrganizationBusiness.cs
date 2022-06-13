@@ -18,7 +18,7 @@ namespace OngProject.Core.Interfaces
 
         Task Insert(Organization entity);
 
-        Task Update(Organization entity);
+        Task<OrganizationDto> Update(int id, OrganizationUpdateDto organizationDto);
 
         Task Delete(int id);
     }
