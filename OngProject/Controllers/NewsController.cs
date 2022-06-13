@@ -68,9 +68,22 @@ namespace OngProject.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update()
+        public async Task<IActionResult> Update(int id, [FromForm] NewsInsertDto entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var resp = await _newsBusiness.Update(id, entity);
+                return Ok(new Response<NewsDto>(resp, true, null, ResponseMessage.Success));
+
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new Response<NewsDto>(null, false, new string[1] { "An entity is missing" }, ex.Message));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response<NewsDto>(null, false, new string[1] { "Bad request error" }, ex.Message));
+            }
         }
 
         [HttpDelete("{id}")]

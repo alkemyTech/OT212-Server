@@ -43,9 +43,22 @@ namespace OngProject.Core.Business
             return news.ToNewsDto();
         }
 
-        public Task Update(News entity)
+        public async Task<NewsDto> Update(int id, NewsInsertDto newsDto)
         {
-            throw new NotImplementedException();
+            var news = await _unitOfWork.NewsRepository.GetByIdAsync(id);
+            if (news == null) throw new KeyNotFoundException($"News with id = {id} is not existent");
+
+            var category = await _unitOfWork.CategoriesRepository.GetByIdAsync(newsDto.CategoryId);
+            if (category == null) throw new KeyNotFoundException($"Category with id = {newsDto.CategoryId} is not existent");
+
+            await NewsMapper.UpdateNews(news, newsDto);
+
+            await _unitOfWork.NewsRepository.UpdateAsync(news);
+            await _unitOfWork.SaveAsync();
+
+            return news.ToNewsDto();         
+
+
         }
         public async Task Delete(int id)
         {

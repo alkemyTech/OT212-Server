@@ -1,5 +1,6 @@
 ﻿using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using System.Threading.Tasks;
 
 namespace OngProject.Core.Mapper
 {
@@ -28,6 +29,13 @@ namespace OngProject.Core.Mapper
             news.CategoryId = newsInsertDto.CategoryId;
 
             return news;
+        }
+        public async static Task UpdateNews(News news, NewsInsertDto newsInsertDto)
+        {
+            news.Name = newsInsertDto.Name;
+            news.Content = newsInsertDto.Content;
+            news.CategoryId = newsInsertDto.CategoryId;
+            news.Image = await Helper.ImageUploadHelper.UploadImageToS3(newsInsertDto.Image);
         }
 
         public static NewsDto ToNewsDto(this NewsInsertDto newsInsertDto)
