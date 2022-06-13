@@ -14,7 +14,7 @@ namespace OngProject.Core.Interfaces
 
         Task Insert(CommentInsertDto commentDto);
 
-        Task Update(Comment entity);
+        Task<CommentDto> Update(int id, CommentUpdateDto commentDto);
 
         Task <CommentDto> Delete(int id);
     }
