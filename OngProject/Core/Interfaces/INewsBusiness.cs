@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Models.DTOs;
+﻿using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using System;
@@ -9,7 +10,8 @@ namespace OngProject.Core.Business
 {
     public interface INewsBusiness
     {
-        Task<List<News>> GetAll();
+        Task<int> CountElements();
+        Task<PageList<NewsDto>> GetAll(int page, int pageSize, string url);
         Task<NewsDto> GetById(int id);
         Task<NewsDto> Insert(NewsInsertDto entity);
         Task<NewsDto> Update(int id, NewsInsertDto entity);
