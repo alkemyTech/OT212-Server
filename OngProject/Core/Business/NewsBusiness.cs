@@ -18,19 +18,20 @@ namespace OngProject.Core.Business
         {
             _unitOfWork = unitOfWork;
         }
+        public async Task<int> CountNews()
+        {
+            return await _unitOfWork.NewsRepository.Count();
+        }
 
-        public async Task<PageList<NewsDto>> GetAll(int page, int pageSize = 10, string url = "")
+        public async Task<PageList<NewsDto>> GetAll(int page, int pageSize, string url)
         {
             var query = new QueryProperty<News>(page, pageSize);
             var newsList = await _unitOfWork.NewsRepository.GetAllAsync(query);
+            var totalItems = await CountNews();
+            var newsDtoList = newsList.Select(x => NewsMapper.ToNewsDto(x)).ToList();
+            var pageList = new PageList<NewsDto>(newsDtoList, page, pageSize, totalItems, url);
 
-            int totalItems = await CountElements();
-
-            var list = newsList.Select(x => NewsMapper.ToNewsDto(x)).ToList();
-
-            var pagelist = new PageList<NewsDto>(list, page, pageSize, totalItems, url);
-
-            return pagelist;            
+            return pageList;
         }
 
         public async Task<int> CountElements()

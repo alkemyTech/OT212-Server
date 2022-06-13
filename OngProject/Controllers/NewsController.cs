@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Mapper;
@@ -42,25 +42,30 @@ namespace OngProject.Controllers
             try
             {
                 if (pageSize < 1 || page < 1)
-                    return BadRequest("Incorrect page or size number.");
+                    return BadRequest(new Response<NewsDto>(null, false, new string[1]
+                    {"Incorrect number of page or page size."}, ResponseMessage.ValidationErrors));
 
-                var elementsConnt = await _newsBusiness.CountElements();
-                var higerPageNumber = (int)Math.Ceiling(elementsConnt / (double)pageSize);
+                var elementCount = await _newsBusiness.CountNews();
+                var higherPageNumber = (int)Math.Ceiling(elementCount / (double)pageSize);
 
-                if (page > higerPageNumber)
-                    return BadRequest($"Incorrect page. Max page number is {higerPageNumber}.");
+                if (page > higherPageNumber)
+                    return BadRequest(new Response<NewsDto>(null, false, new string[1]
+                        {$"Incorrect page. Maximum page number is {higherPageNumber}."},
+                        ResponseMessage.ValidationErrors));
 
-                var NewsDtoList = await _newsBusiness.GetAll(page, pageSize, $"{Request.Host}{Request.Path}");
+                var newsList = await _newsBusiness.GetAll(page, pageSize, $"{Request.Host}{Request.Path}");
 
-                if (NewsDtoList.Items.Count == 0)
-                    return NotFound("Category list is empty.");
+                if (newsList.Items.Count == 0)
+                    return NotFound(new Response<NewsDto>(null, false, new string[1]
+                        {"News list is empty."}, ResponseMessage.NotFound));
 
-                return Ok(NewsDtoList);
+                return Ok(new Response<PageList<NewsDto>>(newsList, true, null, ResponseMessage.Success));
             }
             catch (Exception ex)
             {
-                Console.WriteLine($@"NewsController.Get: {ex.Message}");
-                return BadRequest(ex.Message);
+                return BadRequest(new Response<NewsDto>(null, false, new string[1]
+                        {ex.Message},
+                        ResponseMessage.UnexpectedErrors));
             }
         }
 

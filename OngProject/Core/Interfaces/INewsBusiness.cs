@@ -10,7 +10,7 @@ namespace OngProject.Core.Business
 {
     public interface INewsBusiness
     {
-        Task<int> CountElements();
+        Task<int> CountNews();
         Task<PageList<NewsDto>> GetAll(int page, int pageSize, string url);
         Task<NewsDto> GetById(int id);
         Task<NewsDto> Insert(NewsInsertDto entity);
