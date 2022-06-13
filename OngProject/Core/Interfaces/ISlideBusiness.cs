@@ -14,7 +14,7 @@ namespace OngProject.Core.Interfaces
 
         Task<Response<SlideDetailsDto>> Insert(SlideInsertDto slideDto);
 
-        Task Update(Slide slide);
+        Task<Response<SlideUpdateDto>> Update(int id, SlideInsertDto slideDto);
 
         Task<Response<SlideDTO>> Delete(int id);
     }
