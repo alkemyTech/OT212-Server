@@ -50,10 +50,22 @@ namespace OngProject.Controllers
         }
 
         // PUT api/Organizations/5
-        [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Organization entity)
+        [HttpPut("public/{id}")]
+        public async Task<ActionResult> Update(int id, [FromForm] OrganizationUpdateDto organizationDto)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var entity = await _organizationBusiness.Update(id, organizationDto);
+                return Ok(new Response<OrganizationDto>(entity, true, null, ResponseMessage.Success));
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new Response<OrganizationDto>(null, false, null, ResponseMessage.NotFound));
+            }
+            catch
+            {
+                return BadRequest(new Response<OrganizationDto>(null, false, null, ResponseMessage.Error));
+            }
         }
 
         // DELETE api/Organizations/5

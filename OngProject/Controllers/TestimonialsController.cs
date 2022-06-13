@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using System;
 using System.Threading.Tasks;
@@ -19,9 +20,31 @@ namespace OngProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll(int page, int pageSize = 10)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (pageSize < 1 || page < 1)
+                    return BadRequest("Incorrect page or size number.");
+
+                var elemntsCount = await _testimonailsBussines.CountElements();
+                var higherPageNumber = (int)Math.Ceiling(elemntsCount / (double)pageSize);
+
+                if (page > higherPageNumber)
+                    return BadRequest($"Incorrect page. Max page number is {higherPageNumber}.");
+
+                var tetismonialList = await _testimonailsBussines.GetAll(page, pageSize, $"{Request.Host}{Request.Path}");
+
+                if (tetismonialList.Items.Count == 0)
+                    return NotFound("Testimonial list is empty.");
+
+                return Ok(tetismonialList);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"TestimonialsController.GetAll: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]
@@ -42,10 +65,14 @@ namespace OngProject.Controllers
             return Ok(response.Data);
         }
 
-        [HttpPut]
-        public IActionResult Update()
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<Response<TestimonialDto>>> Update(int id, [FromForm] TestimonialCreationDto testimonialDto)
         {
-            throw new NotImplementedException();
+            var response = await _testimonailsBussines.Update(id, testimonialDto);
+            if (response.Succeeded)
+                return Ok(response);
+            return BadRequest(response);
         }
 
         [HttpDelete("{id:int}")]

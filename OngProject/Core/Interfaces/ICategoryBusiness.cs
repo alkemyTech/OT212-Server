@@ -11,7 +11,7 @@ namespace OngProject.Core.Business
         Task<CategoryDto> GetById(int id);
         Task<PageList<CategoryNameDTO>> GetAll(int page, int pageSize, string url);
         Task<CategoryDto> Insert(CategoryInsertDto categoryDto);
-        Task Update(Category entity);
+        Task<CategoryDto> Update(int id, CategoryInsertDto categoryDto);
         Task Delete(int id);
     }
 }

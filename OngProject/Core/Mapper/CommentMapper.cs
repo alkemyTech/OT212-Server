@@ -6,8 +6,12 @@ namespace OngProject.Core.Mapper
     public static class CommentMapper
     {
         public static CommentDto MapToCommentDto(this Comment entity) 
-        { 
-            return new CommentDto { Body = entity.Body };
+        {
+            return new CommentDto {
+                Body = entity.Body,
+                News = entity.News?.Name,
+                User = $"{entity.User?.FirstName}, {entity.User?.LastName}"
+            };
         }
 
         public static Comment MapToComment(this CommentInsertDto entity)
