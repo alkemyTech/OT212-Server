@@ -19,9 +19,31 @@ namespace OngProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<ActionResult> GetAll(int page, int pageSize = 10)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (pageSize < 1 || page < 1)
+                    return BadRequest("Incorrect page or size number.");
+
+                var elemntsCount = await _testimonailsBussines.CountElements();
+                var higherPageNumber = (int)Math.Ceiling(elemntsCount / (double)pageSize);
+
+                if (page > higherPageNumber)
+                    return BadRequest($"Incorrect page. Max page number is {higherPageNumber}.");
+
+                var tetismonialList = await _testimonailsBussines.GetAll(page, pageSize, $"{Request.Host}{Request.Path}");
+
+                if (tetismonialList.Items.Count == 0)
+                    return NotFound("Testimonial list is empty.");
+
+                return Ok(tetismonialList);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($@"TestimonialsController.GetAll: {ex.Message}");
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}")]

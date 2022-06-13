@@ -24,10 +24,10 @@ namespace OngProject.Core.Models
             URL = url;
 
             if (page > 1)
-                PreviusPage = $"{URL}?page={page - 1}";
+                PreviusPage = $"{URL}?page={page - 1}&pageSize={pageSize}";
 
             if (page < TotalPage)
-                NextPage = $"{URL}?page={page + 1}";
+                NextPage = $"{URL}?page={page + 1}&pageSize={pageSize}";
 
             Items = items;
         }

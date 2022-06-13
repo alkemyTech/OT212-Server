@@ -7,6 +7,7 @@ using OngProject.Entities;
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
@@ -20,14 +21,26 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public Task<List<Testimonial>> GetAll()
+        public async Task<int> CountElements()
+            => await _unitOfWork.TestimonialRepository.Count();
+        
+        public async Task<TestimonialDto> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Testimonial> GetById(int id)
+        public async Task<PageList<TestimonialDto>> GetAll(int page, int pageSize, string url)
         {
-            throw new NotImplementedException();
+            var query = new QueryProperty<Testimonial>(page, pageSize);
+            var testimonialList = await _unitOfWork.TestimonialRepository.GetAllAsync(query);
+
+            var totalItems = await CountElements();
+
+            var list = testimonialList.Select(x => TestimonialMapper.MapToTestimonialDto(x)).ToList();
+
+            var pagelist = new PageList<TestimonialDto>(list, page, pageSize, totalItems, url);
+
+            return pagelist;
         }
 
         public async Task<Response<TestimonialDto>> Insert(TestimonialCreationDto creationDto)
