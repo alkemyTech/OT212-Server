@@ -22,6 +22,7 @@ namespace OngProject.Core.Mapper
         public static void UpdateComment(Comment entity, CommentUpdateDto commentDto)
         {
             entity.Body = commentDto.Body;
+            entity.LastModified = System.DateTime.Now;
         }
     }
 }
