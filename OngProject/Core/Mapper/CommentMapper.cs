@@ -19,5 +19,9 @@ namespace OngProject.Core.Mapper
                 UserId = entity.UserId
             };
         }
+        public static void UpdateComment(Comment entity, CommentUpdateDto commentDto)
+        {
+            entity.Body = commentDto.Body;
+        }
     }
 }
