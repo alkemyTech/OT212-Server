@@ -9,7 +9,8 @@ namespace OngProject.DataAccess
 
         public static void SeedMemebers(this ModelBuilder modelBuilder)
         {
-            var memberElonMusk = new Member {
+            var memberElonMusk = new Member
+            {
                 Id = 1,
                 IsDeleted = false,
                 Name = @"Elon Musk",
@@ -20,7 +21,8 @@ namespace OngProject.DataAccess
                 Description = @"Fundador, consejero delegado e ingeniero jefe de SpaceX; CEO y arquitecto de productos de Tesla; fundador de The Boring Company; y cofundador de Neuralink y OpenAI.​"
             };
 
-            var memberBillGates = new Member {
+            var memberBillGates = new Member
+            {
                 Id = 2,
                 IsDeleted = false,
                 Name = @"Bill Gates",
@@ -31,7 +33,8 @@ namespace OngProject.DataAccess
                 Description = @"Empresario, informático y filántropo estadounidense, conocido por haber creado y fundado junto con Paul Allen, la empresa Microsoft."
             };
 
-            var memberJeffBezos = new Member {
+            var memberJeffBezos = new Member
+            {
                 Id = 3,
                 IsDeleted = false,
                 Name = @"Jeff Bezos",
@@ -42,7 +45,8 @@ namespace OngProject.DataAccess
                 Description = @"Empresario y magnate estadounidense, fundador de la empresa de venta en línea Amazon de la cual posee el 7%."
             };
 
-            var memberMarkZuckerberg = new Member {
+            var memberMarkZuckerberg = new Member
+            {
                 Id = 4,
                 IsDeleted = false,
                 Name = @"Mark Zuckerberg",
@@ -53,7 +57,8 @@ namespace OngProject.DataAccess
                 Description = @"Programador y empresario estadounidense, uno de los creadores y fundadores de Facebook, y su actual presidente."
             };
 
-            var memberLarryPage = new Member {
+            var memberLarryPage = new Member
+            {
                 Id = 5,
                 IsDeleted = false,
                 Name = @"Larry Page",
@@ -64,7 +69,8 @@ namespace OngProject.DataAccess
                 Description = @"Ingeniero en computación y empresario estadounidense, creador junto con Serguéi Brin de Google. Es conocido por haber creado el algoritmo matemático 'PageRank'."
             };
 
-            var memberSergueiBrin = new Member {
+            var memberSergueiBrin = new Member
+            {
                 Id = 6,
                 IsDeleted = false,
                 Name = @"Serguéi Brin",
@@ -238,7 +244,7 @@ namespace OngProject.DataAccess
                 new User { Id = 19, FirstName = "Claudio", LastName = "Villareal", Email = "prueba19@gmail.com", Password = password, Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false },
                 new User { Id = 20, FirstName = "Nicolas", LastName = "Ferrari", Email = "prueba20@gmail.com", Password = password, Photo = null, RoleId = 2, LastModified = System.DateTime.Now, IsDeleted = false }
                 );
-        
+
             //Roles
             modelBuilder.Entity<Role>()
                 .HasData(
@@ -247,18 +253,11 @@ namespace OngProject.DataAccess
                 );
         }
 
-        public static void SeedOrganization(this ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Organization>()
-                        .HasData(
-                        new Organization { Id = 1, Name = "MicroTextLTA", Image = "MicroText.jpg", Phone = "3023032169", Email = "MicroTextLTA@gmail.com", WelcomeText = "Bienvenido a MicroTextLTA" }
-                        );
-        }
         public static void SeedSlides(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Slide>()
                         .HasData(
-                            new Slide { Id = 1, ImageUrl = "url.png", Order = 100, Text = "Prueba1", OrganizationId = 1},
+                            new Slide { Id = 1, ImageUrl = "url.png", Order = 100, Text = "Prueba1", OrganizationId = 1 },
                             new Slide { Id = 2, ImageUrl = "url2.png", Order = 150, Text = "Prueba1", OrganizationId = 1 }
                         );
         }
@@ -273,6 +272,92 @@ namespace OngProject.DataAccess
                 new Testimonial { Id = 5, Name = "Luis", Content = "testimoniotestimoniotestimoniotestimoniotestimoniotestimonio", Image = null },
                 new Testimonial { Id = 6, Name = "Gabrielo", Content = "testimoniotestimoniotestimoniotestimoniotestimoniotestimonio", Image = null },
                 new Testimonial { Id = 7, Name = "Claudio", Content = "testimoniotestimoniotestimoniotestimoniotestimoniotestimonio", Image = null }
+                );
+        }
+
+        public static void SeedOrganization(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Organization>().HasData(
+                new Organization
+                {
+                    Id = 1,
+                    Name = "Primera Organización",
+                    Image = "",
+                    Address = "Calle de la ONG",
+                    Phone = "1111111",
+                    Email = "organización1@gmail.com",
+                    WelcomeText = "Somos la primer empresa en darte la bienvenida.",
+                    AboutUsText = "Nos dedicamos a ser la primer empresa.",
+                    FacebookUrl = "facebook/ong1",
+                    InstagramUrl = "instagram/ong1",
+                    LinkedinUrl = "linkedin/ong1",
+                    LastModified = System.DateTime.Now,
+                    IsDeleted = false
+                },
+                new Organization
+                {
+                    Id = 2,
+                    Name = "Segunda Organización",
+                    Image = "",
+                    Address = "Calle de la ONG",
+                    Phone = "222222",
+                    Email = "organización2@gmail.com",
+                    WelcomeText = "Somos la segunda empresa en darte la bienvenida.",
+                    AboutUsText = "Nos dedicamos a ser la segunda empresa.",
+                    FacebookUrl = "facebook/ong2",
+                    InstagramUrl = "instagram/ong2",
+                    LinkedinUrl = "linkedin/ong2",
+                    LastModified = System.DateTime.Now,
+                    IsDeleted = false
+                },
+                new Organization
+                {
+                    Id = 3,
+                    Name = "Tercera Organización",
+                    Image = "",
+                    Address = "Calle de la ONG",
+                    Phone = "333333",
+                    Email = "organización3@gmail.com",
+                    WelcomeText = "Somos la tercera empresa en darte la bienvenida.",
+                    AboutUsText = "Nos dedicamos a ser la tercera empresa.",
+                    FacebookUrl = "facebook/ong3",
+                    InstagramUrl = "instagram/ong3",
+                    LinkedinUrl = "linkedin/ong3",
+                    LastModified = System.DateTime.Now,
+                    IsDeleted = false
+                },
+                new Organization
+                {
+                    Id = 4,
+                    Name = "Cuarta Organización",
+                    Image = "",
+                    Address = "Calle de la ONG",
+                    Phone = "4444444",
+                    Email = "organización4@gmail.com",
+                    WelcomeText = "Somos la cuarta empresa en darte la bienvenida.",
+                    AboutUsText = "Nos dedicamos a ser la cuarta empresa.",
+                    FacebookUrl = "facebook/ong4",
+                    InstagramUrl = "instagram/ong4",
+                    LinkedinUrl = "linkedin/ong4",
+                    LastModified = System.DateTime.Now,
+                    IsDeleted = false
+                },
+                new Organization
+                {
+                    Id = 5,
+                    Name = "Quinta Organización",
+                    Image = "",
+                    Address = "Calle de la ONG",
+                    Phone = "555555",
+                    Email = "organización5@gmail.com",
+                    WelcomeText = "Somos la quinta empresa en darte la bienvenida.",
+                    AboutUsText = "Nos dedicamos a ser la quinta empresa.",
+                    FacebookUrl = "facebook/ong5",
+                    InstagramUrl = "instagram/ong5",
+                    LinkedinUrl = "linkedin/ong5",
+                    LastModified = System.DateTime.Now,
+                    IsDeleted = false
+                }
                 );
         }
     }
