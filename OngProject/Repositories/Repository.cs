@@ -80,8 +80,13 @@ namespace OngProject.Repositories
                 source = source.Include(property);
             }
 
-            return source.Skip(query.Skip)
-                        .Take(query.Take);
+            if(query.Skip > 0)
+                source = source.Skip(query.Skip);
+
+            if (query.Take > 0)
+                source = source.Take(query.Take);
+
+            return source;
         }
 
         public async Task<int> Count()
