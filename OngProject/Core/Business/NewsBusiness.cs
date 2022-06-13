@@ -83,5 +83,17 @@ namespace OngProject.Core.Business
             await _unitOfWork.NewsRepository.SoftDeleteAsync(entity);
             await _unitOfWork.SaveAsync();
         }
+
+        public async Task<List<CommentDto>> GetComments(int newsId)
+        {
+            var query = new QueryProperty<Comment>();
+            query.Where = x => x.NewsId == newsId;
+            query.Includes.Add(x => x.News);
+            query.Includes.Add(x => x.User);
+
+            var resp = await _unitOfWork.CommentRepository.GetAllAsync(query);
+
+            return resp.Select(x => x.MapToCommentDto()).ToList();
+        }
     }
 }

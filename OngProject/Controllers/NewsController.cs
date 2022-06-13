@@ -178,5 +178,21 @@ namespace OngProject.Controllers
                 return new Response<NewsDto>(null, false, null, ResponseMessage.UnexpectedErrors);
             }
         }
+
+        [HttpGet("{id}/[Action]")]
+        public async Task<Response<List<CommentDto>>> Comments(int id)
+        {
+            try
+            {
+                var entity = await _newsBusiness.GetComments(id);
+                if (entity == null)
+                    return new Response<List<CommentDto>>(entity, false, null, ResponseMessage.NotFound);
+                return new Response<List<CommentDto>>(entity, true, null, ResponseMessage.Success);
+            }
+            catch (Exception ex)
+            {
+                return new Response<List<CommentDto>>(null, false, null, ResponseMessage.UnexpectedErrors);
+            }
+        }
     }
 }
