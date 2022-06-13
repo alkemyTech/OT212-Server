@@ -17,6 +17,11 @@ namespace OngProject.Core.Business
         Task<NewsDto> Update(int id, NewsInsertDto entity);
         Task Delete(int id);
 
+        /// <summary>
+        /// Search the list of comments associated with a news.
+        /// </summary>
+        /// <param name="newsId">The news id</param>
+        /// <returns> If exist news return list of comments. If not found news retur null.</returns>
         Task<List<CommentDto>> GetComments(int newsId);
     }
 }

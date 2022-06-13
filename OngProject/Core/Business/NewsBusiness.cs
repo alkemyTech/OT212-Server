@@ -86,6 +86,10 @@ namespace OngProject.Core.Business
 
         public async Task<List<CommentDto>> GetComments(int newsId)
         {
+            var news = await _unitOfWork.NewsRepository.GetByIdAsync(newsId);
+            if (news == null)
+                return null;
+
             var query = new QueryProperty<Comment>();
             query.Where = x => x.NewsId == newsId;
             query.Includes.Add(x => x.News);
