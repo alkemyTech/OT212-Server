@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using System;
 using System.Threading.Tasks;
@@ -64,10 +65,14 @@ namespace OngProject.Controllers
             return Ok(response.Data);
         }
 
-        [HttpPut]
-        public IActionResult Update()
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<Response<TestimonialDto>>> Update(int id, [FromForm] TestimonialCreationDto testimonialDto)
         {
-            throw new NotImplementedException();
+            var response = await _testimonailsBussines.Update(id, testimonialDto);
+            if (response.Succeeded)
+                return Ok(response);
+            return BadRequest(response);
         }
 
         [HttpDelete("{id:int}")]
