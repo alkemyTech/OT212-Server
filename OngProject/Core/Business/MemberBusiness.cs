@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
@@ -54,8 +55,6 @@ namespace OngProject.Core.Business
                     };
                 }
 
-                member = updateDto.MapToUpdateMemberDto(member.Id);
-
                 if (updateDto.Image != null)
                 {
                     var img = await Helper.ImageUploadHelper.UploadImageToS3(updateDto.Image);
@@ -72,6 +71,11 @@ namespace OngProject.Core.Business
 
                     member.Image = img;
                 }
+                member.FacebookUrl = updateDto.FacebookUrl;
+                member.InstagramUrl = updateDto.InstagramUrl;
+                member.LinkedinUrl = updateDto.LinkedinUrl;
+                member.Name = updateDto.Name;
+                member.Description = updateDto.Description;
 
                 await _unitOfWork.MemberRepository.UpdateAsync(member);
                 await _unitOfWork.SaveAsync();
