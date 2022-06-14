@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
@@ -19,9 +20,20 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Member>> GetAll()
+        public async Task<int> CountMembers()
         {
-            return await _unitOfWork.MemberRepository.GetAllAsync();
+            return await _unitOfWork.MemberRepository.Count();
+        }
+
+        public async Task<PageList<MemberDto>> GetAll(int page, int pageSize, string url)
+        {
+            var query = new QueryProperty<Member>(page, pageSize);
+            var memberList = await _unitOfWork.MemberRepository.GetAllAsync(query);
+            var totalItems = await CountMembers();
+            var memberDtoList = memberList.Select(x => MemberMapper.MapToMemberNewDto(x)).ToList();
+            var pageList = new PageList<MemberDto>(memberDtoList, page, pageSize, totalItems, url);
+
+            return pageList;
         }
 
         public Task<Member> GetById(int id)
