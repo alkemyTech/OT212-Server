@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Threading.Tasks;
 
@@ -20,9 +21,9 @@ namespace OngProject.Controllers
             _testimonailsBussines = testimonailsBussines;
         }
 
-        /// <sumary>
+        /// <summary>
         /// Obtinene una lista de objetos de tipo Testimonials, de forma pagina.
-        /// </sumary>
+        /// </summary>
         /// <remarks>Si los requisitos son correctos, la lista de Testimonials se obtendrá correctamente (código 200). Si el objeto a obtener no exíste, devuelve NotFound (código 404).
         /// Si hay una solicitud incorrecta, devuelve BadRequest (error 400). Si no está autorizado, devuelve Unauthorized (código 401).</remarks>
         /// /// <param name="page">Número de página a obtener.</param>
