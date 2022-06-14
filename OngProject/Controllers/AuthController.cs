@@ -28,6 +28,13 @@ namespace OngProject.Controllers
             _userBusiness = userBusiness;
         }
 
+        /// <summary>
+        /// Devuelve la información de la cuenta del usuario actual.
+        /// </summary>
+        /// <remarks>Si hay una sesión inicia devolvera todos los datos del usuario actual código(200). Si no hay ningúna sesión de usuario o el token no corresponde a un usuario registrado devolvera un Unauthorized código(401).</remarks>
+        /// <response code="200">Ok. Información del usuario actual</response>
+        /// <response code="401">Unauthorized. No tienes permiso para ver esta información</response>
+        /// <response code="400">BadRequest. Error de solicitud errónea.</response>
         [HttpPost]
         [Authorize(Roles = "Administrador, Usuario")]
         [Route("me")]
@@ -45,6 +52,12 @@ namespace OngProject.Controllers
             }
         }
 
+        /// <summary>
+        /// Crea un objeto de tipo Usuario
+        /// </summary>
+        /// <remarks>Si los requisitos son correctos, el objeto Usuario se creará correctamente (código 200) y devolvera su token. Si el ModelState no es válido la respuesta será BadRequest (código 400).</remarks>
+        /// <response code="200">Created. Objeto creado correctamente.</response>        
+        /// <response code="400">BadRequest. Error de solicitud errónea.</response>
         [HttpPost]
         [Route("Register")]
         public async Task<ActionResult<Response<string>>> Register([FromForm] RegisterDto registerUser)
@@ -69,6 +82,14 @@ namespace OngProject.Controllers
                 return new Response<string>(null, false, null, ResponseMessage.Error);
             }
         }
+
+        /// <summary>
+        /// Inicia sesión con un usuario registrado.
+        /// </summary>
+        /// <remarks>Si los requisitos son correctos, se devolvera un token de autenticación (código 200). Si algún dato no corresponde a un usuario registrado la respuesta será NotFound (código 404)</remarks>
+        /// <response code="200">Ok. Datos correctos.</response>
+        /// <response code="404">NotFound. Algún dato es incorrecto</response>
+        /// <response code="400">BadRequest. Error de solicitud errónea.</response>
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(LoginDto userDto)
         {
