@@ -50,9 +50,18 @@ namespace OngProject.Core.Business
                 throw new Exception();
         }
 
-        public Task Update(Comment entity)
+        public async Task<CommentDto> Update(int id, CommentUpdateDto commentDto)
         {
-            throw new System.NotImplementedException();
+            var comment = await _unitOfWork.CommentRepository.GetByIdAsync(id);
+            if (comment == null) throw new KeyNotFoundException($"Comment with id = {id} is not existent");
+
+            CommentMapper.UpdateComment(comment, commentDto);
+
+            await _unitOfWork.CommentRepository.UpdateAsync(comment);
+            await _unitOfWork.SaveAsync();
+
+            return comment.MapToCommentDto();
+
         }
         public async Task<CommentDto> Delete(int id)
         {

@@ -7,6 +7,7 @@ using OngProject.Entities;
 using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
@@ -20,14 +21,26 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public Task<List<Testimonial>> GetAll()
+        public async Task<int> CountElements()
+            => await _unitOfWork.TestimonialRepository.Count();
+        
+        public async Task<TestimonialDto> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Testimonial> GetById(int id)
+        public async Task<PageList<TestimonialDto>> GetAll(int page, int pageSize, string url)
         {
-            throw new NotImplementedException();
+            var query = new QueryProperty<Testimonial>(page, pageSize);
+            var testimonialList = await _unitOfWork.TestimonialRepository.GetAllAsync(query);
+
+            var totalItems = await CountElements();
+
+            var list = testimonialList.Select(x => TestimonialMapper.MapToTestimonialDto(x)).ToList();
+
+            var pagelist = new PageList<TestimonialDto>(list, page, pageSize, totalItems, url);
+
+            return pagelist;
         }
 
         public async Task<Response<TestimonialDto>> Insert(TestimonialCreationDto creationDto)
@@ -70,9 +83,41 @@ namespace OngProject.Core.Business
             }
         }
 
-        public Task Update(Testimonial entity)
+        public async Task<Response<TestimonialDto>> Update(int id, TestimonialCreationDto entity)
         {
-            throw new NotImplementedException();
+            var testimonial = await _unitOfWork.TestimonialRepository.GetByIdAsync(id);
+            if (testimonial == null)
+                return new Response<TestimonialDto>
+                {
+                    Data = null,
+                    Succeeded = false,
+                    Message = ResponseMessage.NotFound,
+                };
+
+            if (entity.Image != null)
+            {
+                var imgUrl = await ImageUploadHelper.UploadImageToS3(entity.Image);
+
+                if (string.IsNullOrEmpty(imgUrl))
+                    return new Response<TestimonialDto>
+                    {
+                        Succeeded = false,
+                        Message = ResponseMessage.Error,
+                        Errors = new string[] { "Can't update image." }
+                    };
+                testimonial.Image = imgUrl;
+            }
+            
+            testimonial.Name = entity.Name;
+            testimonial.Content = entity.Content;
+            testimonial.LastModified = System.DateTime.Now;
+            
+            await _unitOfWork.TestimonialRepository.UpdateAsync(testimonial);
+            await _unitOfWork.SaveAsync();
+            
+            var testimonialDto = testimonial.MapToTestimonialDto();
+
+            return new Response<TestimonialDto>(testimonialDto, true, null);
         }
 
         public async Task<Response<TestimonialDto>> Delete(int id)

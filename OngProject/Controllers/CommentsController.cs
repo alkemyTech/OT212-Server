@@ -94,10 +94,31 @@ namespace OngProject.Controllers
          * Change Comment for CommentUpdateDto or CommentUpdate (the name doesn't yet exist)
          * Create the implementation
          */
+        [Authorize]
         [HttpPut]
-        public async Task<ActionResult<Comment>> UpdateComment(int id, [FromForm] Comment comment)
+        public async Task<ActionResult<Comment>> UpdateComment(int id, [FromForm] CommentUpdateDto commentDto)
         {
-            throw new NotImplementedException();
+            var userClaim = HttpContext.User.Identity as ClaimsIdentity;
+            var userId = int.Parse(userClaim.FindFirst(x => x.Type == "Id").Value);
+            var role = User.FindFirst(ClaimTypes.Role).Value.ToString();
+
+            try
+            {
+                var check = await _commentBusiness.GetById(id);
+                if (check == null) 
+                   return NotFound(new Response<CommentUpdateDto>(null, false, new string[1] { "An entity is missing" }, ResponseMessage.NotFound));
+
+                if (userId == check.UserId || role.Equals("Administrador"))
+                {
+                    var resp = await _commentBusiness.Update(id, commentDto);
+                    return Ok(new Response<CommentDto>(resp, true, null, ResponseMessage.Success));
+                }
+                return StatusCode(403);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response<CommentUpdateDto>(null, false, new string[1] { "Bad request error" }, ex.Message));
+            }
         }
         #endregion
 

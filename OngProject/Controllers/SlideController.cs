@@ -76,9 +76,13 @@ namespace OngProject.Controllers
          * Create the implementation
          */
         [HttpPut]
-        public async Task<ActionResult<Slide>> UpdateSlide(int id, [FromForm] Slide slide)
+        [Authorize(Roles = "Administrador")]
+        public async Task<ActionResult<Response<SlideUpdateDto>>> UpdateSlide(int id, [FromForm] SlideInsertDto slide)
         {
-            throw new NotImplementedException();
+            var response = await _slideBusiness.Update(id, slide);
+            if (response.Succeeded)
+                return Ok(response);
+            return BadRequest(response);
         }
         #endregion
 
