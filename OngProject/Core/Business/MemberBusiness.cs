@@ -71,12 +71,8 @@ namespace OngProject.Core.Business
 
                     member.Image = img;
                 }
-                member.FacebookUrl = updateDto.FacebookUrl;
-                member.InstagramUrl = updateDto.InstagramUrl;
-                member.LinkedinUrl = updateDto.LinkedinUrl;
-                member.Name = updateDto.Name;
-                member.Description = updateDto.Description;
-
+                
+                member = updateDto.MapToMember(member);
                 await _unitOfWork.MemberRepository.UpdateAsync(member);
                 await _unitOfWork.SaveAsync();
 
