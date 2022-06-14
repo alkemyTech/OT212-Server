@@ -31,7 +31,7 @@ namespace OngProject.Controllers
         /// <summary>
         /// Devuelve la información de la cuenta del usuario actual.
         /// </summary>
-        /// <remarks>Si hay una sesión inicia devolvera todos los datos del usuario actual código(200). Si no hay ningúna sesión de usuario o el token no corresponde a un usuario registrado devolvera un Unauthorized código(401).</remarks>
+        /// <remarks>Si hay una sesión iniciada devolvera todos los datos del usuario actual código(200). Si no hay ningúna sesión de usuario o el token no corresponde a un usuario registrado devolvera un Unauthorized código(401).</remarks>
         /// <response code="200">Ok. Información del usuario actual</response>
         /// <response code="401">Unauthorized. No tienes permiso para ver esta información</response>
         /// <response code="400">BadRequest. Error de solicitud errónea.</response>
