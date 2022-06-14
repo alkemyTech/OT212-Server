@@ -8,9 +8,10 @@ namespace OngProject.Core.Interfaces
 {
     public interface IMemberBusiness
     {
+        Task<int> CountMembers();
         Task<Member> GetById(int id);
 
-        Task<List<Member>> GetAll();
+        Task<PageList<MemberDto>> GetAll(int page, int pageSize, string url);
 
         Task<MemberDto> Insert(MemberInsertDto memberDto);
 

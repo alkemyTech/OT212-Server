@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -35,18 +36,36 @@ namespace OngProject.Controllers
         /// <response code="400">Error de solicitud.</response>
         /// <response code="404">La lista no tiene miembros.</response>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetAll(int page, int pageSize = 10)
         {
-            var task = _memberBusiness.GetAll();
-
-            var members = await task;
-
-            if (members.Count == 0)
+            try
             {
-                return NotFound("Members list is empty");
-            }
+                if (pageSize < 1 || page < 1)
+                    return BadRequest(new Response<MemberDto>(null, false, new string[1]
+                    {"Incorrect number of page or page size."}, ResponseMessage.ValidationErrors));
 
-            return Ok(members.Select(x => x.MapToMemberDto()));
+                var elementCount = await _memberBusiness.CountMembers();
+                var higherPageNumber = (int)Math.Ceiling(elementCount / (double)pageSize);
+
+                if (page > higherPageNumber)
+                    return BadRequest(new Response<MemberDto>(null, false, new string[1]
+                        {$"Incorrect page. Maximum page number is {higherPageNumber}."},
+                        ResponseMessage.ValidationErrors));
+
+                var memberList = await _memberBusiness.GetAll(page, pageSize, $"{Request.Host}{Request.Path}");
+
+                if (memberList.Items.Count == 0)
+                    return NotFound(new Response<MemberDto>(null, false, new string[1]
+                        {"Member list is empty."}, ResponseMessage.NotFound));
+
+                return Ok(new Response<PageList<MemberDto>>(memberList, true, null, ResponseMessage.Success));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new Response<MemberDto>(null, false, new string[1]
+                        {ex.Message},
+                        ResponseMessage.UnexpectedErrors));
+            }
         }
 
         /// <summary>Crear un nuevo miembro.</summary>
