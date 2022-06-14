@@ -80,6 +80,28 @@ namespace OngProject.Controllers
             }
         }
 
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<Response<MemberDto>>> Update(int id, [FromForm] MemberUpdateDto entity)
+        {
+            var response = await _memberBusiness.Update(entity, id);
+
+            if (response.Message == ResponseMessage.NotFound)
+            {
+                return NotFound(response);
+            }
+            if (response.Succeeded)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+
+        }
+
+
         /// <summary>Eliminar un miembro.</summary>
         /// <returns>Respuesta con el miembro eliminado.</returns>
         /// <param name="id">Miembro a eliminar.</param>

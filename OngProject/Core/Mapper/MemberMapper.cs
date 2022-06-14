@@ -20,6 +20,17 @@ namespace OngProject.Core.Mapper
                 Image = member.Image
             };
         }
+
+        public static Member MapToMember(this MemberUpdateDto updateDto, Member member)
+        {
+            member.FacebookUrl = updateDto.FacebookUrl;
+            member.InstagramUrl = updateDto.InstagramUrl;
+            member.LinkedinUrl = updateDto.LinkedinUrl;
+            member.Name = updateDto.Name;
+            member.Description = updateDto.Description;
+
+            return member;
+        }
         public async static Task<Member> MapToInsertMemberDto(this MemberInsertDto member)
         {
             return new Member
@@ -32,6 +43,7 @@ namespace OngProject.Core.Mapper
                 Image = await ImageUploadHelper.UploadImageToS3(member.Image)
             };
         }
+
         public static MemberDto MapToMemberNewDto(this Member entity)
         {
             return new MemberDto

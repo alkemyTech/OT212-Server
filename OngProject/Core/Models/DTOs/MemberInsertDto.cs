@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using OngProject.Core.Helper;
 using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Core.Models.DTOs
@@ -14,6 +15,7 @@ namespace OngProject.Core.Models.DTOs
 
         public string LinkedinUrl { get; set; }
 
+        [ValidateAsImage]
         public IFormFile Image { get; set; }
 
         public string Description { get; set; }
