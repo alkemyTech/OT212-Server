@@ -27,7 +27,7 @@ namespace OngProject.Middleware
             permissions.Add(new Permission { Role = "Administrador" });
             permissions.Add(new Permission { Route = "/Auth" });
             permissions.Add(new Permission { Route = "/User", Method = "DELETE" });
-
+            permissions.Add(new Permission { Route = "/Comments" });
         }
 
         public async Task InvokeAsync(HttpContext context)

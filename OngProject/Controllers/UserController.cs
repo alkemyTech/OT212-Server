@@ -39,15 +39,18 @@ namespace OngProject.Controllers
         /// <response code="200">Ok. Devuelve el objeto.</response>
         /// <response code="400">BadRequest. No ha podido devolver el objeto.</response>
         [HttpGet("{id}")]
-        public ActionResult<User> GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                return Ok(_userBusiness.GetById(id));
+                var entity = await _userBusiness.GetById(id);
+                if (entity == null)
+                    return NotFound(new Response<UserDto>(entity, false, null, ResponseMessage.NotFound));
+                return Ok(new Response<UserDto>(entity, true, null, ResponseMessage.Success));
             }
-            catch
+            catch (Exception ex)
             {
-                return BadRequest("Algo salió mal.");
+                return BadRequest(new Response<UserDto>(null, false, null, ResponseMessage.UnexpectedErrors));
             }
         }
         /// <summary>
@@ -138,16 +141,16 @@ namespace OngProject.Controllers
         [Authorize(Roles = "Usuario, Administrador")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<User>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Response<User>))]
-        public async Task<Response<User>> Delete(int id)
+        public async Task<ActionResult<User>> Delete(int id)
         {
             try
             {
                 await _userBusiness.Delete(id);
-                return new Response<User>(null, true);
+                return Ok(new Response<User>(null, true));
             }
             catch
             {
-                return new Response<User>(null, false, null, ResponseMessage.NotFound);
+                return NotFound(new Response<User>(null, false, null, ResponseMessage.NotFound));
             }
         }
     }

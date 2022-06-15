@@ -47,18 +47,18 @@ namespace OngProject.Controllers
 
         [HttpGet("{id}")]
         [Authorize(Roles= "Administrador")]
-        public async Task<Response<Comment>> GetById(int id)
+        public async Task<ActionResult<Comment>> GetById(int id)
         {
             try
             {
                 var entity = await _commentBusiness.GetById(id);
                 if(entity != null)
-                    return new Response<Comment>(entity, true);
-                return new Response<Comment>(null, false, null, ResponseMessage.NotFound);
+                    return Ok(new Response<Comment>(entity, true));
+                return NotFound(new Response<Comment>(null, false, null, ResponseMessage.NotFound));
             }
             catch
             {
-                return new Response<Comment>(null, false, null, ResponseMessage.Error);
+                return BadRequest(new Response<Comment>(null, false, null, ResponseMessage.Error));
             }
         }
 
@@ -68,7 +68,7 @@ namespace OngProject.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<Response<CommentInsertDto>> CreateComment([FromForm] CommentInsertDto commentDto)
+        public async Task<ActionResult<CommentInsertDto>> CreateComment([FromForm] CommentInsertDto commentDto)
         {
             try
             {
@@ -78,22 +78,18 @@ namespace OngProject.Controllers
                 if (userId == commentDto.UserId)
                 {
                     await _commentBusiness.Insert(commentDto);
-                    return new Response<CommentInsertDto>(commentDto, true);
+                    return Ok(new Response<CommentInsertDto>(commentDto, true));
                 }
-                return new Response<CommentInsertDto>(null, false, null, ResponseMessage.ValidationErrors);
+                return Unauthorized(new Response<CommentInsertDto>(null, false, null, ResponseMessage.ValidationErrors));
             }
             catch (Exception)
             {
-                return new Response<CommentInsertDto>(null, false, null, ResponseMessage.Error);
+                return BadRequest(new Response<CommentInsertDto>(null, false, null, ResponseMessage.Error));
             }
         }
         #endregion
 
         #region Update
-        /* To Do:
-         * Change Comment for CommentUpdateDto or CommentUpdate (the name doesn't yet exist)
-         * Create the implementation
-         */
         [Authorize]
         [HttpPut]
         public async Task<ActionResult<Comment>> UpdateComment(int id, [FromForm] CommentUpdateDto commentDto)
@@ -125,7 +121,7 @@ namespace OngProject.Controllers
         #region Delete
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<Response<CommentDto>> DeleteComment(int id)
+        public async Task<ActionResult<CommentDto>> DeleteComment(int id)
         {
             try
             {
@@ -133,20 +129,20 @@ namespace OngProject.Controllers
                 var commentUserId = int.Parse(userClaim.FindFirst(x => x.Type == "Id").Value);
                 var user = await _commentBusiness.GetById(id);
 
-                if (user.UserId == commentUserId)
+                if (user?.UserId == commentUserId)
                 {
                     var entity = await _commentBusiness.Delete(id);
-                    return new Response<CommentDto>(entity, true);
+                    return Ok(new Response<CommentDto>(entity, true));
                 }
-                return new Response<CommentDto>(null, false, null, ResponseMessage.ValidationErrors);
+                return Unauthorized(new Response<CommentDto>(null, false, null, ResponseMessage.ValidationErrors));
             }        
             catch (KeyNotFoundException)
             {
-                return new Response<CommentDto>(null, false, null, ResponseMessage.NotFound);
+                return NotFound(new Response<CommentDto>(null, false, null, ResponseMessage.NotFound));
             }
             catch
             {
-                return new Response<CommentDto>(null, false, null, ResponseMessage.Error);
+                return BadRequest(new Response<CommentDto>(null, false, null, ResponseMessage.Error));
             }
         }
         #endregion
