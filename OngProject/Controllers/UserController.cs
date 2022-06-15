@@ -141,16 +141,16 @@ namespace OngProject.Controllers
         [Authorize(Roles = "Usuario, Administrador")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response<User>))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(Response<User>))]
-        public async Task<Response<User>> Delete(int id)
+        public async Task<ActionResult<User>> Delete(int id)
         {
             try
             {
                 await _userBusiness.Delete(id);
-                return new Response<User>(null, true);
+                return Ok(new Response<User>(null, true));
             }
             catch
             {
-                return new Response<User>(null, false, null, ResponseMessage.NotFound);
+                return NotFound(new Response<User>(null, false, null, ResponseMessage.NotFound));
             }
         }
     }
