@@ -22,6 +22,30 @@ namespace OngProject.Core.Helper
                 || isImage.Equals(FileType.Gif);
         }
 
+        public static async Task<string> UpdateImage(string oldImage, IFormFile file)
+        {
+            if (oldImage != null)
+                await DeleteImage(oldImage);
+
+            return await UploadImageToS3(file);
+        }
+
+        public static async Task DeleteImage(string oldImage)
+        {
+            var filename = oldImage.Substring(oldImage.IndexOf("images/"));
+            filename = filename.Remove(filename.IndexOf("?"));
+
+            var client = new AmazonS3Client(RegionEndpoint.USEast1);
+
+            var deleteRequest = new DeleteObjectRequest()
+            {
+                BucketName = "cohorte-mayo-2820e45d",
+                Key = filename
+            };
+
+            var resp = await client.DeleteObjectAsync(deleteRequest);
+        }
+
         /* This is the main method of the helper for uploading an image to AWS S3 service */
         public static async Task<string> UploadImageToS3(IFormFile file)
         {

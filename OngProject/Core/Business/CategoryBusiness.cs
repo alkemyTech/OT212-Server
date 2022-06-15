@@ -68,7 +68,7 @@ namespace OngProject.Core.Business
 
             if (category != null)
             {
-                var image = await ImageUploadHelper.UploadImageToS3(categoryDto.Image);
+                var image = await ImageUploadHelper.UpdateImage(category.Image, categoryDto.Image);
 
                 category.Name = categoryDto.Name;
                 category.Description= categoryDto.Description;
