@@ -41,9 +41,9 @@ namespace OngProject.Middleware
                 return false;
 
             var userId = context.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
-            var idFromParameter = context.Request.RouteValues["id"].ToString();
+            var idFromParameter = context.Request.RouteValues["id"];
 
-            return userId == idFromParameter;
+            return userId == idFromParameter?.ToString();
         }
 
         private bool userHasAuthorizedRole(HttpContext context)

@@ -32,22 +32,26 @@ namespace OngProject.Repositories
 
         public async Task InsertAsync(T entity)
         {
+            entity.LastModified = DateTime.UtcNow;
             await _context.Set<T>().AddAsync(entity);
         }
 
         public async Task UpdateAsync(T entity)
         {
+            entity.LastModified = DateTime.UtcNow;
             _context.Set<T>().Update(entity);
         }
 
         public async Task DeleteAsync(T entity)
         {
+            entity.LastModified = DateTime.UtcNow;
             _context.Set<T>().Remove(entity);
         }
 
         public async Task SoftDeleteAsync(T entity)
         {
             entity.IsDeleted = true;
+            entity.LastModified = DateTime.UtcNow;
             _context.Set<T>().Update(entity);
         }
 

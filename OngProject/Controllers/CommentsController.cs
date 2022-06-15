@@ -133,7 +133,7 @@ namespace OngProject.Controllers
                 var commentUserId = int.Parse(userClaim.FindFirst(x => x.Type == "Id").Value);
                 var user = await _commentBusiness.GetById(id);
 
-                if (user.UserId == commentUserId)
+                if (user?.UserId == commentUserId)
                 {
                     var entity = await _commentBusiness.Delete(id);
                     return new Response<CommentDto>(entity, true);
