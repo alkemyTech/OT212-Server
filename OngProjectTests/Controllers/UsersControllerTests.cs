@@ -17,19 +17,8 @@ namespace OngProjectTests.Controllers.Tests
         [TestMethod()]
         public async Task GetUserTest()
         {
-            //Arrange
-            var userServices = GetUserBusiness();
-            var list = await userServices.GetAll();
-
-            var Controller = new UserController(userServices);
-            Controller.ControllerContext.HttpContext = new DefaultHttpContext();
-
-            //Act
-            var resp = await Controller.GetAll();
-            var result = ((resp.Result) as OkObjectResult)?.Value as List<UserDto>;
-
             //Assert
-            Assert.AreEqual(list?.Count(), result?.Count());
+            Assert.Fail();
         }
     }
 }
