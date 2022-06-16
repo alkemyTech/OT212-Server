@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OngProjectTests.Controllers.Tests
+namespace OngProject.Controllers.Tests
 {
     [TestClass()]
     public class MembersControllerTests
