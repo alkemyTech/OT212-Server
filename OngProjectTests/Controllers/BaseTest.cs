@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
 using OngProject.DataAccess;
@@ -36,6 +37,16 @@ namespace OngProjectTests.Controllers
             var userBusiness = new UserBusiness(GetUnitOfWork());
 
             return userBusiness;
+        }
+
+        protected IFormFile GetMockJPG()
+        {
+            var content = new byte[] { 0xFF, 0xD8 };
+            var fileName = "test.jpg";
+            var stream = new MemoryStream(content);
+
+            //create FormFile with desired data
+            return new FormFile(stream, 0, stream.Length, "id_from_form", fileName);
         }
     }
 }
