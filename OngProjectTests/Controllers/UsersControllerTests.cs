@@ -282,7 +282,7 @@ namespace OngProjectTests.Controllers
         }
 
         [TestMethod]
-        public async Task DeleteUser_RoleUser_NotDeleteOterUser_Tests()
+        public async Task DeleteUser_UserWithRoleUser_NotDeleteOtherUser_Tests()
         {
             //arrange
             int id = 9;
