@@ -47,6 +47,7 @@ namespace OngProjectTests.Controllers
             return userBusiness;
         }
 
+
         protected IFormFile GetMockJPG()
         {
             var content = new byte[] { 0xFF, 0xD8 };
@@ -97,6 +98,13 @@ namespace OngProjectTests.Controllers
             }
 
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        protected IMemberBusiness GetMemberBusiness()
+        {
+            var memberBusiness = new MemberBusiness(GetUnitOfWork());
+
+            return memberBusiness;
+
         }
     }
 }
