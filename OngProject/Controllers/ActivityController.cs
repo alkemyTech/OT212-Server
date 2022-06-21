@@ -33,23 +33,23 @@ namespace OngProject.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Response<ActivityDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(Response<ActivityDto>))]
-        public async Task<Response<ActivityDto>> Insert([FromForm] ActivityInsertDto entity)
+        public async Task<ActionResult<Response<ActivityDto>>> Insert([FromForm] ActivityInsertDto entity)
         {
             if (!ModelState.IsValid)
-                return new Response<ActivityDto>(entity.ToActivityDto(), false, (from item in ModelState.Values
-                                                                   from error in item.Errors
-                                                                   select error.ErrorMessage).ToArray(),
-                                                                        ResponseMessage.ValidationErrors);
+                return BadRequest(new Response<ActivityDto>(entity.ToActivityDto(), false, (from item in ModelState.Values
+                                                                                            from error in item.Errors
+                                                                                            select error.ErrorMessage).ToArray(),
+                                                                                            ResponseMessage.ValidationErrors));
             
             try
             {
                 var resp = await _activityBusiness.Insert(entity);
-                return new Response<ActivityDto>(resp, true);
+                return Ok(new Response<ActivityDto>(resp, true));
 
             }
             catch (Exception)
             {
-                return new Response<ActivityDto>(entity.ToActivityDto(), false, null, ResponseMessage.UnexpectedErrors);
+                return BadRequest(new Response<ActivityDto>(entity.ToActivityDto(), false, null, ResponseMessage.UnexpectedErrors));
             }
         }
 
