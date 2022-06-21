@@ -37,5 +37,11 @@ namespace OngProjectTests.Controllers
 
             return userBusiness;
         }
+        protected INewsBusiness GetNewsBusiness()
+        {
+            var newsBusiness = new NewsBusiness(GetUnitOfWork());
+
+            return newsBusiness;
+        }
     }
 }
