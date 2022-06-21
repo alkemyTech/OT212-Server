@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using OngProject;
 using OngProject.Controllers;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
@@ -8,6 +13,8 @@ using OngProject.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -272,6 +279,24 @@ namespace OngProjectTests.Controllers
             Assert.IsInstanceOfType(resp.Result, typeof(NotFoundObjectResult));
             Assert.IsFalse(result?.Succeeded);
             Assert.IsNull(user);
+        }
+
+        [TestMethod]
+        public async Task DeleteUser_RoleUser_NotDeleteOterUser_Tests()
+        {
+            //arrange
+            int id = 9;
+            string email = "prueba11@gmail.com"; //User with id 11
+            string pass = "1234";
+
+            var client = GetHttpClient();
+            await HttpClientLogin(client, email, pass);
+
+            //act
+            var result = await client.DeleteAsync($"User/{id}");
+
+            //assert
+            Assert.AreEqual(403, (int)result.StatusCode);
         }
         #endregion
     }
