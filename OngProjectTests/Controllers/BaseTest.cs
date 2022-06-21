@@ -47,6 +47,12 @@ namespace OngProjectTests.Controllers
             return userBusiness;
         }
 
+        protected IActivityBusiness GetActivityBusiness()
+        {
+            var activityBusiness = new ActivityBusiness(GetUnitOfWork());
+            return activityBusiness;
+        }
+
 
         protected IFormFile GetMockJPG()
         {
@@ -92,13 +98,13 @@ namespace OngProjectTests.Controllers
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var resp = await httpClient.PostAsync("auth/login", content);
-            if(resp.StatusCode == System.Net.HttpStatusCode.OK)
+            if (resp.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 token = await resp.Content.ReadAsStringAsync();
             }
 
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
+        }
         protected IMemberBusiness GetMemberBusiness()
         {
             var memberBusiness = new MemberBusiness(GetUnitOfWork());
