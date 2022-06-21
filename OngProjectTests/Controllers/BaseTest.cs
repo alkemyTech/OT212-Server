@@ -47,11 +47,20 @@ namespace OngProjectTests.Controllers
             return userBusiness;
         }
 
+
         protected IActivityBusiness GetActivityBusiness()
         {
             var activityBusiness = new ActivityBusiness(GetUnitOfWork());
             return activityBusiness;
         }
+
+        protected INewsBusiness GetNewsBusiness()
+        {
+            var newsBusiness = new NewsBusiness(GetUnitOfWork());
+
+            return newsBusiness;
+
+
 
 
         protected IFormFile GetMockJPG()
@@ -110,6 +119,7 @@ namespace OngProjectTests.Controllers
             var memberBusiness = new MemberBusiness(GetUnitOfWork());
 
             return memberBusiness;
+
 
         }
     }
