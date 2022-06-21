@@ -29,8 +29,8 @@ namespace OngProject.Middleware
 
             if (routeProtected && !canAccessToRoute)
                     context.Response.StatusCode = 403;
-        
-            await _next.Invoke(context);
+            else 
+                await _next.Invoke(context);
         }
 
         private bool compareId(HttpContext context)
