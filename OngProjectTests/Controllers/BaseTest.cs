@@ -37,5 +37,11 @@ namespace OngProjectTests.Controllers
 
             return userBusiness;
         }
+        protected IMemberBusiness GetMemberBusiness()
+        {
+            var memberBusiness = new MemberBusiness(GetUnitOfWork());
+
+            return memberBusiness;
+        }
     }
 }
