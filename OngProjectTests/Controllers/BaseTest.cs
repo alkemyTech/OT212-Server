@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Testing;
+﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using OngProject;
 using OngProject.Core.Business;
@@ -22,6 +22,26 @@ namespace OngProjectTests.Controllers
 {
     public class BaseTest
     {
+        private IConfiguration? _config;
+
+        protected IConfiguration Config
+        {
+            get
+            {
+                if (_config == null)
+                {
+                    var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", optional: false);
+                    _config = builder.Build();
+                }
+
+                return _config;
+            }
+        }
+        public BaseTest()
+        {
+            IServiceCollection services = new ServiceCollection();
+            services.AddSingleton(Config);
+        }
         protected AppDbContext GetDbContext(string dbName)
         {
             var options = new DbContextOptionsBuilder<AppDbContext>()
@@ -48,6 +68,12 @@ namespace OngProjectTests.Controllers
         }
 
 
+        protected IContactBusiness GetContactBusiness()
+        {
+            return new ContactBusiness(GetUnitOfWork(), new EmailServices(Config));
+        }
+
+
         protected IActivityBusiness GetActivityBusiness()
         {
             var activityBusiness = new ActivityBusiness(GetUnitOfWork());
@@ -60,9 +86,6 @@ namespace OngProjectTests.Controllers
 
             return newsBusiness;
 
-
-
-
         protected IFormFile GetMockJPG()
         {
             var content = new byte[] { 0xFF, 0xD8 };
@@ -73,17 +96,17 @@ namespace OngProjectTests.Controllers
             return new FormFile(stream, 0, stream.Length, "id_from_form", fileName);
         }
 
-        protected HttpClient GetHttpClient()
+        protected static HttpClient GetHttpClient()
         {
             var application = new WebApplicationFactory<Startup>()
-                .WithWebHostBuilder(builder => {
-                    builder.ConfigureServices(services =>
+                .WithWebHostBuilder(webHostBuilder => 
+                { 
+                    webHostBuilder.ConfigureServices(services =>
                     {
                         var descriptor = services.SingleOrDefault(
-                                        d => d.ServiceType ==
-                                        typeof(DbContextOptions<AppDbContext>));
+                                        d => d.ServiceType == typeof(DbContextOptions<AppDbContext>));
 
-                        services.Remove(descriptor);
+                        services.Remove(descriptor!);
 
                         services.AddDbContext<AppDbContext>(options =>
                         {
@@ -91,36 +114,38 @@ namespace OngProjectTests.Controllers
                         }, ServiceLifetime.Singleton);
                     });
                 });
-            
-            var dbContext = application.Services.CreateScope()
-                                        .ServiceProvider.GetService<AppDbContext>();
-            dbContext?.Database.EnsureCreated();
+
+            var DbContext = application.Services.CreateScope()
+                                       .ServiceProvider.GetService<AppDbContext>();
+
+            DbContext?.Database.EnsureCreated();
 
             return application.CreateClient();
         }
-
+          
         protected async Task HttpClientLogin(HttpClient httpClient, string email, string password)
         {
-            string token = "";
-            var user = new LoginDto { Email = email, Password = password };
+            string token = string.Empty;
+
+            var user = new LoginDto { Email = email, Password = password};
+
             var json = JsonConvert.SerializeObject(user);
+
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var resp = await httpClient.PostAsync("auth/login", content);
-            if (resp.StatusCode == System.Net.HttpStatusCode.OK)
+            if(resp.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 token = await resp.Content.ReadAsStringAsync();
             }
-
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         }
+          
         protected IMemberBusiness GetMemberBusiness()
         {
             var memberBusiness = new MemberBusiness(GetUnitOfWork());
 
             return memberBusiness;
-
-
         }
     }
 }
