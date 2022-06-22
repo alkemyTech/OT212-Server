@@ -12,8 +12,11 @@ using OngProject.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace OngProjectTests.Controllers
 {
@@ -64,9 +67,33 @@ namespace OngProjectTests.Controllers
             return userBusiness;
         }
 
+
         protected IContactBusiness GetContactBusiness()
         {
             return new ContactBusiness(GetUnitOfWork(), new EmailServices(Config));
+        }
+
+
+        protected IActivityBusiness GetActivityBusiness()
+        {
+            var activityBusiness = new ActivityBusiness(GetUnitOfWork());
+            return activityBusiness;
+        }
+
+        protected INewsBusiness GetNewsBusiness()
+        {
+            var newsBusiness = new NewsBusiness(GetUnitOfWork());
+
+            return newsBusiness;
+
+        protected IFormFile GetMockJPG()
+        {
+            var content = new byte[] { 0xFF, 0xD8 };
+            var fileName = "test.jpg";
+            var stream = new MemoryStream(content);
+
+            //create FormFile with desired data
+            return new FormFile(stream, 0, stream.Length, "id_from_form", fileName);
         }
 
         protected static HttpClient GetHttpClient()
@@ -95,7 +122,7 @@ namespace OngProjectTests.Controllers
 
             return application.CreateClient();
         }
-
+          
         protected async Task HttpClientLogin(HttpClient httpClient, string email, string password)
         {
             string token = string.Empty;
@@ -112,6 +139,13 @@ namespace OngProjectTests.Controllers
                 token = await resp.Content.ReadAsStringAsync();
             }
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+        }
+          
+        protected IMemberBusiness GetMemberBusiness()
+        {
+            var memberBusiness = new MemberBusiness(GetUnitOfWork());
+
+            return memberBusiness;
         }
     }
 }

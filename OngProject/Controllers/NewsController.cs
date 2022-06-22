@@ -140,6 +140,11 @@ namespace OngProject.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromForm] NewsInsertDto entity)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(new Response<NewsDto>(entity.ToNewsDto(), false, (from item in ModelState.Values
+                                                                         from error in item.Errors
+                                                                         select error.ErrorMessage).ToArray(),
+                                                                        ResponseMessage.ValidationErrors));
             try
             {
                 var resp = await _newsBusiness.Update(id, entity);
