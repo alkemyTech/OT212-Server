@@ -57,17 +57,17 @@ namespace OngProject.Repositories
 
         public Task<T> GetAsync(QueryProperty<T> query)
         {
-            var source = ApplyQuery(query, _context.Set<T>().AsQueryable());
-            source = source.Where(x => !x.IsDeleted);
+            var source = _context.Set<T>().AsQueryable().Where(x => !x.IsDeleted);
+            source = ApplyQuery(query, source);
             
             return source.FirstOrDefaultAsync();
         }
 
         public Task<List<T>> GetAllAsync(QueryProperty<T> query)
         {
-            var source = ApplyQuery(query, _context.Set<T>().AsQueryable());
-            source = source.Where(x => !x.IsDeleted);
-
+            var source = _context.Set<T>().AsQueryable().Where(x => !x.IsDeleted);
+            source = ApplyQuery(query, source);
+            
             return source.ToListAsync();
         }
 
