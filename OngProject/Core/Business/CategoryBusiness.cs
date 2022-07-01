@@ -70,10 +70,12 @@ namespace OngProject.Core.Business
             {
                 var image = await ImageUploadHelper.UploadImageToS3(categoryDto.Image);
 
-                category.Name = categoryDto.Name;
-                category.Description= categoryDto.Description;
-                category.Image = image;
-
+                if(!string.IsNullOrEmpty(categoryDto.Name))
+                    category.Name = categoryDto.Name;
+                if (!string.IsNullOrEmpty(categoryDto.Description))
+                    category.Description= categoryDto.Description;
+                if (!string.IsNullOrEmpty(image))
+                    category.Image = image;
 
                 await _unitOfWork.CategoriesRepository.UpdateAsync(category);
                 await _unitOfWork.SaveAsync();

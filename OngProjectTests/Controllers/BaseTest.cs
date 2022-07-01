@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 
 namespace OngProjectTests.Controllers
 {
@@ -86,6 +87,8 @@ namespace OngProjectTests.Controllers
 
             return newsBusiness;
 
+            
+        }
         protected IFormFile GetMockJPG()
         {
             var content = new byte[] { 0xFF, 0xD8 };
@@ -99,8 +102,8 @@ namespace OngProjectTests.Controllers
         protected static HttpClient GetHttpClient()
         {
             var application = new WebApplicationFactory<Startup>()
-                .WithWebHostBuilder(webHostBuilder => 
-                { 
+                .WithWebHostBuilder(webHostBuilder =>
+                {
                     webHostBuilder.ConfigureServices(services =>
                     {
                         var descriptor = services.SingleOrDefault(
@@ -122,30 +125,30 @@ namespace OngProjectTests.Controllers
 
             return application.CreateClient();
         }
-          
+
         protected async Task HttpClientLogin(HttpClient httpClient, string email, string password)
         {
             string token = string.Empty;
 
-            var user = new LoginDto { Email = email, Password = password};
+            var user = new LoginDto { Email = email, Password = password };
 
             var json = JsonConvert.SerializeObject(user);
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var resp = await httpClient.PostAsync("auth/login", content);
-            if(resp.StatusCode == System.Net.HttpStatusCode.OK)
+            if (resp.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 token = await resp.Content.ReadAsStringAsync();
             }
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
         }
-          
+
         protected IMemberBusiness GetMemberBusiness()
         {
             var memberBusiness = new MemberBusiness(GetUnitOfWork());
 
             return memberBusiness;
         }
-    }
+    } 
 }
